@@ -7,7 +7,8 @@ const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser= require('body-parser');
-const connectDb = require('./src/db/database')
+//const connectDb = require('./src/db/database')
+//const connectDbSq = require('./src/db/databaseSq')
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -19,5 +20,7 @@ app.use('/user',require('./src/routes/user.route'))
 
 
 //Llamado a la bd y al servidor
-connectDb(db)
-app.listen(config.app.port || 3000,()=>console.log(`listen on ${config.app.port}`));
+//connectDbSq(db)
+//userModel.sync({force:true})
+
+app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

@@ -28,6 +28,3 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
-    - name: Run ESLint
-      uses: stefanoeb/eslint-action@1.0.2
-

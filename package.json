@@ -24,5 +24,8 @@
     "nodemon": "^2.0.19",
     "promise-mysql": "^5.2.0",
     "sequelize": "^6.21.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.1"
   }
 }

@@ -8,7 +8,7 @@ User.init({
     name:DataTypes.STRING,
     email:DataTypes.STRING,
     password:DataTypes.STRING,
-    isActive:DataTypes.STRING,
+    isActive:DataTypes.BOOLEAN,
     idRole:DataTypes.BIGINT
 }, {
     sequelize,

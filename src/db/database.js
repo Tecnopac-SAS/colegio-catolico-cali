@@ -1,4 +1,4 @@
-
+/* 
 const mysql = require("promise-mysql");
 const config = require("../../config");
 
@@ -14,4 +14,4 @@ const connectDb = ((err,cone) => {
     return connection;
 });
 
-module.exports= connectDb;
+module.exports= connectDb; */

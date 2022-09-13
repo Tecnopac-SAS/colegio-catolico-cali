@@ -2,7 +2,10 @@ const getConnection = require('../db/database')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const config = require('../../config')
+const sequelize = require('sequelize');
+const { QueryTypes } = require('sequelize');
 //const userModel = require('../../models/User.model')
+const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
 const userCtrl = {};
 
@@ -39,19 +42,23 @@ userCtrl.consultarUsuario = async (req, res) => {
 
 userCtrl.login = async(req,res)=>{
     try {
+    
         const {email,password}= req.body
         const result = await userModel.findOne({ where: { email: email } });
-        if(email=="" || password==""){
+
+        if (email == "" || password == "" ) {
             return res.json({
-                mensaje: 'Los campos no pueden estar vacios'
+                mensaje: 'Los campos no pueden estar vacios',
+            })
+            
+        }
+     
+        else if(result === null){
+            return res.json({
+                mensaje: 'correo incorrecto '+ email,
             })
         }
-        
-         else if(result.email != email){
-            return res.json({
-                mensaje: 'correo incorrecto '+ email
-            })
-        }
+
         const match = await bcrypt.compare(password,result.password)
         if(match){
             const token = jwt.sign({id:result.id},config.secret.word)

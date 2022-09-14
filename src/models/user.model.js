@@ -44,12 +44,7 @@ User.init({
     name:DataTypes.STRING,
     email:DataTypes.STRING,
     password:DataTypes.STRING,
-    isActive:DataTypes.BOOLEAN,
-    test1: DataTypes.STRING,
-    test2: DataTypes.STRING,
-    test3: DataTypes.STRING,
-    test4: DataTypes.STRING,
-    //idRole:DataTypes.BIGINT
+    isActive:DataTypes.BOOLEAN
 }, 
 
 {

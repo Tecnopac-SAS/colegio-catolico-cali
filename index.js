@@ -23,7 +23,7 @@ app.use(cors({origen:'*'}));
 //Rutas
 app.use('/user',require('./src/routes/user.route'))
 
-roleModel.sync({ force: false })
-userModel.sync({ force: false })
+roleModel.sync({ alter: true })
+userModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

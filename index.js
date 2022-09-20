@@ -22,6 +22,7 @@ app.use(cors({origen:'*'}));
 
 //Rutas
 app.use('/user',require('./src/routes/user.route'))
+app.use('/role',require('./src/routes/role.route'))
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })

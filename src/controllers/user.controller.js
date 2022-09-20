@@ -7,6 +7,7 @@ const { QueryTypes } = require('sequelize');
 //const userModel = require('../../models/User.model')
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
+const roleModel = require('../models/role.model')
 const userCtrl = {};
 
 userCtrl.consultarUsuarios = async(req,res)=>{
@@ -40,12 +41,25 @@ userCtrl.consultarUsuario = async (req, res) => {
     }
 };
 
+userCtrl.getUser = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const result = await userModel.findOne({ where: { email: email } });
+        res.json({
+            mensaje: 'ok',
+            result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 userCtrl.login = async(req,res)=>{
     try {
     
         const {email,password}= req.body
-        const result = await userModel.findOne({ where: { email: email } });
-
+        const result = await userModel.findOne({ where: { email: email }, });
         if (email == "" || password == "" ) {
             return res.json({
                 mensaje: 'Los campos no pueden estar vacios',
@@ -55,7 +69,7 @@ userCtrl.login = async(req,res)=>{
      
         else if(result === null){
             return res.json({
-                mensaje: 'correo incorrecto '+ email,
+                mensaje: 'correo invalido',
             })
         }
 
@@ -66,7 +80,7 @@ userCtrl.login = async(req,res)=>{
                 mensaje: 'Bienvenido',
                 id: result.id,
                 nombres: result.name,
-                rol: result.roleId,
+                idRole: result.idRole,
                 token
             })
         }
@@ -84,8 +98,8 @@ userCtrl.login = async(req,res)=>{
 
 
 userCtrl.crearUsuario = async(req,res)=>{
-    const {userName, name,email,password,isActive,idRole}= req.body 
-    const result = await userModel.findOne({ where: { userName: userName} });
+    const {name,email,password,isActive,idRole}= req.body 
+    const result = await userModel.findOne({ where: { email: email} });
     if(result) {
         res.json({
             mensaje: 'El usuario ya existe'
@@ -98,10 +112,10 @@ userCtrl.crearUsuario = async(req,res)=>{
     }
     else {
         const token = jwt.sign({id:userModel.id},config.secret.word)
-        await userModel.create({userName, name,email,password,isActive,idRole})
+        await userModel.create({name,email,password,isActive,idRole})
         res.json({
             mensaje: 'Bienvenido',
-            id: userName,
+            id: email,
             token,
             password:password
         })
@@ -111,31 +125,59 @@ userCtrl.crearUsuario = async(req,res)=>{
 userCtrl.actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { userName, name,email,password,isActive,idRole } = req.body;
-
+        const { name,email,password,isActive,idRole } = req.body;
         if (id === undefined || name === undefined || email === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-
-        const user = { userName, name,email,password,isActive,idRole};
-        const connection = await getConnection();
-        const result = await connection.query("UPDATE user SET ? WHERE id = ?", [user, id]);
-        res.json({
-            mensaje: 'ok',
-            result
+        await userModel.update({name,email,password,isActive,idRole},{
+            where: {
+                id: id
+            }
         })
+        const user = await userModel.findOne({ where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'usuario no encontrado',
+            })
+        }
+        else {
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
+
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
 
-userCtrl.eliminarUsuario = async (req, res) => {
+userCtrl.deshabilitarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const connection = await getConnection();
-        const result = await connection.query("DELETE FROM user WHERE id = ?", id);
-        res.json(result);
+        const { isActive } = req.body;
+        if (isActive === null) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await userModel.update({isActive},{
+            where: {
+                id: id
+            }
+        })
+        const user = await userModel.findOne({ where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'usuario no encontrado',
+            })
+        }
+        else {
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
+
     } catch (error) {
         res.status(500);
         res.send(error.message);

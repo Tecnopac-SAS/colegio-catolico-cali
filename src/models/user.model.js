@@ -40,11 +40,14 @@ const bcrypt = require('bcryptjs')
 
 class User extends Model {}
 User.init({
-    userName:DataTypes.STRING,
     name:DataTypes.STRING,
     email:DataTypes.STRING,
     password:DataTypes.STRING,
-    isActive:DataTypes.BOOLEAN
+    isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
+  
 }, 
 
 {

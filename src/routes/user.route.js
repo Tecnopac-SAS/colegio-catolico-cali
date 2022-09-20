@@ -4,12 +4,13 @@ const userCtrl = require('../controllers/user.controller');
 
 router.get('/listarUsuarios',userCtrl.consultarUsuarios);
 router.get('/listarUsuario/:id',userCtrl.consultarUsuario);
+router.get('/listarUsuarioEmail/:email',userCtrl.getUser);
 
 router.post('/agregarUsuario',userCtrl.crearUsuario);
 router.post('/login',userCtrl.login);
 
 router.put('/actualizarUsuario/:id' ,userCtrl.actualizarUsuario)
-router.delete('/eliminarUsuario/:id' ,userCtrl.eliminarUsuario)
+router.put('/deshabilitarUsuario/:id' ,userCtrl.deshabilitarUsuario)
 
 
 

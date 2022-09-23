@@ -12,7 +12,7 @@ const userCtrl = {};
 
 userCtrl.consultarUsuarios = async(req,res)=>{
     try {
-        const result = await userModel.findAll();
+        const result = await userModel.findAll({ include: { association: 'userAs' } });
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -57,9 +57,8 @@ userCtrl.getUser = async (req, res) => {
 
 userCtrl.login = async(req,res)=>{
     try {
-    
         const {email,password}= req.body
-        const result = await userModel.findOne({ where: { email: email }, });
+        const result = await userModel.findOne({ where: { email: email }, include: { association: 'userAs' } });
         if (email == "" || password == "" ) {
             return res.json({
                 mensaje: 'Los campos no pueden estar vacios',
@@ -80,8 +79,8 @@ userCtrl.login = async(req,res)=>{
                 mensaje: 'Bienvenido',
                 id: result.id,
                 nombres: result.name,
-                idRole: result.idRole,
-                token
+                idRole: result.userAs.role,
+                token,
             })
         }
         else {
@@ -125,10 +124,12 @@ userCtrl.crearUsuario = async(req,res)=>{
 userCtrl.actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name,email,password,isActive,idRole } = req.body;
+        let {name,email,password,isActive,idRole } = req.body;
         if (id === undefined || name === undefined || email === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
+        password = await bcrypt.hash(password,10)
+        console.log(password)
         await userModel.update({name,email,password,isActive,idRole},{
             where: {
                 id: id

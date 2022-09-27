@@ -2,12 +2,12 @@ const config = require('../../config')
 const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
-const inscriptionModel = require('../models/inscription.model')
-const inscriptionCtrl = {};
+const GradeModel = require('../models/grade.model')
+const GradeCtrl = {};
 
-inscriptionCtrl.consultarInscripciones = async(req,res)=>{
+GradeCtrl.consultarGrados = async(req,res)=>{
     try {
-        const result = await inscriptionModel.findAll();
+        const result = await GradeModel.findAll({ include: [{ association: 'gradeAsUser' },{association: 'gradeAsPeriod'}]});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -22,10 +22,10 @@ inscriptionCtrl.consultarInscripciones = async(req,res)=>{
     }
 }
 
-inscriptionCtrl.consultarInscripcion = async (req, res) => {
+GradeCtrl.consultarGrado = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await inscriptionModel.findOne({ where: { id: id } });
+        const result = await GradeModel.findOne({ where: { id: id },include: [{ association: 'gradeAsUser' },{association: 'gradeAsPeriod'}] });
         res.json({
             mensaje: 'ok',
             result
@@ -36,43 +36,43 @@ inscriptionCtrl.consultarInscripcion = async (req, res) => {
     }
 };
 
-inscriptionCtrl.crearInscripcion = async(req,res)=>{
-    const {inscripcion}= req.body 
-    const result = await inscriptionModel.findOne({ where: { inscripcion: inscripcion} });
+GradeCtrl.crearGrado = async(req,res)=>{
+    const {price,description,idUser,idPeriod}= req.body 
+    const result = await GradeModel.findOne({ where: { description: description} });
     if(result) {
         res.json({
             mensaje: 'la inscripción ya existe'
         })
     }
-    else if(inscripcion==null){
+    else if(description==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
     
-        await inscriptionModel.create({inscripcion})
+        await GradeModel.create({price,description,idUser,idPeriod})
         res.json({
-            mensaje: 'Inscripcion creada',
+            mensaje: 'Grado creada',
         })
     }
 }
 
-inscriptionCtrl.actualizarInscripcion = async (req, res) => {
+GradeCtrl.actualizarGrado = async (req, res) => {
     try {
         const { id } = req.params;
-        let {inscripcion } = req.body;
-        if (id === undefined || inscripcion === undefined) {
+        let {price,description,idUser,idPeriod} = req.body;
+        if (id === undefined || Grado === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
         password = await bcrypt.hash(password,10)
         console.log(password)
-        await inscriptionModel.update({inscripcion},{
+        await GradeModel.update({price,description,idUser,idPeriod},{
             where: {
                 id: id
             }
         })
-        const user = await inscriptionModel.findOne({ where: { id: id } });
+        const user = await GradeModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'Inscripción no encontrada',
@@ -94,4 +94,4 @@ inscriptionCtrl.actualizarInscripcion = async (req, res) => {
 
 
 
-module.exports= inscriptionCtrl
+module.exports= GradeCtrl

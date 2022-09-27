@@ -37,8 +37,8 @@ periodCtrl.consultarPeriodo = async (req, res) => {
 };
 
 periodCtrl.crearPerido = async(req,res)=>{
-    const {periodo}= req.body 
-    const result = await periodModel.findOne({ where: { periodo: periodo} });
+    const {age,password,identifier,consecutive}= req.body 
+    const result = await periodModel.findOne({ where: { identifier: identifier} });
     if(result) {
         res.json({
             mensaje: 'El periodo ya existe'
@@ -51,7 +51,7 @@ periodCtrl.crearPerido = async(req,res)=>{
     }
     else {
     
-        await periodModel.create({periodo})
+        await periodModel.create({age,password,identifier,consecutive})
         res.json({
             mensaje: 'Periodo creado',
         })
@@ -61,13 +61,13 @@ periodCtrl.crearPerido = async(req,res)=>{
 periodCtrl.actualizarPeriodo = async (req, res) => {
     try {
         const { id } = req.params;
-        let {periodo } = req.body;
-        if (id === undefined || periodo === undefined) {
+        let {age,password,identifier,consecutive } = req.body;
+        if (id === undefined || age === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
         password = await bcrypt.hash(password,10)
         console.log(password)
-        await periodModel.update({periodo},{
+        await periodModel.update({age,password,identifier,consecutive},{
             where: {
                 id: id
             }

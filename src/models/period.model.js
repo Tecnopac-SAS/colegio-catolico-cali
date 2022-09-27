@@ -6,6 +6,8 @@ class Period extends Model {}
 Period.init({
     age:DataTypes.DATE,
     password:DataTypes.STRING,
+    identifier:DataTypes.STRING,
+    consecutive:DataTypes.INTEGER,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

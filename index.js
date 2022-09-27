@@ -9,7 +9,7 @@ const bodyParser= require('body-parser');
 const userModel = require('.//src/models/user.model')
 const roleModel = require('.//src/models/role.model')
 const period = require('./src/models/period.model')
-const inscription = require('./src/models/inscription.model')
+const grade = require('./src/models/grade.model')
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -23,10 +23,12 @@ app.use(cors({origen:'*'}));
 //Rutas
 app.use('/user',require('./src/routes/user.route'))
 app.use('/role',require('./src/routes/role.route'))
+app.use('/grade',require('./src/routes/grade.route'))
+app.use('/period',require('./src/routes/period.route'))
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
 period.sync({ alter: true })
-inscription.sync({ alter: true })
+grade.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

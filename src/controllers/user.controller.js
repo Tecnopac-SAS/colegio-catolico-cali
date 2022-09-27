@@ -12,7 +12,7 @@ const userCtrl = {};
 
 userCtrl.consultarUsuarios = async(req,res)=>{
     try {
-        const result = await userModel.findAll({ include: { association: 'userAs' } });
+        const result = await userModel.findAll({ include: { association: 'userAsRole' } });
         res.json({
             status: 200,
             mensaje: 'ok',

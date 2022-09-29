@@ -44,7 +44,7 @@ periodCtrl.crearPerido = async(req,res)=>{
             mensaje: 'El periodo ya existe'
         })
     }
-    else if(periodo==null){
+    else if(identifier==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })

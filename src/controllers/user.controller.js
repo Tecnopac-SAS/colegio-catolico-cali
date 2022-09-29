@@ -58,7 +58,7 @@ userCtrl.getUser = async (req, res) => {
 userCtrl.login = async(req,res)=>{
     try {
         const {email,password}= req.body
-        const result = await userModel.findOne({ where: { email: email }, include: { association: 'userAs' } });
+        const result = await userModel.findOne({ where: { email: email }, include: { association: 'userAsRole' } });
         if (email == "" || password == "" ) {
             return res.json({
                 mensaje: 'Los campos no pueden estar vacios',
@@ -79,7 +79,7 @@ userCtrl.login = async(req,res)=>{
                 mensaje: 'Bienvenido',
                 id: result.id,
                 nombres: result.name,
-                idRole: result.userAs.role,
+                idRole: result.userAsRole.role,
                 token,
             })
         }

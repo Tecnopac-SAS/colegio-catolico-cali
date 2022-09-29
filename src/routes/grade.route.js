@@ -4,7 +4,7 @@ const gradeCtrl = require('../controllers/grade.controller');
 
 router.get('/listarGrados',gradeCtrl.consultarGrados);
 router.get('/listarGrado/:id',gradeCtrl.consultarGrado);
-router.get('/CrearGrado',gradeCtrl.crearGrado);
+router.post('/crearGrado',gradeCtrl.crearGrado);
 router.put('/actualizarGrado/:id' ,gradeCtrl.actualizarGrado)
 
 

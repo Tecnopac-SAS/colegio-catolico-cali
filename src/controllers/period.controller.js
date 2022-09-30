@@ -38,7 +38,7 @@ periodCtrl.consultarPeriodo = async (req, res) => {
 
 periodCtrl.crearPerido = async(req,res)=>{
     const {age,password,identifier,consecutive}= req.body 
-    const result = await periodModel.findOne({ where: { identifier: identifier} });
+    const result = await periodModel.findOne({ where: { identifier: identifier+consecutive} });
     if(result) {
         res.json({
             mensaje: 'El periodo ya existe'
@@ -50,7 +50,12 @@ periodCtrl.crearPerido = async(req,res)=>{
         })
     }
     else {
-    
+        isActive=false;
+        await periodModel.update({isActive},{
+            where: {
+                isActive: true
+            }
+        })
         await periodModel.create({age,password,identifier,consecutive})
         res.json({
             mensaje: 'Periodo creado',

@@ -1,6 +1,5 @@
 const Sequelize  = require('sequelize');
 const config = require("../../config");
-//const mysql2 =  require('mysql2')
 
 const sequelize = new Sequelize(
    config.db.dbName,

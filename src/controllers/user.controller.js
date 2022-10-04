@@ -1,10 +1,8 @@
-const getConnection = require('../db/database')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const config = require('../../config')
 const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
-//const userModel = require('../../models/User.model')
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
 const roleModel = require('../models/role.model')

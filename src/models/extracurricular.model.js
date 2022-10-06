@@ -1,13 +1,13 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
 
-class RegistrationType extends Model {}
-RegistrationType.init({
-    description:DataTypes.STRING,
-    price:DataTypes.BIGINT,
+class ExtraCurricular extends Model {}
+ExtraCurricular.init({
+    imagen:DataTypes.STRING,
+    activity:DataTypes.STRING,
     startDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
-    surcharge:DataTypes.BIGINT,
+    teacher:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
@@ -17,7 +17,7 @@ RegistrationType.init({
 
 {
     sequelize,
-    modelName: "registrationType",
+    modelName: "extraCurricular",
 });
 
-module.exports = RegistrationType;
+module.exports = ExtraCurricular;

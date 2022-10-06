@@ -2,8 +2,8 @@ const {Router} = require('express');
 const router = Router();
 const gradesCtrl = require('../controllers/grades.controller');
 
-router.get('/listargradess',gradesCtrl.consultargradess);
-router.get('/Creargrades',gradesCtrl.creargrades);
+router.get('/listarGrades',gradesCtrl.consultarGrades);
+router.get('/CrearGrades',gradesCtrl.crearGrades);
 
 
 

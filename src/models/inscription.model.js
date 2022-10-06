@@ -1,8 +1,10 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
+const bcrypt = require('bcryptjs')
 
-class GradesC extends Model {}
-GradesC.init({
+class Inscription extends Model {}
+Inscription.init({
+    price:DataTypes.BIGINT,
     description:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
@@ -13,7 +15,7 @@ GradesC.init({
 
 {
     sequelize,
-    modelName: "gradesC",
+    modelName: "inscription",
 });
 
-module.exports = GradesC;
+module.exports = Inscription;

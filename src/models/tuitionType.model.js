@@ -1,9 +1,13 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
 
-class Grade extends Model {}
-Grade.init({
+class TuitionType extends Model {}
+TuitionType.init({
     description:DataTypes.STRING,
+    price:DataTypes.BIGINT,
+    startDate:DataTypes.DATE,
+    finalDate:DataTypes.DATE,
+    surcharge:DataTypes.BIGINT,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
@@ -13,7 +17,7 @@ Grade.init({
 
 {
     sequelize,
-    modelName: "grade",
+    modelName: "tuitionType",
 });
 
-module.exports = Grade;
+module.exports = TuitionType;

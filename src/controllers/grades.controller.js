@@ -2,10 +2,10 @@ const config = require('../../config')
 const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
-const gradesModel = require('../models/gradesC.model')
+const gradesModel = require('../models/grade.model')
 const gradesCtrl = {};
 
-gradesCtrl.consultargradess = async(req,res)=>{
+gradesCtrl.consultarGrades = async(req,res)=>{
     try {
         const result = await gradesModel.findAll();
         res.json({
@@ -22,7 +22,7 @@ gradesCtrl.consultargradess = async(req,res)=>{
     }
 }
 
-gradesCtrl.creargrades = async(req,res)=>{
+gradesCtrl.crearGrades = async(req,res)=>{
     const {grades}= req.body 
     const result = await gradesModel.findOne({ where: { grades: grades} });
     if(result) {

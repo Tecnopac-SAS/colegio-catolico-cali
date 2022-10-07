@@ -2,8 +2,8 @@ const {Router} = require('express');
 const router = Router();
 const extracurricularCtrl = require('../controllers/extracurricular.controller');
 
-router.get('/listarExtracurricular',extracurricularCtrl.consultarextracurricular);
-router.get('/crearExtracurricular',extracurricularCtrl.crearextracurricular);
+router.get('/listarExtracurricular',extracurricularCtrl.consultarExtracurriculares);
+router.post('/crearExtracurricular',extracurricularCtrl.crearExtracurricular);
 
 
 

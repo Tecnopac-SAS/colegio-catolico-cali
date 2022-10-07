@@ -5,7 +5,7 @@ const bdSq = require('../db/databaseSq')
 const extracurricularModel = require('../models/extracurricular.model')
 const extracurricularCtrl = {};
 
-extracurricularCtrl.consultarextracurricular = async(req,res)=>{
+extracurricularCtrl.consultarExtracurriculares = async(req,res)=>{
     try {
         const result = await extracurricularModel.findAll();
         res.json({
@@ -22,17 +22,31 @@ extracurricularCtrl.consultarextracurricular = async(req,res)=>{
     }
 }
 
-extracurricularCtrl.crearextracurricular = async(req,res)=>{
-    const {imagen,activity,startDate,finalDate,teacher}= req.body 
-    if(activity==null){
+extracurricularCtrl.consultarExtracurricular = async (req, res) => {
+    try {
+        const { description } = req.params;
+        const result = await extracurricularModel.findAll({ where: { description:{[Op.like]:`${description}%`}}});
+        res.json({
+            mensaje: 'ok',
+            result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+extracurricularCtrl.crearExtracurricular = async(req,res)=>{
+    const {imagen,activity,startDate,finalDate,price,information,schedule,teacher}= req.body 
+    if(activity==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await extracurricularModel.create({imagen,activity,startDate,finalDate,teacher})
+        await extracurricularModel.create({imagen,activity,startDate,finalDate,price,information,schedule,teacher})
         res.json({
-            mensaje: 'Extracurricular creado creado',
+            mensaje: 'Extracurricular  creado',
         })
     }
 }

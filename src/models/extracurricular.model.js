@@ -7,6 +7,9 @@ ExtraCurricular.init({
     activity:DataTypes.STRING,
     startDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
+    price:DataTypes.BIGINT,
+    information:DataTypes.STRING,
+    schedule:DataTypes.STRING,
     teacher:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,

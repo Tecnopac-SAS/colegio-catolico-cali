@@ -5,6 +5,7 @@ const Inscription = require('./inscription.model');
 const Grade = require('./grade.model')
 const TuitionType = require('./tuitionType.model');
 const Tuition = require('./tuition.model');
+const Pension = require('./pension.model')
 
 // Uno a uno
 // Usuario tiene una direccion
@@ -29,4 +30,5 @@ Tuition.belongsTo(TuitionType, { as: "tuitionAsTuitionType", foreignKey: "idTuit
 TuitionType.hasMany(Tuition, { as: "tuitionTypeAsTuition", foreignKey: "idTuition" });
 
 
-
+Pension.belongsTo(Grade, { as: "pensionAsGrade", foreignKey: "idGrade" });
+Grade.hasMany(Pension, { as: "gradesAsPension", foreignKey: "idGrade" });

@@ -16,6 +16,7 @@ const tuitionTypeModel = require('./src/models/tuitionType.model')
 const extracurricularModel = require('./src/models/extracurricular.model')
 const pensionModel = require('./src/models/pension.model')
 const courseModel = require('./src/models/courses.model')
+const transportationModel = require('./src/models/transportation.model')
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -37,6 +38,7 @@ app.use('/tuitionType',require('./src/routes/tuitionType.route'))
 app.use('/extracurricular',require('./src/routes/extracurricular.route'))
 app.use('/pension',require('./src/routes/pension.route'))
 app.use('/course',require('./src/routes/course.route'))
+app.use('/transportation',require('./src/routes/transportation.route'))
 
 
 roleModel.sync({ alter: true })
@@ -52,5 +54,6 @@ extracurricularModel.sync({ alter: true })
 pensionModel.sync({ alter: true })
 courseModel.sync({ alter: true })
 
+transportationModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

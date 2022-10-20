@@ -6,8 +6,8 @@ const config = {
         //port: process.env.DB_PORT,
         host: process.env.DB_HOST,
         dbName: process.env.DB_NAME,
-        user: process.env.USER,
-        pass: process.env.PASSWORD
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASSWORD
     },
 
     secret: {

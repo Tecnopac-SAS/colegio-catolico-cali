@@ -8,6 +8,7 @@ Transportation.init({
     routeNumber:DataTypes.STRING,
     responsible:DataTypes.STRING,
     price:DataTypes.BIGINT,
+    routeType:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

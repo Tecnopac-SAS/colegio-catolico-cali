@@ -2,12 +2,12 @@ const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
-const transportationModel = require('../models/transportation.model')
-const transportationCtrl = {};
+const discountModel = require('../models/discount.model')
+const discountCtrl = {};
 
-transportationCtrl.consultarTransportations = async(req,res)=>{
+discountCtrl.consultarDiscounts = async(req,res)=>{
     try {
-        const result = await transportationModel.findAll();
+        const result = await discountModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -22,10 +22,10 @@ transportationCtrl.consultarTransportations = async(req,res)=>{
     }
 }
 
-transportationCtrl.consultarTransportation = async (req, res) => {
+discountCtrl.consultarDiscount = async (req, res) => {
     try {
-        const { routeName } = req.params;
-        const result = await transportationModel.findAll({ where: { routeName:{[Op.like]:`${routeName}%`}}});
+        const { name } = req.params;
+        const result = await discountModel.findAll({ where: { name:{[Op.like]:`${name}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -36,10 +36,10 @@ transportationCtrl.consultarTransportation = async (req, res) => {
     }
 };
 
-transportationCtrl.consultarId = async (req, res) => {
+discountCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await transportationModel.findOne({ where: { id: id } });
+        const result = await discountModel.findOne({ where: { id: id } });
         res.json({
             mensaje: 'ok',
             result
@@ -50,17 +50,17 @@ transportationCtrl.consultarId = async (req, res) => {
     }
 };
 
-transportationCtrl.crearTransportation = async(req,res)=>{
-    const {routeName,routeNumber,responsible,routeType,price}= req.body 
+discountCtrl.crearDiscount = async(req,res)=>{
+    const {name,starDate,finalDate,percentage,frequency,service}= req.body 
 
-     if(routeName==null){
+     if(name==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
        
-        const data = await transportationModel.create({routeName,routeNumber,responsible,routeType,price})
+        const data = await discountModel.create({name,starDate,finalDate,percentage,frequency,service})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -68,22 +68,22 @@ transportationCtrl.crearTransportation = async(req,res)=>{
 
 }
 
-transportationCtrl.actualizarTransportation = async (req, res) => {
+discountCtrl.actualizarDiscount = async (req, res) => {
     try {
         const { id } = req.params;
-        let {routeName,routeNumber,responsible,routeType,price} = req.body;
-        if (id === undefined || routeName === undefined) {
+        let {name,starDate,finalDate,percentage,frequency,service,isActive} = req.body;
+        if (id === undefined || name === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationModel.update({routeName,routeNumber,responsible,routeType,price},{
+        await discountModel.update({name,starDate,finalDate,percentage,frequency,service,isActive},{
             where: {
                 id: id
             }
         })
-        const user = await transportationModel.findOne({ where: { id: id } });
+        const user = await discountModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
-                mensaje: 'curso no encontrado',
+                mensaje: 'descuento no encontrado',
             })
         }
         else {
@@ -99,19 +99,19 @@ transportationCtrl.actualizarTransportation = async (req, res) => {
     }
 };
 
-transportationCtrl.deshabilitar = async (req, res) => {
+discountCtrl.deshabilitar = async (req, res) => {
     try {
         const { id } = req.params;
         const { isActive } = req.body;
         if (isActive === null) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationModel.update({isActive},{
+        await discountModel.update({isActive},{
             where: {
                 id: id
             }
         })
-        const user = await transportationModel.findOne({ where: { id: id } });
+        const user = await discountModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'usuario no encontrado',
@@ -130,4 +130,4 @@ transportationCtrl.deshabilitar = async (req, res) => {
     }
 };
 
-module.exports= transportationCtrl
+module.exports= discountCtrl

@@ -2,12 +2,12 @@ const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
-const transportationModel = require('../models/transportation.model')
-const transportationCtrl = {};
+const technicalModel = require('../models/technical.model')
+const technicalCtrl = {};
 
-transportationCtrl.consultarTransportations = async(req,res)=>{
+technicalCtrl.consultarTechnicals = async(req,res)=>{
     try {
-        const result = await transportationModel.findAll();
+        const result = await technicalModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -22,10 +22,10 @@ transportationCtrl.consultarTransportations = async(req,res)=>{
     }
 }
 
-transportationCtrl.consultarTransportation = async (req, res) => {
+technicalCtrl.consultarTechnical= async (req, res) => {
     try {
-        const { routeName } = req.params;
-        const result = await transportationModel.findAll({ where: { routeName:{[Op.like]:`${routeName}%`}}});
+        const { course } = req.params;
+        const result = await technicalModel.findAll({ where: { course:{[Op.like]:`${course}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -36,10 +36,10 @@ transportationCtrl.consultarTransportation = async (req, res) => {
     }
 };
 
-transportationCtrl.consultarId = async (req, res) => {
+technicalCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await transportationModel.findOne({ where: { id: id } });
+        const result = await technicalModel.findOne({ where: { id: id } });
         res.json({
             mensaje: 'ok',
             result
@@ -50,40 +50,40 @@ transportationCtrl.consultarId = async (req, res) => {
     }
 };
 
-transportationCtrl.crearTransportation = async(req,res)=>{
-    const {routeName,routeNumber,responsible,routeType,price}= req.body 
+technicalCtrl.crearTechnical= async(req,res)=>{
+    const {course,startDate,finalDate,price,teacher}= req.body 
 
-     if(routeName==null){
+     if(course==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
        
-        const data = await transportationModel.create({routeName,routeNumber,responsible,routeType,price})
+        const data = await technicalModel.create({course,startDate,finalDate,price,teacher})
         res.json({
-            mensaje: 'Curso creado',
+            mensaje: 'Certificado creado',
         })
     }
 
 }
 
-transportationCtrl.actualizarTransportation = async (req, res) => {
+technicalCtrl.actualizarTechnical= async (req, res) => {
     try {
         const { id } = req.params;
-        let {routeName,routeNumber,responsible,routeType,price} = req.body;
-        if (id === undefined || routeName === undefined) {
+        let {course,startDate,finalDate,price,teacher} = req.body;
+        if (id === undefined || course === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationModel.update({routeName,routeNumber,responsible,routeType,price},{
+        await technicalModel.update({course,startDate,finalDate,price,teacher},{
             where: {
                 id: id
             }
         })
-        const user = await transportationModel.findOne({ where: { id: id } });
+        const user = await technicalModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
-                mensaje: 'curso no encontrado',
+                mensaje: 'certificado no encontrado',
             })
         }
         else {
@@ -99,19 +99,19 @@ transportationCtrl.actualizarTransportation = async (req, res) => {
     }
 };
 
-transportationCtrl.deshabilitar = async (req, res) => {
+technicalCtrl.deshabilitar = async (req, res) => {
     try {
         const { id } = req.params;
         const { isActive } = req.body;
         if (isActive === null) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationModel.update({isActive},{
+        await technicalModel.update({isActive},{
             where: {
                 id: id
             }
         })
-        const user = await transportationModel.findOne({ where: { id: id } });
+        const user = await technicalModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'usuario no encontrado',
@@ -130,4 +130,4 @@ transportationCtrl.deshabilitar = async (req, res) => {
     }
 };
 
-module.exports= transportationCtrl
+module.exports= technicalCtrl

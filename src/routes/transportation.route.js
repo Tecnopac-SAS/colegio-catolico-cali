@@ -4,9 +4,10 @@ const TransportationCtrl = require('../controllers/transportation.controller');
 
 router.get('/listarTransportations',TransportationCtrl.consultarTransportations);
 router.get('/listarTransportation/:routeName',TransportationCtrl.consultarTransportation);
-router.get('/listarTransportation/:id',TransportationCtrl.consultarId);
+router.get('/listarTransportationId/:id',TransportationCtrl.consultarId);
 router.post('/crearTransportation',TransportationCtrl.crearTransportation);
 router.put('/actualizarTransportation/:id',TransportationCtrl.actualizarTransportation)
+router.put('/deshabilitar/:id' ,TransportationCtrl.deshabilitar)
 
 
 

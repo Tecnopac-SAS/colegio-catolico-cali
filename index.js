@@ -17,6 +17,11 @@ const extracurricularModel = require('./src/models/extracurricular.model')
 const pensionModel = require('./src/models/pension.model')
 const courseModel = require('./src/models/courses.model')
 const transportationModel = require('./src/models/transportation.model')
+const cafeteriaModel = require('./src/models/cafeteria.model')
+const discountModel = require('./src/models/discount.model')
+const certificateModel = require('./src/models/certificates.model')
+const technicalModel = require('./src/models/technical.model')
+const documentosMatriculaModel = require('./src/models/documentosMatricula.model')
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -39,7 +44,11 @@ app.use('/extracurricular',require('./src/routes/extracurricular.route'))
 app.use('/pension',require('./src/routes/pension.route'))
 app.use('/course',require('./src/routes/course.route'))
 app.use('/transportation',require('./src/routes/transportation.route'))
-
+app.use('/cafeteria',require('./src/routes/cafeteria.route'))
+app.use('/discount',require('./src/routes/discount.route'))
+app.use('/certificate',require('./src/routes/certificate.route'))
+app.use('/technical',require('./src/routes/technical.route'))
+app.use('/documentosMatricula',require('./src/routes/documentosMatricula.route'))
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
@@ -55,6 +64,16 @@ pensionModel.sync({ alter: true })
 courseModel.sync({ alter: true })
 
 transportationModel.sync({ alter: true })
+
+cafeteriaModel.sync({ alter: true })
+
+discountModel.sync({ alter: true })
+
+certificateModel.sync({ alter: true })
+
+technicalModel.sync({ alter: true })
+
+documentosMatriculaModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
 

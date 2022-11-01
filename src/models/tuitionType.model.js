@@ -18,7 +18,7 @@ TuitionType.init({
 {
     sequelize,
     modelName: "tuitionType",
-    tableName: 'tuitionType'
+    tableName: 'tuitionTypes'
 });
 
 module.exports = TuitionType;

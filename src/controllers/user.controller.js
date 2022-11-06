@@ -5,7 +5,9 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
-const roleModel = require('../models/role.model')
+const roleModel = require('../models/role.model');
+const nodemailer = require("nodemailer");
+const console = require('console');
 const userCtrl = {};
 
 userCtrl.consultarUsuarios = async(req,res)=>{
@@ -183,5 +185,113 @@ userCtrl.deshabilitarUsuario = async (req, res) => {
     }
 };
 
+
+userCtrl.cadenaAleatoria = async (req, res) => {
+   
+    const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let aleatoria = "";
+    longitud=5;
+    for (let i = 0; i < longitud; i++) {
+        aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+    }
+    res.json({
+        result:aleatoria
+    })
+
+};
+
+userCtrl.recuperarContrasena2 = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const result = await userModel.findOne({ where: { email: email } });
+        res.json({
+            mensaje: 'ok',
+            result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+userCtrl.recuperarPass = async (req,res)=>{
+    const {email} = req.params;
+    const result = await userModel.findOne({ where: { email: email} });
+    console.log("holaaa " +result)
+    if(!result){
+        return res.json({
+            mensaje: 'El correo no se encuentra registrado en la bd'
+        })
+    }
+    else {
+          // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: config.email.email, // generated ethereal user
+          pass: config.email.pass, // generated ethereal password
+        },
+      });
+      // send mail with defined transport object
+      const token = jwt.sign({_id:result.id},config.secret.word)
+      let info   = await transporter.sendMail({
+        from: '"TecnoPac 👻" <cgamertechnology@gmail.com>', // sender address
+        to: email, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "hola", // plain text body
+        html: `<b>A continuación encontraras el codigo que debes copiar para restablecer tu contraseña</b> </br> <h2>Código:</h2>${token}`, // html body
+        
+      });
+      
+      console.log("Message sent: %s", info.messageId);
+      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    
+      // Preview only available when sending through an Ethereal account
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        return res.json({
+            mensaje: 'Se ha enviado a su correo  un link para restablecer la constraseña '+email,
+            pass: result.password
+        })
+    }
+}
+
+userCtrl.nuevaContraseña = async (req,res)=>{
+    const id = req.params.id 
+    await userModel.findByIdAndUpdate({_id:id},req.body)
+    const respuesta =await userModel.findById({_id:id})
+    res.json({
+        mensaje: 'contraseña actualizada',
+        respuesta
+    })
+}
+
+userCtrl.enviarCorreo = async (req,res)=>{
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: config.email.email, // generated ethereal user
+          pass: config.email.pass, // generated ethereal password
+        },
+      });
+      // send mail with defined transport object
+      let info   = await transporter.sendMail({
+        from: '"TecnoPac 👻" <cgamertechnology@gmail.com>', // sender address
+        to: "alvarozi@hotmail.es", // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+      });
+
+      console.log("Message sent: %s", info.messageId);
+      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    
+      // Preview only available when sending through an Ethereal account
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    }
 
 module.exports= userCtrl

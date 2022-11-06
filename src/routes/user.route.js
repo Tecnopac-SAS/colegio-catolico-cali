@@ -12,6 +12,9 @@ router.post('/login',userCtrl.login);
 router.put('/actualizarUsuario/:id' ,userCtrl.actualizarUsuario)
 router.put('/deshabilitarUsuario/:id' ,userCtrl.deshabilitarUsuario)
 
+router.get('/recuperarPass/:email',userCtrl.recuperarPass)
+router.put('/nuevaContrasena/:pass' ,userCtrl.nuevaContraseña)
 
+router.get('/generarCaptcha' ,userCtrl.cadenaAleatoria)
 
 module.exports= router

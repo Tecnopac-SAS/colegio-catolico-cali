@@ -13,7 +13,7 @@ router.put('/actualizarUsuario/:id' ,userCtrl.actualizarUsuario)
 router.put('/deshabilitarUsuario/:id' ,userCtrl.deshabilitarUsuario)
 
 router.get('/recuperarPass/:email',userCtrl.recuperarPass)
-router.put('/nuevaContrasena/:pass' ,userCtrl.nuevaContraseña)
+router.put('/nuevaContrasena/:id' ,userCtrl.nuevaContraseña)
 
 router.get('/generarCaptcha' ,userCtrl.cadenaAleatoria)
 

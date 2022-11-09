@@ -23,6 +23,7 @@ const certificateModel = require('./src/models/certificates.model')
 const technicalModel = require('./src/models/technical.model')
 const documentosMatriculaModel = require('./src/models/documentosMatricula.model')
 const schoolYearModel = require('./src/models/schoolYear.model')
+const recoverPasswordModel = require('./src/models/recoverPassword.model')
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -54,6 +55,7 @@ app.use('/schoolYear',require('./src/routes/schoolYear.route'))
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
+recoverPasswordModel.sync({ alter: true })
 periodModel.sync({ alter: true })
 inscriptionModel.sync({ alter: true })
 

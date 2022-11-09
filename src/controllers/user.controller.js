@@ -6,6 +6,7 @@ const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
 const roleModel = require('../models/role.model');
+const recoverPasswordModel = require('../models/recoverPassword.model');
 const nodemailer = require("nodemailer");
 const console = require('console');
 const userCtrl = {};
@@ -29,12 +30,20 @@ userCtrl.consultarUsuarios = async(req,res)=>{
 
 userCtrl.consultarUsuario = async (req, res) => {
     try {
+        let fechaACtual=Date.now()
         const { id } = req.params;
-        const result = await userModel.findOne({ where: { id: id } });
-        res.json({
-            mensaje: 'ok',
-            result
-        })
+        const result = await bdSq.query("SELECT users.name, users.email,recoverpasswords.isActive,recoverpasswords.dateRecovery,now() AS fechaActual,TIMESTAMPDIFF( MINUTE,recoverpasswords.dateRecovery, now() ) AS diferencia FROM users INNER JOIN recoverpasswords ON users.id = recoverpasswords.idUser  where users.id =:parametro  HAVING diferencia <=60",{replacements:{parametro:`${id}`},type: QueryTypes.SELECT});
+        if (!result) {
+            return res.json({
+
+                result: 'No hay datos',
+            })
+        }
+        else {
+            res.json({
+                result
+            })
+            }
     } catch (error) {
         res.status(500);
         res.send(error.message);
@@ -200,30 +209,20 @@ userCtrl.cadenaAleatoria = async (req, res) => {
 
 };
 
-userCtrl.recuperarContrasena2 = async (req, res) => {
-    try {
-        const { email } = req.params;
-        const result = await userModel.findOne({ where: { email: email } });
-        res.json({
-            mensaje: 'ok',
-            result
-        })
-    } catch (error) {
-        res.status(500);
-        res.send(error.message);
-    }
-};
-
 userCtrl.recuperarPass = async (req,res)=>{
     const {email} = req.params;
-    const result = await userModel.findOne({ where: { email: email} });
-    console.log("holaaa " +result)
+    const result = await userModel.findOne({ include: { association: 'userAsrecoverPassword' },where: { email: email} });
     if(!result){
         return res.json({
-            mensaje: 'El correo no se encuentra registrado en la bd'
+            mensaje: 'El correo no se encuentra registrado en la bd',
         })
     }
     else {
+        await recoverPasswordModel.destroy({where: { idUser: result.id }},{
+            where: {
+                idUser: result.id
+            }
+        })
           // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -241,10 +240,10 @@ userCtrl.recuperarPass = async (req,res)=>{
         to: email, // list of receivers
         subject: "Hello ✔", // Subject line
         text: "hola", // plain text body
-        html: `<b>A continuación encontraras el codigo que debes copiar para restablecer tu contraseña</b> </br> <h2>Código:</h2>${token}`, // html body
-        
+        html: `<b>A continuación encontraras un enlace que te redireccionara para restablecer tu contraseña</b> </br> <h2>ENLACE:</h2> <a href="http://localhost:4200/nueva-contrasena/${result.id}">CLIC para ir a restaurar contraseña</a>`, // html body
       });
-      
+      let active=1
+      await recoverPasswordModel.create({isActive:active,idUser:result.id})
       console.log("Message sent: %s", info.messageId);
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
     
@@ -254,18 +253,50 @@ userCtrl.recuperarPass = async (req,res)=>{
             mensaje: 'Se ha enviado a su correo  un link para restablecer la constraseña '+email,
             pass: result.password
         })
+     
     }
 }
 
-userCtrl.nuevaContraseña = async (req,res)=>{
-    const id = req.params.id 
-    await userModel.findByIdAndUpdate({_id:id},req.body)
-    const respuesta =await userModel.findById({_id:id})
-    res.json({
-        mensaje: 'contraseña actualizada',
-        respuesta
-    })
-}
+
+userCtrl.nuevaContraseña = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let {password} = req.body;
+        if (password === undefined ) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        password = await bcrypt.hash(password,10)
+        console.log(password)
+        await userModel.update({password},{
+            where: {
+                id: id
+            }
+        })
+        const user = await userModel.findOne({ include: { association: 'userAsrecoverPassword' },where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'usuario no encontrado',
+            })
+        }
+        else {
+            let active=0
+            await recoverPasswordModel.destroy({where: { idUser: id }},{
+                where: {
+                    idUser: id
+                }
+            })
+
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
 userCtrl.enviarCorreo = async (req,res)=>{
       // create reusable transporter object using the default SMTP transport

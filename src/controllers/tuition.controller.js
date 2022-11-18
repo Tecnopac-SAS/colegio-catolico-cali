@@ -3,6 +3,7 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const tuitionModel = require('../models/tuition.model')
+const inscriptionModel = require('../models/inscription.model')
 const tuitionCtrl = {};
 
 tuitionCtrl.consultarTuitions = async(req,res)=>{
@@ -70,17 +71,15 @@ tuitionCtrl.crearTuition = async(req,res)=>{
         try {
             const { id } = req.params;
             let {price,description,idUser,idPeriod} = req.body;
-            if (id === undefined || Inscription === undefined) {
+            if (id === undefined || description === undefined) {
                 res.status(400).json({ message: "Bad Request. Please fill all field." });
             }
-            password = await bcrypt.hash(password,10)
-            console.log(password)
-            await InscriptionModel.update({price,description,idUser,idPeriod},{
+            await inscriptionModel.update({price,description,idUser,idPeriod},{
                 where: {
                     id: id
                 }
             })
-            const user = await InscriptionModel.findOne({ where: { id: id } });
+            const user = await inscriptionModel.findOne({ where: { id: id } });
              if(user === null){
                 return res.json({
                     mensaje: 'Inscripción no encontrada',

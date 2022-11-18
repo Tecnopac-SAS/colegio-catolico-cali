@@ -3,9 +3,9 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const InscriptionModel = require('../models/inscription.model')
-const InscriptionCtrl = {};
+const inscriptionCtrl = {};
 
-InscriptionCtrl.consultarInscriptions = async(req,res)=>{
+inscriptionCtrl.consultarInscriptions = async(req,res)=>{
     try {
         const result = await InscriptionModel.findAll({ include: [{ association: 'inscriptionAsUser' },{association: 'inscriptionAsPeriod'}]});
         res.json({
@@ -22,7 +22,7 @@ InscriptionCtrl.consultarInscriptions = async(req,res)=>{
     }
 }
 
-InscriptionCtrl.consultarInscription = async (req, res) => {
+inscriptionCtrl.consultarInscription = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await InscriptionModel.findOne({ where: { id: id },include: [{ association: 'InscriptionAsUser' },{association: 'InscriptionAsPeriod'}] });
@@ -36,7 +36,7 @@ InscriptionCtrl.consultarInscription = async (req, res) => {
     }
 };
 
-InscriptionCtrl.crearInscription = async(req,res)=>{
+inscriptionCtrl.crearInscription = async(req,res)=>{
     const {price,description,idUser,idPeriod}= req.body 
     const result = await InscriptionModel.findOne({ where: { description: description} });
     if(result) {
@@ -58,7 +58,7 @@ InscriptionCtrl.crearInscription = async(req,res)=>{
     }
 }
 
-InscriptionCtrl.actualizarInscription = async (req, res) => {
+inscriptionCtrl.actualizarInscription = async (req, res) => {
     try {
         const { id } = req.params;
         let {price,description,idUser,idPeriod} = req.body;
@@ -89,7 +89,7 @@ InscriptionCtrl.actualizarInscription = async (req, res) => {
     }
 };
 
-InscriptionCtrl.actualizarValorInscription2 = async (req, res) => {
+inscriptionCtrl.actualizarValorInscription2 = async (req, res) => {
     try {
         const { id } = req.params;
         let {price} = req.body;
@@ -120,7 +120,7 @@ InscriptionCtrl.actualizarValorInscription2 = async (req, res) => {
     }
 };
 
-InscriptionCtrl.actualizarValorInscription = async (req, res) => {
+inscriptionCtrl.actualizarValorInscription = async (req, res) => {
     try {
         //const { id } = req.params;
         const { price } = req.body;
@@ -143,7 +143,7 @@ InscriptionCtrl.actualizarValorInscription = async (req, res) => {
     }
 };
 
-InscriptionCtrl.actualizarValorInscription3 = async (req, res) => {
+inscriptionCtrl.actualizarValorInscription3 = async (req, res) => {
     try {
         const { price } = req.params;
         const result = await bdSq.query("UPDATE inscriptions AS tab,(SELECT MAX( id ) AS maximo FROM inscriptions ) AS max SET tab.price =:parametro WHERE tab.id = max.maximo",{replacements:{parametro:price},type: QueryTypes.SELECT});
@@ -164,4 +164,4 @@ InscriptionCtrl.actualizarValorInscription3 = async (req, res) => {
     }
 };
 
-module.exports= InscriptionCtrl
+module.exports= inscriptionCtrl

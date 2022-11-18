@@ -25,7 +25,7 @@ inscriptionCtrl.consultarInscriptions = async(req,res)=>{
 inscriptionCtrl.consultarInscription = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await inscriptionModel.findOne({ where: { id: id },include: [{ association: 'InscriptionAsUser' },{association: 'InscriptionAsPeriod'}] });
+        const result = await inscriptionModel.findOne({ where: { id: id },include: [{ association: 'inscriptionAsUser' },{association: 'inscriptionAsPeriod'}] });
         res.json({
             mensaje: 'ok',
             result

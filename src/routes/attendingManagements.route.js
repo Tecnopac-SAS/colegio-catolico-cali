@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const router = Router();
-const AttendingManagementCtrl = require('../controllers/AttendingManagement.controller');
+const AttendingManagementCtrl = require('../controllers/attendingManagement.controller');
 
 router.get('/listarAttendingManagements',AttendingManagementCtrl.consultarAttendingManagements);
 router.get('/listarAttendingManagement/:name',AttendingManagementCtrl.consultarAttendingManagement);

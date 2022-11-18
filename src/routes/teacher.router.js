@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const router = Router();
-const TeacherCtrl = require('../controllers/Teacher.controller');
+const TeacherCtrl = require('../controllers/teacher.controller');
 
 router.get('/listarTeachers',TeacherCtrl.consultarTeachers);
 router.get('/listarTeacher/:name',TeacherCtrl.consultarTeacher);

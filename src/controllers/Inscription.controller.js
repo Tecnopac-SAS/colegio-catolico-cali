@@ -2,12 +2,12 @@ const config = require('../../config')
 const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
-const InscriptionModel = require('../models/inscription.model')
+const inscriptionModel = require('../models/inscription.model')
 const inscriptionCtrl = {};
 
 inscriptionCtrl.consultarInscriptions = async(req,res)=>{
     try {
-        const result = await InscriptionModel.findAll({ include: [{ association: 'inscriptionAsUser' },{association: 'inscriptionAsPeriod'}]});
+        const result = await inscriptionModel.findAll({ include: [{ association: 'inscriptionAsUser' },{association: 'inscriptionAsPeriod'}]});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -25,7 +25,7 @@ inscriptionCtrl.consultarInscriptions = async(req,res)=>{
 inscriptionCtrl.consultarInscription = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await InscriptionModel.findOne({ where: { id: id },include: [{ association: 'InscriptionAsUser' },{association: 'InscriptionAsPeriod'}] });
+        const result = await inscriptionModel.findOne({ where: { id: id },include: [{ association: 'InscriptionAsUser' },{association: 'InscriptionAsPeriod'}] });
         res.json({
             mensaje: 'ok',
             result
@@ -38,7 +38,7 @@ inscriptionCtrl.consultarInscription = async (req, res) => {
 
 inscriptionCtrl.crearInscription = async(req,res)=>{
     const {price,description,idUser,idPeriod}= req.body 
-    const result = await InscriptionModel.findOne({ where: { description: description} });
+    const result = await inscriptionModel.findOne({ where: { description: description} });
     if(result) {
         res.json({
             mensaje: 'la inscripción ya existe'
@@ -51,7 +51,7 @@ inscriptionCtrl.crearInscription = async(req,res)=>{
     }
     else {
     
-        await InscriptionModel.create({price,description,idUser,idPeriod})
+        await inscriptionModel.create({price,description,idUser,idPeriod})
         res.json({
             mensaje: 'Inscription creada',
         })
@@ -65,12 +65,12 @@ inscriptionCtrl.actualizarInscription = async (req, res) => {
         if (id === undefined || Inscription === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await InscriptionModel.update({price,description,idUser,idPeriod},{
+        await inscriptionModel.update({price,description,idUser,idPeriod},{
             where: {
                 id: id
             }
         })
-        const user = await InscriptionModel.findOne({ where: { id: id } });
+        const user = await inscriptionModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'Inscripción no encontrada',
@@ -96,12 +96,12 @@ inscriptionCtrl.actualizarValorInscription2 = async (req, res) => {
         if (id === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await InscriptionModel.update({price},{
+        await inscriptionModel.update({price},{
             where: {
                 id: id
             }
         })
-        const user = await InscriptionModel.findOne({ where: { id: id } });
+        const user = await inscriptionModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'Inscripción no encontrada',

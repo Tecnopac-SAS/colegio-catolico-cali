@@ -1,8 +1,11 @@
 const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const schoolYearModel = require('../models/schoolYear.model')
+const userModel = require('../models/user.model')
 const schoolYearCtrl = {};
 
 schoolYearCtrl.consultarSchoolYears = async(req,res)=>{
@@ -68,6 +71,8 @@ schoolYearCtrl.crearSchoolYear= async(req,res)=>{
 
 }
 
+
+
 schoolYearCtrl.actualizarSchoolYear= async (req, res) => {
     try {
         const { id } = req.params;
@@ -129,5 +134,54 @@ schoolYearCtrl.deshabilitar = async (req, res) => {
         res.send(error.message);
     }
 };
+
+schoolYearCtrl.cambioAnioLectivo2 = async (req, res) => {
+    try {
+        await bdSq.query("UPDATE schoolyears AS tab,(SELECT MAX( id ) AS maximo FROM schoolyears ) AS max SET tab.isActive = false WHERE tab.id < max.maximo");
+        await bdSq.query("UPDATE schoolyears AS tab,(SELECT MAX( id ) AS maximo FROM schoolyears ) AS max SET tab.isActive = true WHERE tab.id = max.maximo");
+        return res.json({
+            mensaje: 'actualizado',
+        })
+            
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+
+schoolYearCtrl.cambioAnioLectivo = async(req,res)=>{
+    try {
+        const {id,password}= req.body
+        const result = await userModel.findOne({ where: { id: id }, include: { association: 'userAsRole' } });
+        if (password == "" ) {
+            return res.json({
+                mensaje: 'Los campos no pueden estar vacios',
+            })
+        }
+        else if(result === null){
+            return res.json({
+                mensaje: 'id invalido',
+            })
+        }
+        const match = await bcrypt.compare(password,result.password)
+        if(match){
+            res.json({
+                mensaje: 'ok',
+            })
+            await bdSq.query("UPDATE schoolyears AS tab,(SELECT MAX( id ) AS maximo FROM schoolyears ) AS max SET tab.isActive = false WHERE tab.id < max.maximo");
+            await bdSq.query("UPDATE schoolyears AS tab,(SELECT MAX( id ) AS maximo FROM schoolyears ) AS max SET tab.isActive = true WHERE tab.id = max.maximo");
+        }
+        else {
+            res.json({
+                mensaje:'Contraseña incorrecta'
+            })
+        }
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+    
+}
 
 module.exports= schoolYearCtrl

@@ -8,7 +8,7 @@ SchoolYear.init({
     age:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
 }, 
 

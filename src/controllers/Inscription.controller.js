@@ -65,8 +65,6 @@ InscriptionCtrl.actualizarInscription = async (req, res) => {
         if (id === undefined || Inscription === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        password = await bcrypt.hash(password,10)
-        console.log(password)
         await InscriptionModel.update({price,description,idUser,idPeriod},{
             where: {
                 id: id
@@ -91,7 +89,79 @@ InscriptionCtrl.actualizarInscription = async (req, res) => {
     }
 };
 
+InscriptionCtrl.actualizarValorInscription2 = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let {price} = req.body;
+        if (id === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await InscriptionModel.update({price},{
+            where: {
+                id: id
+            }
+        })
+        const user = await InscriptionModel.findOne({ where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'Inscripción no encontrada',
+            })
+        }
+        else {
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
 
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
+InscriptionCtrl.actualizarValorInscription = async (req, res) => {
+    try {
+        //const { id } = req.params;
+        const { price } = req.body;
+        const result = await bdSq.query("UPDATE inscriptions AS tab,(SELECT MAX( id ) AS maximo FROM inscriptions ) AS max SET tab.price =:parametro WHERE tab.id = max.maximo",{replacements:{parametro:`${price}`},type: QueryTypes.SELECT});
+        if (!result) {
+            return res.json({
+                result: 'No hay datos',
+            })
+        }
+        else {
+                res.json({
+                    mensaje: 'actualizado',
+                    result
+                })
+             }
+      
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+InscriptionCtrl.actualizarValorInscription3 = async (req, res) => {
+    try {
+        const { price } = req.params;
+        const result = await bdSq.query("UPDATE inscriptions AS tab,(SELECT MAX( id ) AS maximo FROM inscriptions ) AS max SET tab.price =:parametro WHERE tab.id = max.maximo",{replacements:{parametro:price},type: QueryTypes.SELECT});
+        if (!result) {
+            return res.json({
+
+                result: 'No se actualizo',
+            })
+        }
+        else {
+            res.json({
+                result
+            })
+            }
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
 module.exports= InscriptionCtrl

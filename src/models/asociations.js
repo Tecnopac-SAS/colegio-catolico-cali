@@ -6,6 +6,7 @@ const Grade = require('./grade.model')
 const TuitionType = require('./tuitionType.model');
 const Tuition = require('./tuition.model');
 const Pension = require('./pension.model')
+const recoverPassword = require('./recoverPassword.model')
 
 // Uno a uno
 // Usuario tiene una direccion
@@ -13,6 +14,9 @@ const Pension = require('./pension.model')
 User.belongsTo(Role, { as: "userAsRole", foreignKey: "idRole" });
 // Añade una clave userId a la tabla addresses
 Role.hasMany(User, { as: "rolesAsUser", foreignKey: "idRole" });
+
+recoverPassword.belongsTo(User, { as: "recoverPasswordAsUser", foreignKey: "idUser" });
+User.hasMany(recoverPassword, { as: "userAsrecoverPassword", foreignKey: "idUser" });
 
 Inscription.belongsTo(User, { as: "inscriptionAsUser", foreignKey: "idUser" });
 User.hasMany(Inscription, { as: "userAsInscriptionAsUser", foreignKey: "idUser" });

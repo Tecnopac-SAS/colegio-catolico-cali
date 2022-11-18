@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const router = Router();
-const inscriptionCtrl = require('../controllers/Inscription.controller');
+const inscriptionCtrl = require('../controllers/inscription.controller');
 
 router.get('/listarInscription',inscriptionCtrl.consultarInscriptions);
 router.get('/listarInscription/:id',inscriptionCtrl.consultarInscription);

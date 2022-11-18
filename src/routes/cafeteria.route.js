@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const router = Router();
-const CafeteriaCtrl = require('../controllers/Cafeteria.controller');
+const CafeteriaCtrl = require('../controllers/cafeteria.controller');
 
 router.get('/listarCafeterias',CafeteriaCtrl.consultarCafeterias);
 router.get('/listarCafeteria/:routeName',CafeteriaCtrl.consultarCafeteria);

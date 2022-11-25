@@ -66,37 +66,6 @@ tuitionCtrl.crearTuition = async(req,res)=>{
             password:password
         })
     }
-
-    tuitionCtrl.actualizarTuition = async (req, res) => {
-        try {
-            const { id } = req.params;
-            let {price,description,idUser,idPeriod} = req.body;
-            if (id === undefined || description === undefined) {
-                res.status(400).json({ message: "Bad Request. Please fill all field." });
-            }
-            await inscriptionModel.update({price,description,idUser,idPeriod},{
-                where: {
-                    id: id
-                }
-            })
-            const user = await inscriptionModel.findOne({ where: { id: id } });
-             if(user === null){
-                return res.json({
-                    mensaje: 'Inscripción no encontrada',
-                })
-            }
-            else {
-                res.json({
-                    mensaje: 'ok',
-                    result:user
-                })
-            }
-    
-        } catch (error) {
-            res.status(500);
-            res.send(error.message);
-        }
-    };
 }
 
 module.exports= tuitionCtrl

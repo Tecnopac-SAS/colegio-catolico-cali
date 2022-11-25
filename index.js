@@ -26,6 +26,9 @@ const schoolYearModel = require('./src/models/schoolYear.model')
 const recoverPasswordModel = require('./src/models/recoverPassword.model')
 const attendingManagementsModel = require('./src/models/attendingManagement.model')
 const teacherModel = require('./src/models/teacher.model')
+const studentDatabaseModel = require('./src/models/studentDatabase.model')
+const levelingModel = require('./src/models/leveling.model')
+
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -56,6 +59,8 @@ app.use('/documentosMatricula',require('./src/routes/documentosMatricula.route')
 app.use('/schoolYear',require('./src/routes/schoolYear.route'))
 app.use('/attendingManagements',require('./src/routes/attendingManagements.route'))
 app.use('/teacher',require('./src/routes/teacher.router'))
+app.use('/studentDatabase',require('./src/routes/studentDatabase.route'))
+app.use('/leveling',require('./src/routes/leveling.route'))
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
@@ -85,6 +90,10 @@ documentosMatriculaModel.sync({ alter: true })
 
 schoolYearModel.sync({ alter: true })
 attendingManagementsModel.sync({ alter: true })
+studentDatabaseModel.sync({ alter: true })
 
 teacherModel.sync({ alter: true })
+
+levelingModel.sync({ alter: true })
+
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

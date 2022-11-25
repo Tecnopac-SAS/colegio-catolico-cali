@@ -97,3 +97,7 @@ teacherModel.sync({ alter: true })
 levelingModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
+
+
+console.log(process.env)
+

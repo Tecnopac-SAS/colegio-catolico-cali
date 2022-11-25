@@ -18,6 +18,7 @@ TuitionType.init({
 {
     sequelize,
     modelName: "tuitionType",
+    tableName: 'tuitionTypes'
 });
 
 module.exports = TuitionType;

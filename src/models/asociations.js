@@ -7,6 +7,11 @@ const TuitionType = require('./tuitionType.model');
 const Tuition = require('./tuition.model');
 const Pension = require('./pension.model')
 const recoverPassword = require('./recoverPassword.model')
+const Teacher = require('./teacher.model')
+const Course = require('./courses.model')
+const Extracurricular = require('./extracurricular.model')
+const MediasTecnicas = require('./technical.model')
+
 
 // Uno a uno
 // Usuario tiene una direccion
@@ -26,13 +31,24 @@ Inscription.belongsTo(Period, { as: "inscriptionAsPeriod", foreignKey: "idPeriod
 Period.hasMany(Inscription, { as: "periodAsInscriptionAsUser", foreignKey: "idPeriod" });
 
 
-TuitionType.belongsTo(Grade, { as: "tuitionTypeAsGrade", foreignKey: "idGrade" });
-Grade.hasMany(TuitionType, { as: "gradesAsTuitionType", foreignKey: "idGrade" });
+/*TuitionType.belongsTo(Grade, { as: "tuitionTypeAsGrade", foreignKey: "idGrade" });
+Grade.hasMany(TuitionType, { as: "gradesAsTuitionType", foreignKey: "idGrade" });*/
 
 
-Tuition.belongsTo(TuitionType, { as: "tuitionAsTuitionType", foreignKey: "idTuition" });
-TuitionType.hasMany(Tuition, { as: "tuitionTypeAsTuition", foreignKey: "idTuition" });
+// Tuition.belongsTo(TuitionType, { as: "tuitionAsTuitionType", foreignKey: "idTuition" });
+// TuitionType.hasMany(Tuition, { as: "tuitionTypeAsTuition", foreignKey: "idTuition" });
 
 
-Pension.belongsTo(Grade, { as: "pensionAsGrade", foreignKey: "idGrade" });
-Grade.hasMany(Pension, { as: "gradesAsPension", foreignKey: "idGrade" });
+/*Pension.belongsTo(Grade, { as: "pensionAsGrade", foreignKey: "idGrade" });
+Grade.hasMany(Pension, { as: "gradesAsPension", foreignKey: "idGrade" });*/
+
+
+Course.belongsTo(Teacher, { as: "courseAsTeacher", foreignKey: "idTeacher" });
+Teacher.hasMany(Course, { as: "teacherAsCourse", foreignKey: "idTeacher" });
+
+
+Extracurricular.belongsTo(Teacher, { as: "extracurricularAsTeacher", foreignKey: "idTeacher" });
+Teacher.hasMany(Extracurricular, { as: "teacherAsExtracurricular", foreignKey: "idTeacher" });
+
+MediasTecnicas.belongsTo(Teacher, { as: "mediasTecnicasAsTeacher", foreignKey: "idTeacher" });
+Teacher.hasMany(MediasTecnicas, { as: "teacherAsMediasTecnicas", foreignKey: "idTeacher" });

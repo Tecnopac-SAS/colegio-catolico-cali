@@ -9,7 +9,8 @@ const tuitionCtrl = {};
 tuitionCtrl.consultarTuitions = async(req,res)=>{
     try {
         //const result = await tuitionModel.findAll({ include: [{ association: 'tuitionAsTuitionType' }]});
-        const result = await bdSq.query("SELECT grades.description AS grade,grades.id as idGrade,tuitiontypes.description,tuitiontypes.isActive as isActive,tuitiontypes.price,tuitiontypes.startDate,tuitiontypes.finalDate,tuitiontypes.surcharge,tuitiontypes.id FROM tuitions INNER JOIN tuitiontypes ON tuitions.idTuition = tuitiontypes.id INNER JOIN grades ON tuitiontypes.idGrade = grades.id", { type: QueryTypes.SELECT });
+        const result = await bdSq.query("SELECT tuitiontypes.grade, tuitiontypes.description,tuitiontypes.isActive AS isActive,tuitiontypes.price,tuitiontypes.startDate ,tuitiontypes.finalDate,tuitiontypes.surcharge,tuitiontypes.id FROM tuitions INNER JOIN tuitiontypes ON tuitions.idTuition = tuitiontypes.id", { type: QueryTypes.SELECT });
+       // const result = await tuitionModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -27,7 +28,7 @@ tuitionCtrl.consultarTuitions = async(req,res)=>{
 tuitionCtrl.consultarTuition = async(req,res)=>{
     try {
         const { description } = req.params;
-        const result = await bdSq.query("SELECT grades.description AS grade,grades.id as idGrade,tuitiontypes.description,tuitiontypes.isActive as isActive,tuitiontypes.price,tuitiontypes.startDate,tuitiontypes.finalDate,tuitiontypes.surcharge,tuitiontypes.id FROM tuitions INNER JOIN tuitiontypes ON tuitions.idTuition = tuitiontypes.id INNER JOIN grades ON tuitiontypes.idGrade = grades.id where  tuitiontypes.description LIKE :parametro",{replacements:{parametro:`${description}%`},type: QueryTypes.SELECT});
+        const result = await bdSq.query("SELECT tuitiontypes.description,tuitiontypes.isActive as isActive,tuitiontypes.price,tuitiontypes.startDate,tuitiontypes.finalDate,tuitiontypes.surcharge,tuitiontypes.id FROM tuitions INNER JOIN tuitiontypes ON tuitions.idTuition = tuitiontypes.id   where  tuitiontypes.description LIKE :parametro",{replacements:{parametro:`${description}%`},type: QueryTypes.SELECT});
         res.json({
             status: 200,
             mensaje: 'ok',

@@ -8,7 +8,7 @@ const tuitionTypeCtrl = {};
 
 tuitionTypeCtrl.consultarTuitionType = async(req,res)=>{
     try {
-        const result = await tuitionTypeModel.findAll({ include: { association: 'tuitionTypeAsGrades' } });
+        const result = await tuitionTypeModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -26,7 +26,7 @@ tuitionTypeCtrl.consultarTuitionType = async(req,res)=>{
 tuitionTypeCtrl.consultarTuition = async (req, res) => {
     try {
         const { description } = req.params;
-        const result = await tuitionTypeModel.findAll({include: { association: 'tuitionTypeAsGrade' }, where: { description:{[Op.like]:`${description}%`}}});
+        const result = await tuitionTypeModel.findAll({ where: { description:{[Op.like]:`${description}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -37,10 +37,22 @@ tuitionTypeCtrl.consultarTuition = async (req, res) => {
     }
 };
 
-
+tuitionTypeCtrl.consultarId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await tuitionTypeModel.findOne({ where: { id: id } });
+        res.json({
+            mensaje: 'ok',
+            result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
 tuitionTypeCtrl.crearTuitionType = async(req,res)=>{
-    const {description,price,startDate,finalDate,surcharge,idGrade}= req.body 
+    const {description,price,startDate,finalDate,surcharge,grade}= req.body 
 
      if(description==null){
         res.json({
@@ -49,10 +61,9 @@ tuitionTypeCtrl.crearTuitionType = async(req,res)=>{
     }
     else {
        
-        const data = await tuitionTypeModel.create({description,price,startDate,finalDate,surcharge,idGrade})
+        const data = await tuitionTypeModel.create({description,price,startDate,finalDate,surcharge,grade})
         let idTuition=data.id
         await tuitionModel.create({idTuition})
-        console.log("Prueba " +idTuition)
         res.json({
             mensaje: 'Matricula creada',
         })
@@ -64,11 +75,11 @@ tuitionTypeCtrl.crearTuitionType = async(req,res)=>{
 tuitionTypeCtrl.actualizarTuition = async (req, res) => {
     try {
         const { id } = req.params;
-        let {description,price,surcharge,isActive,idGrade} = req.body;
-        if (id === undefined || description === undefined) {
+        let {grade,startDate,finalDate,price} = req.body;
+        if (id === undefined || price === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await tuitionTypeModel.update({description,price,surcharge,isActive,idGrade},{
+        await tuitionTypeModel.update({grade,startDate,finalDate,price},{
             where: {
                 id: id
             }
@@ -77,6 +88,37 @@ tuitionTypeCtrl.actualizarTuition = async (req, res) => {
          if(user === null){
             return res.json({
                 mensaje: 'Matricula no encontrada',
+            })
+        }
+        else {
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+tuitionTypeCtrl.deshabilitar = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { isActive } = req.body;
+        if (isActive === null) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await tuitionTypeModel.update({isActive},{
+            where: {
+                id: id
+            }
+        })
+        const user = await tuitionTypeModel.findOne({ where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'usuario no encontrado',
             })
         }
         else {

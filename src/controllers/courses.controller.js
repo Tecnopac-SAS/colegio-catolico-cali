@@ -7,7 +7,8 @@ const courseCtrl = {};
 
 courseCtrl.consultarCourses = async(req,res)=>{
     try {
-        const result = await courseModel.findAll();
+        //const result = await courseModel.findAll();
+        const result = await courseModel.findAll({ include: [{ association: 'courseAsTeacher' }]});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -25,7 +26,7 @@ courseCtrl.consultarCourses = async(req,res)=>{
 courseCtrl.consultarCourse = async (req, res) => {
     try {
         const { typeCourse } = req.params;
-        const result = await courseModel.findAll({ where: { typeCourse:{[Op.like]:`${typeCourse}%`}}});
+        const result = await courseModel.findAll({ where: { typeCourse:{[Op.like]:`${typeCourse}%`}}, include: { association: 'courseAsTeacher' }});
         res.json({
             mensaje: 'ok',
             result
@@ -39,7 +40,7 @@ courseCtrl.consultarCourse = async (req, res) => {
 courseCtrl.consultarAsignature = async (req, res) => {
     try {
         const { asignature } = req.params;
-        const result = await courseModel.findAll({ where: { asignature:{[Op.like]:`${asignature}%`}}});
+        const result = await courseModel.findAll({ where: { asignature:{[Op.like]:`${asignature}%`}}, include: { association: 'courseAsTeacher' }});
         res.json({
             mensaje: 'ok',
             result
@@ -65,7 +66,7 @@ courseCtrl.consultarId = async (req, res) => {
 };
 
 courseCtrl.crearCourse = async(req,res)=>{
-    const {asignature,starDate,finalDate,price,teacher,typeCourse}= req.body 
+    const {asignature,starDate,finalDate,price,idTeacher,typeCourse}= req.body 
 
      if(asignature==null){
         res.json({
@@ -74,7 +75,7 @@ courseCtrl.crearCourse = async(req,res)=>{
     }
     else {
        
-        const data = await courseModel.create({asignature,starDate,finalDate,price,teacher,typeCourse})
+        const data = await courseModel.create({asignature,starDate,finalDate,price,idTeacher,typeCourse})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -86,11 +87,11 @@ courseCtrl.crearCourse = async(req,res)=>{
 courseCtrl.actualizarCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        let {asignature,starDate,finalDate,price,teacher,typeCourse,isActive} = req.body;
+        let {asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive} = req.body;
         if (id === undefined || asignature === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await courseModel.update({asignature,starDate,finalDate,price,teacher,typeCourse,isActive},{
+        await courseModel.update({asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive},{
             where: {
                 id: id
             }
@@ -114,4 +115,34 @@ courseCtrl.actualizarCourse = async (req, res) => {
     }
 };
 
+courseCtrl.deshabilitar = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { isActive } = req.body;
+        if (isActive === null) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await courseModel.update({isActive},{
+            where: {
+                id: id
+            }
+        })
+        const user = await courseModel.findOne({ where: { id: id } });
+         if(user === null){
+            return res.json({
+                mensaje: 'usuario no encontrado',
+            })
+        }
+        else {
+            res.json({
+                mensaje: 'ok',
+                result:user
+            })
+        }
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 module.exports= courseCtrl

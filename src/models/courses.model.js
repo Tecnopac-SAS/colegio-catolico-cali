@@ -7,7 +7,6 @@ Courses.init({
     starDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
     price:DataTypes.BIGINT,
-    teacher:DataTypes.STRING,
     typeCourse:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,

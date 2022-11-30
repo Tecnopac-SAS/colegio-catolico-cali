@@ -8,7 +8,6 @@ Technical.init({
     startDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
     price:DataTypes.BIGINT,
-    teacher:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

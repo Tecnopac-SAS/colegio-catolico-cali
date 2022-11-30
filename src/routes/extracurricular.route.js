@@ -7,7 +7,9 @@ const uploadCtrl = require('../controllers/upload.controller');
 router.get('/listarExtracurricular',extracurricularCtrl.consultarExtracurriculares);
 router.post('/crearExtracurricular',uploadCtrl.single('imagen'),extracurricularCtrl.crearExtracurricular);
 router.get('/extracurricular/img/:img',extracurricularCtrl.getImage)
-router.put('/actualizarExtracurricular/:id' ,extracurricularCtrl.actualizarExtracurricular)
+router.get('/listarExtracurricularId/:id',extracurricularCtrl.consultarId);
+router.put('/actualizarExtracurricular/:id',extracurricularCtrl.actualizarExtracurricular)
+router.put('/deshabilitar/:id' ,extracurricularCtrl.deshabilitar)
 
 
 

@@ -7,7 +7,7 @@ const technicalCtrl = {};
 
 technicalCtrl.consultarTechnicals = async(req,res)=>{
     try {
-        const result = await technicalModel.findAll();
+        const result = await technicalModel.findAll({include: { association: 'mediasTecnicasAsTeacher' }});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -25,7 +25,7 @@ technicalCtrl.consultarTechnicals = async(req,res)=>{
 technicalCtrl.consultarTechnical= async (req, res) => {
     try {
         const { course } = req.params;
-        const result = await technicalModel.findAll({ where: { course:{[Op.like]:`${course}%`}}});
+        const result = await technicalModel.findAll({ where: { course:{[Op.like]:`${course}%`}},include: { association: 'mediasTecnicasAsTeacher' }});
         res.json({
             mensaje: 'ok',
             result
@@ -39,7 +39,7 @@ technicalCtrl.consultarTechnical= async (req, res) => {
 technicalCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await technicalModel.findOne({ where: { id: id } });
+        const result = await technicalModel.findOne({ where: { id: id },include: { association: 'mediasTecnicasAsTeacher' } });
         res.json({
             mensaje: 'ok',
             result
@@ -51,7 +51,7 @@ technicalCtrl.consultarId = async (req, res) => {
 };
 
 technicalCtrl.crearTechnical= async(req,res)=>{
-    const {course,startDate,finalDate,price,teacher}= req.body 
+    const {course,startDate,finalDate,price,idTeacher}= req.body 
 
      if(course==null){
         res.json({
@@ -60,7 +60,7 @@ technicalCtrl.crearTechnical= async(req,res)=>{
     }
     else {
        
-        const data = await technicalModel.create({course,startDate,finalDate,price,teacher})
+        const data = await technicalModel.create({course,startDate,finalDate,price,idTeacher})
         res.json({
             mensaje: 'Certificado creado',
         })
@@ -71,11 +71,11 @@ technicalCtrl.crearTechnical= async(req,res)=>{
 technicalCtrl.actualizarTechnical= async (req, res) => {
     try {
         const { id } = req.params;
-        let {course,startDate,finalDate,price,teacher} = req.body;
+        let {course,startDate,finalDate,price,idTeacher} = req.body;
         if (id === undefined || course === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await technicalModel.update({course,startDate,finalDate,price,teacher},{
+        await technicalModel.update({course,startDate,finalDate,price,idTeacher},{
             where: {
                 id: id
             }

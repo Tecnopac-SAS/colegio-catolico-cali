@@ -7,6 +7,7 @@ Pension.init({
     price:DataTypes.BIGINT,
     discount:DataTypes.BIGINT,
     use:DataTypes.STRING,
+    idGrade:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

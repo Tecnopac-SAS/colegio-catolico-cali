@@ -10,7 +10,6 @@ ExtraCurricular.init({
     price:DataTypes.BIGINT,
     information:DataTypes.STRING,
     schedule:DataTypes.STRING,
-    teacher:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

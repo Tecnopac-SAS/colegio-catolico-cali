@@ -8,6 +8,7 @@ TuitionType.init({
     startDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
     surcharge:DataTypes.BIGINT,
+    grade:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

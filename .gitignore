@@ -2,3 +2,4 @@ node_modules
 .eslintrc.yml
 .env
 pm2_log
+.envDelete

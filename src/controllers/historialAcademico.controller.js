@@ -60,8 +60,7 @@ historialAcademicoCtrl.crearhistorialAcademico = async(req,res)=>{
         bachillerato,gradoCursadoBachillerato6,gradoCursadoBachillerato7,
         gradoCursadoBachillerato8,
         anioAnterior,motivoRetiro,
-        repeticionAnio,distincionAcademica,
-        idEstudiante}= req.body 
+        repeticionAnio,distincionAcademica}= req.body 
     if(preescolar==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'

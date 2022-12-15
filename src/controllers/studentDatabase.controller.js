@@ -114,7 +114,7 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
         })
         let idEstudiante=data.id
      
-            const {preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica}= req.body 
+           /* const {preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica}= req.body 
             if(preescolar==""){
                 res.json({
                     mensaje: 'Los campos deben estar diligenciados en su totalidad'
@@ -125,7 +125,7 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
                 res.json({
                     mensaje: 'historial Academico  creado',
                 })
-            }
+            }*/
         
         
         res.json({

@@ -3,6 +3,7 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const studentDatabaseModel = require('../models/studentDatabase.model')
+const historialAcademicoModel = require('../models/historialAcademico.model')
 const studentDatabaseCtrl = {};
 
 studentDatabaseCtrl.consultarStudentDatabases = async(req,res)=>{
@@ -24,8 +25,8 @@ studentDatabaseCtrl.consultarStudentDatabases = async(req,res)=>{
 
 studentDatabaseCtrl.consultarStudentDatabase = async (req, res) => {
     try {
-        const { nombres,tipo } = req.params;
-        const result = await studentDatabaseModel.findAll({ where: { nombres:{[Op.like]:`${nombres}%`}, tipo: tipo}});
+        const { nombres,estadoEstudiante } = req.params;
+        const result = await studentDatabaseModel.findAll({ where: { nombres:{[Op.like]:`${nombres}%`}, estadoEstudiante: estadoEstudiante}});
         res.json({
             mensaje: 'ok',
             result
@@ -38,8 +39,8 @@ studentDatabaseCtrl.consultarStudentDatabase = async (req, res) => {
 
 studentDatabaseCtrl.consultarStudentEstados = async (req, res) => {
     try {
-        const { tipo } = req.params;
-        const result = await studentDatabaseModel.findAll({ where: { tipo:{[Op.like]:`${tipo}%`}} });
+        const { estadoEstudiante } = req.params;
+        const result = await studentDatabaseModel.findAll({ where: { estadoEstudiante:{[Op.like]:`${estadoEstudiante}%`}} });
         res.json({
             mensaje: 'ok',
             result
@@ -82,10 +83,10 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
     telefono,
     correo,
     tipoCupo,
-    tipo
+    estadoEstudiante
     }= req.body 
 
-     if(routeName==null){
+     if(codigo==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
@@ -109,10 +110,26 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
             telefono,
             correo,
             tipoCupo,
-            tipo
+            estadoEstudiante
         })
+        let idEstudiante=data.id
+     
+            const {preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica}= req.body 
+            if(preescolar==""){
+                res.json({
+                    mensaje: 'Los campos deben estar diligenciados en su totalidad'
+                })
+            }
+            else {
+                await historialAcademicoModel.create({preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica,idEstudiante})
+                res.json({
+                    mensaje: 'historial Academico  creado',
+                })
+            }
+        
+        
         res.json({
-            mensaje: 'Curso creado',
+            mensaje: 'Estudiante creado',
         })
     }
 
@@ -138,7 +155,7 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
             telefono,
             correo,
             tipoCupo,
-            tipo
+            estadoEstudiante
         } = req.body;
         if (id === undefined || nombres === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
@@ -160,7 +177,7 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
             telefono,
             correo,
             tipoCupo,
-            tipo
+            estadoEstudiante
         },{
             where: {
                 id: id
@@ -219,11 +236,11 @@ studentDatabaseCtrl.deshabilitar = async (req, res) => {
 studentDatabaseCtrl.cambiarEstado = async (req, res) => {
     try {
         const { id } = req.params;
-        const { tipo } = req.body;
-        if (tipo === null) {
+        const { estadoEstudiante } = req.body;
+        if (estadoEstudiante === null) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await studentDatabaseModel.update({tipo},{
+        await studentDatabaseModel.update({estadoEstudiante},{
             where: {
                 id: id
             }
@@ -249,8 +266,8 @@ studentDatabaseCtrl.cambiarEstado = async (req, res) => {
 
 studentDatabaseCtrl.studentDatabaseCount = async (req, res) => {
     try {
-        const { tipo } = req.params;
-        const result = await bdSq.query("SELECT COUNT(*) as contador FROM studentdatabases where studentdatabases.tipo=:parametro ",{replacements:{parametro:`${tipo}`},type: QueryTypes.SELECT});
+        const { estadoEstudiante } = req.params;
+        const result = await bdSq.query("SELECT COUNT(*) as contador FROM studentdatabases where studentdatabases.estadoEstudiante=:parametro ",{replacements:{parametro:`${estadoEstudiante}`},type: QueryTypes.SELECT});
         if (!result) {
             return res.json({
 

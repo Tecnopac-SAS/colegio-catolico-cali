@@ -19,7 +19,7 @@ StudentDatabase.init({
     telefono:DataTypes.STRING,
     correo:DataTypes.STRING,
     tipoCupo:DataTypes.STRING,
-    tipo:DataTypes.STRING,
+    estadoEstudiante:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

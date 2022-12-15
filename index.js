@@ -28,6 +28,11 @@ const attendingManagementsModel = require('./src/models/attendingManagement.mode
 const teacherModel = require('./src/models/teacher.model')
 const studentDatabaseModel = require('./src/models/studentDatabase.model')
 const levelingModel = require('./src/models/leveling.model')
+const historialAcademicoModel = require('./src/models/historialAcademico.model')
+const aptitudesModel = require('./src/models/aptitudesEstadoFisico.model')
+const padreFamiliaModel = require('./src/models/padreFamilia.model')
+const hermanoModel = require('./src/models/hermanos.model')
+
 
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
@@ -61,6 +66,11 @@ app.use('/attendingManagements',require('./src/routes/attendingManagements.route
 app.use('/teacher',require('./src/routes/teacher.router'))
 app.use('/studentDatabase',require('./src/routes/studentDatabase.route'))
 app.use('/leveling',require('./src/routes/leveling.route'))
+app.use('/historialAcademico',require('./src/routes/historialAcademico.route'))
+app.use('/aptitudes',require('./src/routes/aptitudes.route'))
+app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
+app.use('/hermanos',require('./src/routes/hermanos.route'))
+
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
@@ -95,6 +105,13 @@ studentDatabaseModel.sync({ alter: true })
 teacherModel.sync({ alter: true })
 
 levelingModel.sync({ alter: true })
+
+historialAcademicoModel.sync({ alter: true })
+aptitudesModel.sync({ alter: true })
+
+padreFamiliaModel.sync({ alter: true })
+
+hermanoModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
 

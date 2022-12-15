@@ -11,7 +11,10 @@ const Teacher = require('./teacher.model')
 const Course = require('./courses.model')
 const Extracurricular = require('./extracurricular.model')
 const MediasTecnicas = require('./technical.model')
-
+const Estudiante = require('./studentDatabase.model')
+const HistorialAcademico = require('./historialAcademico.model')
+const Aptitudes = require('./aptitudesEstadoFisico.model')
+const PadreFamilia = require('./padreFamilia.model')
 
 // Uno a uno
 // Usuario tiene una direccion
@@ -52,3 +55,14 @@ Teacher.hasMany(Extracurricular, { as: "teacherAsExtracurricular", foreignKey: "
 
 MediasTecnicas.belongsTo(Teacher, { as: "mediasTecnicasAsTeacher", foreignKey: "idTeacher" });
 Teacher.hasMany(MediasTecnicas, { as: "teacherAsMediasTecnicas", foreignKey: "idTeacher" });
+
+
+// HistorialAcademico.belongsTo(Estudiante, { as: "historialAcademicoAsEstudiante", foreignKey: "idEstudiante" });
+// Estudiante.hasMany(HistorialAcademico, { as: "estudianteAshistorialAcademico", foreignKey: "idEstudiante" });
+
+// Aptitudes.belongsTo(Estudiante, { as: "aptitudesAsEstudiante", foreignKey: "idEstudiante" });
+// Estudiante.hasMany(Aptitudes, { as: "estudianteAsAptitudes", foreignKey: "idEstudiante" });
+
+
+// PadreFamilia.belongsTo(Estudiante, { as: "padreFamiliaAsEstudiante", foreignKey: "idEstudiante" });
+// Estudiante.hasMany(PadreFamilia, { as: "estudianteAsPadreFamilia", foreignKey: "idEstudiante" });

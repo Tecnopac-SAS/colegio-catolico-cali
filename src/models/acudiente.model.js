@@ -1,8 +1,8 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
 
-class PadreFamilia extends Model {}
-PadreFamilia.init({
+class Acudiente extends Model {}
+Acudiente.init({
     parentesco:DataTypes.STRING,
     estado:DataTypes.STRING,
     vive:DataTypes.STRING,
@@ -25,7 +25,7 @@ PadreFamilia.init({
 }, 
 {
     sequelize,
-    modelName: "padreFamilia",
+    modelName: "acudiente",
 });
 
-module.exports = PadreFamilia;
+module.exports = Acudiente;

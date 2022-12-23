@@ -3,6 +3,8 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const padreFamiliaModel = require('../models/padreFamilia.model')
+const acudienteModel = require('../models/acudiente.model')
+const responsableModel = require('../models/responsableFacturacion.model')
 const padreFamiliaCtrl = {};
 
 padreFamiliaCtrl.consultarPadreFamilia = async(req,res)=>{
@@ -52,14 +54,14 @@ padreFamiliaCtrl.consultarId = async (req, res) => {
 };
 
 padreFamiliaCtrl.crearPadreFamilia = async(req,res)=>{
-    const {estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular}= req.body 
+    const {estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
     if(estado==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular})
+        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
         res.json({
             mensaje: 'Padre de familia creado',
         })
@@ -68,20 +70,55 @@ padreFamiliaCtrl.crearPadreFamilia = async(req,res)=>{
 }
 
 padreFamiliaCtrl.crearMadreFamilia = async(req,res)=>{
-    const {estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular}= req.body 
+    const {estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
     if(estado==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular})
+        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
         res.json({
             mensaje: 'Madre de familia creado',
         })
     }
 
 }
+
+padreFamiliaCtrl.crearAcudiente = async(req,res)=>{
+    const {vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
+    if(vive==""){
+        res.json({
+            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+        })
+    }
+    else {
+        await acudienteModel.create({vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
+        res.json({
+            mensaje: 'Acudiente  creado',
+        })
+    }
+
+}
+
+
+
+padreFamiliaCtrl.crearResponsable = async(req,res)=>{
+    const {tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante}= req.body 
+    if(tipoDocumento==""){
+        res.json({
+            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+        })
+    }
+    else {
+        await responsableModel.create({tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante})
+        res.json({
+            mensaje: 'Responsable creado',
+        })
+    }
+
+}
+
 
 
 

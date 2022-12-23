@@ -31,8 +31,10 @@ const levelingModel = require('./src/models/leveling.model')
 const historialAcademicoModel = require('./src/models/historialAcademico.model')
 const aptitudesModel = require('./src/models/aptitudesEstadoFisico.model')
 const padreFamiliaModel = require('./src/models/padreFamilia.model')
+const acudienteModel = require('./src/models/acudiente.model')
+const responsableModel = require('./src/models/responsableFacturacion.model')
 const hermanoModel = require('./src/models/hermanos.model')
-
+const canalReferenciaModel = require('./src/models/canalReferencia.model')
 
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
@@ -70,6 +72,7 @@ app.use('/historialAcademico',require('./src/routes/historialAcademico.route'))
 app.use('/aptitudes',require('./src/routes/aptitudes.route'))
 app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
 app.use('/hermanos',require('./src/routes/hermanos.route'))
+app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
 
 
 roleModel.sync({ alter: true })
@@ -110,8 +113,12 @@ historialAcademicoModel.sync({ alter: true })
 aptitudesModel.sync({ alter: true })
 
 padreFamiliaModel.sync({ alter: true })
+acudienteModel.sync({ alter: true })
+responsableModel.sync({ alter: true })
 
 hermanoModel.sync({ alter: true })
+
+canalReferenciaModel.sync({ alter: true })
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
 

@@ -10,7 +10,7 @@ router.post('/crearStudentDatabase',StudentDatabaseCtrl.crearStudentDatabase);
 router.put('/actualizarStudentDatabase/:id',StudentDatabaseCtrl.actualizarStudentDatabase)
 router.put('/deshabilitar/:id' ,StudentDatabaseCtrl.deshabilitar)
 router.put('/cambiarEstado/:id' ,StudentDatabaseCtrl.cambiarEstado)
-router.get('/contarEstado/:tipo',StudentDatabaseCtrl.studentDatabaseCount);
+router.get('/contarEstado/:estadoEstudiante',StudentDatabaseCtrl.studentDatabaseCount);
 
 
 

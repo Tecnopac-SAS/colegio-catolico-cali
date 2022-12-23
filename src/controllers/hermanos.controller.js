@@ -51,15 +51,15 @@ hermanoCtrl.consultarId = async (req, res) => {
     }
 };
 
-hermanoCtrl.crearHermano = async(req,res)=>{
-    const {nombres,apellidos,nivelEstudio,institucion}= req.body 
+hermanoCtrl.crearHermanos = async(req,res)=>{
+    const {nombres,apellidos,nivelEstudio,institucion,idEstudiante}= req.body 
     if(nombres==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await hermanoModel.create({nombres,apellidos,nivelEstudio,institucion,})
+        await hermanoModel.create({nombres,apellidos,nivelEstudio,institucion,idEstudiante})
         res.json({
             mensaje: 'Hermano creado',
         })
@@ -69,21 +69,26 @@ hermanoCtrl.crearHermano = async(req,res)=>{
 
 
 
-hermanoCtrl.crearHermanos = async(req,res)=>{
+hermanoCtrl.crearHermanos8 = async(req,res)=>{
 
     try {
 
-        let data = req.body;
-               let {nombres}= req.body 
+               let data = req.body;
+               //let {nombres,apellido,nivelEstudio,institucion}= req.body 
                let detalles = data;
-               detalles.forEach( async element => {
+                detalles.forEach( async element => {
+                var detalleHermano = new hermanoModel();
+                detalleHermano.nombres = element.nombres;
+                detalleHermano.apellidos = element.apellidos;
+                detalleHermano.nivelEstudio = element.nivelEstudio;
+                detalleHermano.institucion = element.institucion;
                 console.log("data")
                 console.log(data)
-                console.log(nombres)
+                //console.log(nombres)
                 console.log(element)
           
                 
-            const result =  await hermanoModel.create({ nombres :element.nombres})
+            const result =  await hermanoModel.create({ nombres :element.nombres,apellidos:element.apellidos,nivelEstudio:element.nivelEstudio,institucion:element.institucion})
                 res.json({
                     mensaje: 'ok',
                     result

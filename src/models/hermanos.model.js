@@ -4,9 +4,9 @@ const sequelize = require('../db/databaseSq')
 class Hermano extends Model {}
 Hermano.init({
     nombres:DataTypes.STRING,
-    //apellidos:DataTypes.STRING,
-    //nivelEstudio:DataTypes.STRING,
-    //institucion:DataTypes.STRING,
+    apellidos:DataTypes.STRING,
+    nivelEstudio:DataTypes.STRING,
+    institucion:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

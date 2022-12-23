@@ -1,8 +1,8 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
 
-class StudentDatabase extends Model {}
-StudentDatabase.init({
+class Estudiante extends Model {}
+Estudiante.init({
     codigo:DataTypes.STRING,
     nombres:DataTypes.STRING,
     apellidos:DataTypes.STRING,
@@ -19,7 +19,10 @@ StudentDatabase.init({
     telefono:DataTypes.STRING,
     correo:DataTypes.STRING,
     tipoCupo:DataTypes.STRING,
-    estadoEstudiante:DataTypes.STRING,
+    estadoEstudiante:{
+    type:DataTypes.STRING,
+    defaultValue: "Inscrito",
+    },
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
@@ -27,7 +30,7 @@ StudentDatabase.init({
 }, 
 {
     sequelize,
-    modelName: "studentDatabase",
+    modelName: "estudiante",
 });
 
-module.exports = StudentDatabase;
+module.exports = Estudiante;

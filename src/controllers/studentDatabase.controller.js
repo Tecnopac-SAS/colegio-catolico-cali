@@ -82,8 +82,7 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
     estrato,
     telefono,
     correo,
-    tipoCupo,
-    estadoEstudiante
+    tipoCupo
     }= req.body 
 
      if(codigo==null){
@@ -110,7 +109,6 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
             telefono,
             correo,
             tipoCupo,
-            estadoEstudiante
         })
         let idEstudiante=data.id
      
@@ -130,6 +128,7 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
         
         res.json({
             mensaje: 'Estudiante creado',
+            idEstudiante: idEstudiante,
         })
     }
 
@@ -267,7 +266,7 @@ studentDatabaseCtrl.cambiarEstado = async (req, res) => {
 studentDatabaseCtrl.studentDatabaseCount = async (req, res) => {
     try {
         const { estadoEstudiante } = req.params;
-        const result = await bdSq.query("SELECT COUNT(*) as contador FROM studentdatabases where studentdatabases.estadoEstudiante=:parametro ",{replacements:{parametro:`${estadoEstudiante}`},type: QueryTypes.SELECT});
+        const result = await bdSq.query("SELECT COUNT(*) as contador FROM estudiantes where estudiantes.estadoEstudiante=:parametro ",{replacements:{parametro:`${estadoEstudiante}`},type: QueryTypes.SELECT});
         if (!result) {
             return res.json({
 

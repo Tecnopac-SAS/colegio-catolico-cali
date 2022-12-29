@@ -53,14 +53,14 @@ aptitudesCtrl.consultarId = async (req, res) => {
 
 
 aptitudesCtrl.crearAptitudes = async(req,res)=>{
-    const {deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre}= req.body 
+    const {deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre,idEstudiante}= req.body 
     if(deporteGusto==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await aptitudesModel.create({deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre})
+        await aptitudesModel.create({deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre,idEstudiante})
         res.json({
             mensaje: 'Aptitud creada',
         })

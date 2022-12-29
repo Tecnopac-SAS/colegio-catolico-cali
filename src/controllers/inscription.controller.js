@@ -62,7 +62,7 @@ inscriptionCtrl.actualizarInscription = async (req, res) => {
     try {
         const { id } = req.params;
         let {price,description,idUser,idPeriod} = req.body;
-        if (id === undefined || Inscription === undefined) {
+        if (id === undefined || description === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
         await inscriptionModel.update({price,description,idUser,idPeriod},{

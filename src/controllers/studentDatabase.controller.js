@@ -68,6 +68,7 @@ studentDatabaseCtrl.consultarId = async (req, res) => {
 studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
     const {
     codigo,
+    grado,
     nombres,
     apellidos,
     tipoDocumento,
@@ -94,6 +95,7 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
        
         const data = await studentDatabaseModel.create({
             codigo,
+            grado,
             nombres,
             apellidos,
             tipoDocumento,
@@ -139,6 +141,7 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
         const { id } = req.params;
         let {
             codigo,
+            grado,
             nombres,
             apellidos,
             tipoDocumento,
@@ -161,6 +164,7 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
         }
         await studentDatabaseModel.update({
             codigo,
+            grado,
             nombres,
             apellidos,
             tipoDocumento,

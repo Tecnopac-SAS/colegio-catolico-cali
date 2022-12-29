@@ -3,9 +3,9 @@ const sequelize = require('../db/databaseSq')
 
 class Leveling extends Model {}
 Leveling.init({
-    codigo:DataTypes.STRING,
-    nombres:DataTypes.STRING,
-    apellidos:DataTypes.STRING,
+    //codigo:DataTypes.STRING,
+    //nombres:DataTypes.STRING,
+    //apellidos:DataTypes.STRING,
     modalidadCurso:DataTypes.STRING,
     asignatura:DataTypes.STRING,
     grado:DataTypes.STRING,

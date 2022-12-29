@@ -86,14 +86,14 @@ padreFamiliaCtrl.crearMadreFamilia = async(req,res)=>{
 }
 
 padreFamiliaCtrl.crearAcudiente = async(req,res)=>{
-    const {vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
+    const {parentesco,estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
     if(vive==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await acudienteModel.create({vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
+        await acudienteModel.create({parentesco,estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
         res.json({
             mensaje: 'Acudiente  creado',
         })

@@ -71,11 +71,11 @@ canalReferenciaCtrl.crearCanalReferencia = async(req,res)=>{
 canalReferenciaCtrl.actualizarCanalReferencia = async (req, res) => {
     try {
         const { id } = req.params;
-        let {comoSeEntero,comoSabe,porqueIngresar,nombreAcudiente,aceptaCompromisos,estadoPago} = req.body;
+        let {comoSeEntero,comoSabe,porqueIngresar,nombreAcudiente,aceptaCompromisos,estadoPago,idEstudiante} = req.body;
         if (id === undefined || description === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await canalReferenciaModel.update({comoSeEntero,comoSabe,porqueIngresar,nombreAcudiente,aceptaCompromisos,estadoPago},{
+        await canalReferenciaModel.update({comoSeEntero,comoSabe,porqueIngresar,nombreAcudiente,aceptaCompromisos,estadoPago,idEstudiante},{
             where: {
                 id: id
             }

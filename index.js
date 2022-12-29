@@ -36,6 +36,7 @@ const responsableModel = require('./src/models/responsableFacturacion.model')
 const hermanoModel = require('./src/models/hermanos.model')
 const canalReferenciaModel = require('./src/models/canalReferencia.model')
 
+
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 require('./src/models/asociations');
@@ -73,6 +74,7 @@ app.use('/aptitudes',require('./src/routes/aptitudes.route'))
 app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
 app.use('/hermanos',require('./src/routes/hermanos.route'))
 app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
+
 
 
 roleModel.sync({ alter: true })
@@ -119,6 +121,7 @@ responsableModel.sync({ alter: true })
 hermanoModel.sync({ alter: true })
 
 canalReferenciaModel.sync({ alter: true })
+
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
 

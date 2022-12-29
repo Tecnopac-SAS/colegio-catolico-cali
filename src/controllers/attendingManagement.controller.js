@@ -3,11 +3,12 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const attendingManagementModel = require('../models/attendingManagement.model')
+const acudiente = require('../models/acudiente.model')
 const attendingManagementCtrl = {};
 
 attendingManagementCtrl.consultarAttendingManagements = async(req,res)=>{
     try {
-        const result = await attendingManagementModel.findAll();
+        result = await acudiente.findAll({ include: [{ association: 'acudienteAsEstudiante' }]});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -24,8 +25,8 @@ attendingManagementCtrl.consultarAttendingManagements = async(req,res)=>{
 
 attendingManagementCtrl.consultarAttendingManagement = async (req, res) => {
     try {
-        const { name } = req.params;
-        const result = await attendingManagementModel.findAll({ where: { name:{[Op.like]:`${name}%`}}});
+        const { nombres } = req.params;
+        const result = await acudiente.findAll({ where: { nombres:{[Op.like]:`${nombres}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -39,7 +40,7 @@ attendingManagementCtrl.consultarAttendingManagement = async (req, res) => {
 attendingManagementCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await attendingManagementModel.findOne({ where: { id: id } });
+        const result = await acudiente.findOne({ where: { id: id } });
         res.json({
             mensaje: 'ok',
             result
@@ -50,54 +51,6 @@ attendingManagementCtrl.consultarId = async (req, res) => {
     }
 };
 
-attendingManagementCtrl.crearAttendingManagement = async(req,res)=>{
-    const {description,pay}= req.body 
-
-     if(description==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-       
-        const data = await attendingManagementModel.create({description,pay})
-        res.json({
-            mensaje: 'Curso creado',
-        })
-    }
-
-}
-
-attendingManagementCtrl.actualizarAttendingManagement = async (req, res) => {
-    try {
-        const { id } = req.params;
-        let {description,pay} = req.body;
-        if (id === undefined || description === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        await attendingManagementModel.update({description,pay},{
-            where: {
-                id: id
-            }
-        })
-        const user = await attendingManagementModel.findOne({ where: { id: id } });
-         if(user === null){
-            return res.json({
-                mensaje: 'curso no encontrado',
-            })
-        }
-        else {
-            res.json({
-                mensaje: 'ok',
-                result:user
-            })
-        }
-
-    } catch (error) {
-        res.status(500);
-        res.send(error.message);
-    }
-};
 
 attendingManagementCtrl.deshabilitar = async (req, res) => {
     try {
@@ -106,12 +59,12 @@ attendingManagementCtrl.deshabilitar = async (req, res) => {
         if (isActive === null) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await attendingManagementModel.update({isActive},{
+        await acudiente.update({isActive},{
             where: {
                 id: id
             }
         })
-        const user = await attendingManagementModel.findOne({ where: { id: id } });
+        const user = await acudiente.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
                 mensaje: 'usuario no encontrado',

@@ -4,6 +4,7 @@ const sequelize = require('../db/databaseSq')
 class Estudiante extends Model {}
 Estudiante.init({
     codigo:DataTypes.STRING,
+    grado:DataTypes.STRING,
     nombres:DataTypes.STRING,
     apellidos:DataTypes.STRING,
     tipoDocumento:DataTypes.STRING,
@@ -21,7 +22,7 @@ Estudiante.init({
     tipoCupo:DataTypes.STRING,
     estadoEstudiante:{
     type:DataTypes.STRING,
-    defaultValue: "Inscrito",
+    defaultValue: "Aspirante",
     },
     isActive: {
         type: DataTypes.BOOLEAN,

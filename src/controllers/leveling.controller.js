@@ -3,11 +3,12 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const levelingModel = require('../models/leveling.model')
+const estudianteModel = require('../models/studentDatabase.model')
 const levelingCtrl = {};
 
 levelingCtrl.consultarLevelings = async(req,res)=>{
     try {
-        const result = await levelingModel.findAll();
+        const result = await levelingModel.findAll({include: { association: 'levelingAsEstudiante' }});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -24,17 +25,37 @@ levelingCtrl.consultarLevelings = async(req,res)=>{
 
 levelingCtrl.consultarLeveling = async (req, res) => {
     try {
-        const { codigo } = req.params;
-        const result = await levelingModel.findAll({ where: { codigo:{[Op.like]:`${codigo}%`}}});
+        const {codigo } = req.params;
+        //const result = await bdSq.query("SELECT estudiantes.codigo, estudiantes.nombres,estudiantes.apellidos,levelings.idEstudiante,levelings.asignatura, levelings.estadoAprobado,levelings.grado FROM levelings INNER JOIN estudiantes ON levelings.idEstudiante = estudiantes.id where estudiantes.codigo =:parametro",{replacements:{parametro:`${codigo}`},type: QueryTypes.SELECT});
+        const result = await levelingModel.findAll({where: {'$levelingAsEstudiante.codigo$': codigo },include: { association: 'levelingAsEstudiante' }});
+        //const result = await estudianteModel.findAll({ where: { codigo:{[Op.like]:`${codigo}%`}},include: { association: 'estudianteAsLeveling' }});
         res.json({
             mensaje: 'ok',
-            result
+            result:result
         })
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
+
+levelingCtrl.consultarStudentDatabases = async(req,res)=>{
+    try {
+        const {codigo } = req.params;
+        const result = await estudianteModel.findAll({where: { codigo: codigo } });
+        res.json({
+                status: 200,
+                mensaje: 'ok',
+                result:result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
 
 levelingCtrl.consultarId = async (req, res) => {
     try {
@@ -51,16 +72,16 @@ levelingCtrl.consultarId = async (req, res) => {
 };
 
 levelingCtrl.crearLeveling = async(req,res)=>{
-    const {codigo,nombres,apellidos,modalidadCurso,asignaturaisActive,estadoAprobado,grado}= req.body 
+    const {modalidadCurso,asignatura,isActive,estadoAprobado,grado,idEstudiante}= req.body 
 
-     if(codigo==null){
+     if(modalidadCurso==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
        
-        const data = await levelingModel.create({codigo,nombres,apellidos,modalidadCurso,asignaturaisActive,estadoAprobado,grado})
+        const data = await levelingModel.create({modalidadCurso,asignatura,isActive,estadoAprobado,grado,idEstudiante})
         res.json({
             mensaje: 'Nivelación creada',
         })
@@ -71,11 +92,11 @@ levelingCtrl.crearLeveling = async(req,res)=>{
 levelingCtrl.actualizarLeveling = async (req, res) => {
     try {
         const { id } = req.params;
-        let {codigo,nombres,apellidos,modalidadCurso,asignaturaisActive,estadoAprobado,grado} = req.body;
+        let {modalidadCurso,asignaturaisActive,estadoAprobado,grado,idEstudiante} = req.body;
         if (id === undefined || codigo === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await levelingModel.update({codigo,nombres,apellidos,modalidadCurso,asignaturaisActive,estadoAprobado,grado},{
+        await levelingModel.update({modalidadCurso,asignaturaisActive,estadoAprobado,grado,idEstudiante},{
             where: {
                 id: id
             }

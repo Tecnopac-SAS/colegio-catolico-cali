@@ -3,10 +3,8 @@ const router = Router();
 const AttendingManagementCtrl = require('../controllers/attendingManagement.controller');
 
 router.get('/listarAttendingManagements',AttendingManagementCtrl.consultarAttendingManagements);
-router.get('/listarAttendingManagement/:name',AttendingManagementCtrl.consultarAttendingManagement);
+router.get('/listarAttendingManagement/:nombres',AttendingManagementCtrl.consultarAttendingManagement);
 router.get('/listarAttendingManagementId/:id',AttendingManagementCtrl.consultarId);
-router.post('/crearAttendingManagement',AttendingManagementCtrl.crearAttendingManagement);
-router.put('/actualizarAttendingManagement/:id',AttendingManagementCtrl.actualizarAttendingManagement)
 router.put('/deshabilitar/:id' ,AttendingManagementCtrl.deshabilitar)
 
 

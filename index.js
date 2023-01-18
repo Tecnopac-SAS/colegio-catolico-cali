@@ -76,6 +76,7 @@ app.use('/hermanos',require('./src/routes/hermanos.route'))
 app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
 
 
+teacherModel.sync({ alter: true })
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
@@ -107,7 +108,6 @@ schoolYearModel.sync({ alter: true })
 attendingManagementsModel.sync({ alter: true })
 studentDatabaseModel.sync({ alter: true })
 
-teacherModel.sync({ alter: true })
 
 levelingModel.sync({ alter: true })
 

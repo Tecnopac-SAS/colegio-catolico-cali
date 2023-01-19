@@ -66,21 +66,18 @@ userCtrl.getUser = async (req, res) => {
 
 userCtrl.login = async(req,res)=>{
     try {
-        const {email,password}= req.body
-        const result = await userModel.findOne({ where: { email: email }, include: { association: 'userAsRole' } });
+        const {email,password,tipo}= req.body
+        const result = await userModel.findOne({ where: { email: email, idRole:tipo }, include: { association: 'userAsRole' } }); 
         if (email == "" || password == "" ) {
             return res.json({
                 mensaje: 'Los campos no pueden estar vacios',
             })
             
-        }
-     
-        else if(result === null){
+        }else if(result === null){
             return res.json({
                 mensaje: 'correo invalido',
             })
         }
-
         const match = await bcrypt.compare(password,result.password)
         if(match){
             const token = jwt.sign({id:result.id},config.secret.word)
@@ -97,6 +94,7 @@ userCtrl.login = async(req,res)=>{
                 mensaje:'Contraseña incorrecta'
             })
         }
+
     } catch (error) {
         res.status(500);
         res.send(error.message);

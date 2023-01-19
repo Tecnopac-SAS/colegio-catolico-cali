@@ -74,6 +74,7 @@ app.use('/aptitudes',require('./src/routes/aptitudes.route'))
 app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
 app.use('/hermanos',require('./src/routes/hermanos.route'))
 app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
+app.use('/bolsillo',require('./src/routes/bolsillo.route'))
 
 
 teacherModel.sync({ alter: true })

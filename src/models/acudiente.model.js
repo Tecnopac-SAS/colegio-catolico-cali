@@ -18,6 +18,7 @@ Acudiente.init({
     direccion:DataTypes.STRING,
     telefono:DataTypes.STRING,
     celular:DataTypes.STRING,
+    bolsillo:DataTypes.DOUBLE,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

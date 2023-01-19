@@ -25,6 +25,7 @@ const Leveling = require('./leveling.model');
 // Usuario tiene una direccion
 // añadir una clave foranea userId a la tabla addresses
 User.belongsTo(Role, { as: "userAsRole", foreignKey: "idRole" });
+User.belongsTo(Acudiente, { as: "userAsAcudiente", foreignKey: "idAcudiente" });
 // Añade una clave userId a la tabla addresses
 Role.hasMany(User, { as: "rolesAsUser", foreignKey: "idRole" });
 

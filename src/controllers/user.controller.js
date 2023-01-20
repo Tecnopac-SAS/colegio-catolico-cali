@@ -85,6 +85,7 @@ userCtrl.login = async(req,res)=>{
                 mensaje: 'Bienvenido',
                 id: result.id,
                 nombres: result.name,
+                idAcudiente: result.idAcudiente,
                 idRole: result.userAsRole.role,
                 bolsillo: result.userAsAcudiente.bolsillo,
                 token,

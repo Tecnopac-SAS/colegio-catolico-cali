@@ -9,7 +9,12 @@ acudienteCtrl.actualizarBolsillo = async (req, res) => {
         if (idAcudiente === undefined || cant === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await acudienteModel.update({bolsillo:cant},{
+        acudiente1 = await acudienteModel.findOne({
+            where: {
+                id: idAcudiente
+            }
+        })
+        acudiente = await acudienteModel.update({bolsillo:cant+acudiente1.bolsillo},{
             where: {
                 id: idAcudiente
             }

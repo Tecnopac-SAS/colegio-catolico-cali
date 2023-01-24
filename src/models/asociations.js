@@ -22,6 +22,7 @@ const Hermano = require('./hermanos.model');
 const Leveling = require('./leveling.model');
 
 // Uno a uno
+Estudiante.belongsTo(Grade,{as: "estudianteAsGrade", foreignKey:'idGrade'})
 // Usuario tiene una direccion
 // añadir una clave foranea userId a la tabla addresses
 User.belongsTo(Role, { as: "userAsRole", foreignKey: "idRole" });
@@ -40,8 +41,8 @@ Inscription.belongsTo(Period, { as: "inscriptionAsPeriod", foreignKey: "idPeriod
 Period.hasMany(Inscription, { as: "periodAsInscriptionAsUser", foreignKey: "idPeriod" });
 
 
-/*TuitionType.belongsTo(Grade, { as: "tuitionTypeAsGrade", foreignKey: "idGrade" });
-Grade.hasMany(TuitionType, { as: "gradesAsTuitionType", foreignKey: "idGrade" });*/
+TuitionType.belongsTo(Grade, { as: "matriculaAsGrade", foreignKey: "idGrade" });
+/*Grade.hasMany(TuitionType, { as: "gradesAsTuitionType", foreignKey: "idGrade" });*/
 
 
 // Tuition.belongsTo(TuitionType, { as: "tuitionAsTuitionType", foreignKey: "idTuition" });

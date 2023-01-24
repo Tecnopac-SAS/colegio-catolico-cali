@@ -3,9 +3,59 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const studentDatabaseModel = require('../models/studentDatabase.model')
+const pensionModel = require('../models/pension.model')
+const matriculaModel = require('../models/tuitionType.model')
+const acudienteModel = require('../models/acudiente.model')
+const userModel = require('../models/user.model')
 const historialAcademicoModel = require('../models/historialAcademico.model')
 const studentDatabaseCtrl = {};
 
+studentDatabaseCtrl.getPension = async(req,res)=>{
+    try {
+        const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
+        let user = resultUser.userAsAcudiente
+        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});        
+        const resultPension = await pensionModel.findOne({where:{id:resultStudent.idGrade} });
+
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:resultPension
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
+studentDatabaseCtrl.getMatricula = async(req,res)=>{
+    try {
+        const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
+        let user = resultUser.userAsAcudiente
+        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});        
+        const resultMatricula = await matriculaModel.findOne({where:{id:resultStudent.idGrade} });
+
+        fechaActual =  new Date()
+        fechaInicio =  new Date(resultMatricula.startDate)
+        fechaFin = new Date(resultMatricula.finalDate)
+
+        matriculaValidada= (fechaActual>fechaInicio&&fechaActual<fechaFin)?resultMatricula.price:resultMatricula.surcharge
+
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:matriculaValidada
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
 studentDatabaseCtrl.consultarStudentDatabases = async(req,res)=>{
     try {
         const result = await studentDatabaseModel.findAll();

@@ -78,6 +78,7 @@ app.use('/hermanos',require('./src/routes/hermanos.route'))
 app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
 app.use('/acudiente',require('./src/routes/acudiente.route'))
 app.use('/pagoMatricula',require('./src/routes/pagoMatricula.route'))
+app.use('/pago-pension',require('./src/routes/pensionPago.route'))
 
 
 teacherModel.sync({ alter: true })

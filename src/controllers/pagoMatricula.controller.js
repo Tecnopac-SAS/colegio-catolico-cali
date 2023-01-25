@@ -11,12 +11,12 @@ matriculaCtrl.crearPago = async (req, res) => {
         // return  res.json(req.body)
         fechaPago = new Date()
         const data = await matricula.create({monto,metodoPago,fechaPago,idAcudiente})
-        let mesesArr = {01:'Enero',02:'Febrero',03:'Marzo',04:'Abril',05:'Mayo',06:'Junio',07:'Julio',08:'Agosto',09:'Septiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'}
+        
         let vuelta=0
         for (let index = 05; vuelta < meses; index++) {
             vuelta++
             let indexForm = index.toString().padStart(2, '0')
-            const mes = await pensiones.create({mes: mesesArr[Number(indexForm)],fechaPago:moment().format(`YYYY-${indexForm}-01 h:mm:ss`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
+            const mes = await pensiones.create({fechaPago:moment().format(`YYYY-${indexForm}-01 h:mm:ss`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
             if (index==12) {
                 index=00
             }

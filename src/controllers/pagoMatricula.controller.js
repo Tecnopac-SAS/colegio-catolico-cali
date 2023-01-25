@@ -1,5 +1,6 @@
 const matricula = require('../models/matriculasPagos.model')
 const pensiones = require('../models/pensionMeses.model')
+const moment = require('moment')
 const matriculaCtrl = {};
 
 
@@ -15,7 +16,7 @@ matriculaCtrl.crearPago = async (req, res) => {
         for (let index = 05; vuelta < meses; index++) {
             vuelta++
             let indexForm = index.toString().padStart(2, '0')
-            const mes = await pensiones.create({mes: mesesArr[Number(indexForm)],fechaPago:new Date( `Y-${indexForm}-01`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
+            const mes = await pensiones.create({mes: mesesArr[Number(indexForm)],fechaPago:moment().format(`YYYY-${indexForm}-01 h:mm:ss`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
             if (index==12) {
                 index=00
             }

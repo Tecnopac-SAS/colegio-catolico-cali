@@ -13,7 +13,7 @@ matriculaCtrl.crearPago = async (req, res) => {
         const data = await matricula.create({monto,metodoPago,fechaPago,idAcudiente})
         
         let vuelta=0
-        for (let index = 05; vuelta < meses; index++) {
+        for (let index = 06; vuelta < meses; index++) {
             vuelta++
             let indexForm = index.toString().padStart(2, '0')
             const mes = await pensiones.create({fechaPago:moment().format(`YYYY-${indexForm}-01 h:mm:ss`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
@@ -30,40 +30,29 @@ matriculaCtrl.crearPago = async (req, res) => {
                 mensaje: 'Error al pagar',
             })
         }
-        // if (idAcudiente === undefined || cant === undefined) {
-        //     res.status(400).json({ message: "Bad Request. Please fill all field." });
-        // }
-        // acudiente1 = await matricula.findOne({
-        //     where: {
-        //         id: idAcudiente
-        //     }
-        // })
-        // acudiente = await matricula.update({bolsillo:cant+acudiente1.bolsillo},{
-        //     where: {
-        //         id: idAcudiente
-        //     }
-        // })
-        
-        // res.json({
-        //     mensaje: 'ok'
-        // })
 
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
-matriculaCtrl.getBolsillo = async (req, res) => {
+matriculaCtrl.getPago = async (req, res) => {
     try {
         let {idAcudiente} = req.body;
         if (idAcudiente === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
-        
-        res.json({
-            resp: acudiente.bolsillo
-        })
+        matriculaRes = await matricula.findOne({ where: { idAcudiente} })
+        if (matriculaRes) {
+            res.json({
+                resp: true
+            })
+        }else{
+            res.json({
+                resp: false
+            })
+
+        }
 
     } catch (error) {
         res.status(500);

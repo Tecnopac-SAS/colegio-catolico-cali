@@ -20,8 +20,12 @@ const Responsable = require('./responsableFacturacion.model');
 const CanalReferencia = require('./canalReferencia.model')
 const Hermano = require('./hermanos.model');
 const Leveling = require('./leveling.model');
+const PensionesMeses = require('./pensionMeses.model');
+const MatriculasPagos = require('./matriculasPagos.model');
 
 // Uno a uno
+PensionesMeses.belongsTo(Acudiente, { as: "pensionesMesesAsEstudiante", foreignKey: "idAcudiente" });
+MatriculasPagos.belongsTo(Acudiente, { as: "matriculasPagosAsEstudiante", foreignKey: "idAcudiente" });
 Estudiante.belongsTo(Grade,{as: "estudianteAsGrade", foreignKey:'idGrade'})
 // Usuario tiene una direccion
 // añadir una clave foranea userId a la tabla addresses
@@ -78,6 +82,8 @@ Estudiante.hasMany(PadreFamilia, { as: "estudianteAsPadreFamilia", foreignKey: "
 
 
 Acudiente.belongsTo(Estudiante, { as: "acudienteAsEstudiante", foreignKey: "idEstudiante" });
+
+
 Estudiante.hasMany(Acudiente, { as: "estudianteAsAcudiente", foreignKey: "idEstudiante" });
 
 

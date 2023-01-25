@@ -35,6 +35,8 @@ const acudienteModel = require('./src/models/acudiente.model')
 const responsableModel = require('./src/models/responsableFacturacion.model')
 const hermanoModel = require('./src/models/hermanos.model')
 const canalReferenciaModel = require('./src/models/canalReferencia.model')
+const pensionesMeses = require('./src/models/pensionMeses.model')
+const matriculasPagos = require('./src/models/matriculasPagos.model')
 
 
 const bdSq = require('./src/db/databaseSq')
@@ -75,9 +77,11 @@ app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
 app.use('/hermanos',require('./src/routes/hermanos.route'))
 app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
 app.use('/acudiente',require('./src/routes/acudiente.route'))
+app.use('/pagoMatricula',require('./src/routes/pagoMatricula.route'))
 
 
 teacherModel.sync({ alter: true })
+
 
 roleModel.sync({ alter: true })
 userModel.sync({ alter: true })
@@ -122,6 +126,9 @@ responsableModel.sync({ alter: true })
 hermanoModel.sync({ alter: true })
 
 canalReferenciaModel.sync({ alter: true })
+
+pensionesMeses.sync({ alter: true })
+matriculasPagos.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));

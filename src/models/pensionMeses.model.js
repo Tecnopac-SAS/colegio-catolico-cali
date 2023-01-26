@@ -4,7 +4,7 @@ const sequelize = require('../db/databaseSq')
 class PensionesMeses extends Model {}
 PensionesMeses.init({
     // mes:DataTypes.STRING,
-    fechaPago:DataTypes.DATE,
+    fechaPago:DataTypes.STRING,
     valor:DataTypes.DOUBLE,
     mora:DataTypes.STRING,
     estatus:DataTypes.STRING,

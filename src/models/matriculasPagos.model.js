@@ -5,7 +5,7 @@ class MatriculasPagos extends Model {}
 MatriculasPagos.init({
     monto:DataTypes.DOUBLE,
     metodoPago:DataTypes.STRING,
-    fechaPago:DataTypes.DATE,
+    fechaPago:DataTypes.STRING,
 }, 
 {
     sequelize,

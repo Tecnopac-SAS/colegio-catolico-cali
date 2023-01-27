@@ -12,14 +12,14 @@ documentosMatriculaCtrl.create = async (req, res) => {
         canViewType,
         canViewValue,
     } = req.body
-    const { document } = req.files;
+    const { file } = req.files;
 
     if (title && canViewType) {
         if (canViewType != 'all' && !canViewValue) {
         } else {
-            const fileName = RandomHelper.makeUniq(15) + path.extname(document.name);
+            const fileName = RandomHelper.makeUniq(15) + path.extname(file.name);
             const pathImg = path.join(__dirname, '../') + `/uploads/${fileName}`;
-            document.mv(pathImg);
+            file.mv(pathImg);
 
             const documentoMatricula = await documentosMatriculaModel.create({
                 title,

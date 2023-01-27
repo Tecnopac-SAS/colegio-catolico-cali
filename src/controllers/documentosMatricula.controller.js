@@ -23,7 +23,7 @@ documentosMatriculaCtrl.create = async (req, res) => {
                 title,
                 canViewType,
                 canViewValue,
-                documentUrl: `/uploads/${fileName}`
+                documentUrl: `/${fileName}`
             });
             return res.json({
                 success: true,
@@ -51,6 +51,22 @@ documentosMatriculaCtrl.create = async (req, res) => {
         mensaje: `El campo ${field} es requerido`
     })
 
+}
+
+documentosMatriculaCtrl.getDocuments = async (req, res) => {
+    try {
+        const documentosMatricula = await documentosMatriculaModel.findAll();
+
+        documentosMatricula.map(documento => {
+            return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
+        })
+
+
+        return res.json(documentosMatricula)
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 }
 /*
 documentosMatriculaCtrl.consultarDocumentosMatriculas = async (req, res) => {

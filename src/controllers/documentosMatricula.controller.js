@@ -64,6 +64,9 @@ documentosMatriculaCtrl.getDocuments = async (req, res) => {
             //Get documents by Grade, code or all
             const documentosMatricula = await documentosMatriculaModel.findAll({
                 where: {
+                    [Op.and]: [
+                        { isActive: true },
+                    ],
                     [Op.or]: [
                         { canViewType: 'all' },
                         { canViewType: 'grade', canViewValue: student.idGrade },

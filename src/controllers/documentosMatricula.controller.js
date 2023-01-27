@@ -1,8 +1,10 @@
 const documentosMatriculaCtrl = {};
 const path = require('path');
+const { Op } = require('sequelize');
 const RandomHelper = require('../helpers/random');
 
 const documentosMatriculaModel = require('../models/documentosMatricula.model');
+const EstudianteModel = require('../models/studentDatabase.model');
 
 documentosMatriculaCtrl.create = async (req, res) => {
     const {
@@ -54,15 +56,32 @@ documentosMatriculaCtrl.create = async (req, res) => {
 }
 
 documentosMatriculaCtrl.getDocuments = async (req, res) => {
+    const { studentId } = req.params;
     try {
-        const documentosMatricula = await documentosMatriculaModel.findAll();
-
-        documentosMatricula.map(documento => {
-            return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
-        })
-
-
-        return res.json(documentosMatricula)
+        // Get student
+        const student = await EstudianteModel.findOne({ where: { id: studentId } });
+        if (student) {
+            //Get documents by Grade, code or all
+            const documentosMatricula = await documentosMatriculaModel.findAll({
+                where: {
+                    [Op.or]: [
+                        { canViewType: 'all' },
+                        { canViewType: 'grade', canViewValue: student.idGrade },
+                        { canViewType: 'student', canViewValue: student.id }
+                    ]
+                }
+            });
+            //Add host to documentUrl
+            documentosMatricula.map(documento => {
+                return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
+            })
+            return res.json(documentosMatricula)
+        } else {
+            return res.json({
+                success: false,
+                mensaje: 'Estudiante no encontrado'
+            })
+        }
 
     } catch (error) {
         res.status(500).send(error.message);

@@ -109,7 +109,7 @@ documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
                     [Op.or]: [
                         { canViewType: 'all' },
                         { canViewType: 'grade', canViewValue: student.idGrade },
-                        { canViewType: 'student', canViewValue: student.id }
+                        { canViewType: 'student', canViewValue: student.codigo }
                     ]
                 }
             });

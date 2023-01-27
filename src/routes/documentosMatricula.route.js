@@ -5,6 +5,7 @@ const DocumentosMatriculaCtrl = require('../controllers/documentosMatricula.cont
 
 router.post('/', DocumentosMatriculaCtrl.create);
 router.get('/student/:studentId', DocumentosMatriculaCtrl.getDocuments);
+router.put('/:id', DocumentosMatriculaCtrl.update);
 
 /* router.get('/listarDocumentosMatriculas',DocumentosMatriculaCtrl.consultarDocumentosMatriculas);
 router.get('/listarDocumentosMatricula/:name',DocumentosMatriculaCtrl.consultarDocumentosMatricula);

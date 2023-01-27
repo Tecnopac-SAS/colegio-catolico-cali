@@ -90,6 +90,38 @@ documentosMatriculaCtrl.getDocuments = async (req, res) => {
         res.status(500).send(error.message);
     }
 }
+
+documentosMatriculaCtrl.update = async (req, res) => {
+    const { isActive } = req.body;
+    const { id } = req.params;
+    try {
+        const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
+        console.log({ documentoMatricula });
+        if (documentoMatricula) {
+            if (typeof isActive === 'boolean') {
+                documentoMatricula.isActive = isActive;
+                await documentoMatricula.save();
+                return res.json({
+                    success: true,
+                    mensaje: 'Documento actualizado',
+                    documentoMatricula
+                })
+            } else {
+                return res.json({
+                    success: false,
+                    mensaje: 'El campo isActive es requerido y debe ser un valor booleano'
+                })
+            }
+        } else {
+            return res.json({
+                success: false,
+                mensaje: 'Documento no encontrado'
+            })
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 /*
 documentosMatriculaCtrl.consultarDocumentosMatriculas = async (req, res) => {
     try {

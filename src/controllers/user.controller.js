@@ -81,15 +81,26 @@ userCtrl.login = async(req,res)=>{
         const match = await bcrypt.compare(password,result.password)
         if(match){
             const token = jwt.sign({id:result.id},config.secret.word)
-            res.json({
-                mensaje: 'Bienvenido',
-                id: result.id,
-                nombres: result.name,
-                idAcudiente: result.idAcudiente,
-                idRole: result.userAsRole.role,
-                bolsillo: result.userAsAcudiente.bolsillo,
-                token,
-            })
+            if (result.idRole!=1) {
+                res.json({
+                    mensaje: 'Bienvenido',
+                    id: result.id,
+                    nombres: result.name,
+                    idAcudiente: result.idAcudiente,
+                    idRole: result.userAsRole.role,
+                    bolsillo: result.userAsAcudiente.bolsillo,
+                    token,
+                })
+            }else{
+                res.json({
+                    mensaje: 'Bienvenido',
+                    id: result.id,
+                    nombres: result.name,
+                    idAcudiente: result.idAcudiente,
+                    idRole: result.userAsRole.role,
+                    token,
+                })
+            }
         }
         else {
             res.json({

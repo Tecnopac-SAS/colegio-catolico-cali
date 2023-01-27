@@ -56,6 +56,29 @@ documentosMatriculaCtrl.create = async (req, res) => {
 
 }
 
+documentosMatriculaCtrl.getDocumentByID = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
+        if (documentoMatricula) {
+            return res.json({
+                result: {
+                    ...documentoMatricula.toJSON(),
+                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                }
+            })
+        } else {
+            return res.json({
+                success: false,
+                mensaje: 'Documento no encontrado'
+            })
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+
+}
+
 documentosMatriculaCtrl.getDocuments = async (req, res) => {
     try {
         const documentosMatricula = await documentosMatriculaModel.findAll();

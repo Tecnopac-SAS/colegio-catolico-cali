@@ -3,15 +3,17 @@ require('dotenv').config()
 const config = require('./config')
 const express = require('express');
 const app = express();
+const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
-const bodyParser= require('body-parser');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const userModel = require('.//src/models/user.model')
 const roleModel = require('.//src/models/role.model')
 const periodModel = require('./src/models/period.model')
 const inscriptionModel = require('./src/models/inscription.model')
 const gradesModel = require('./src/models/grade.model')
-const tuitionModel= require('./src/models/tuition.model')
+const tuitionModel = require('./src/models/tuition.model')
 const tuitionTypeModel = require('./src/models/tuitionType.model')
 const extracurricularModel = require('./src/models/extracurricular.model')
 const pensionModel = require('./src/models/pension.model')
@@ -45,40 +47,41 @@ require('./src/models/asociations');
 
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({origen:'*'}));
-
+app.use(cors({ origen: '*' }));
+app.use(fileUpload());
+app.use(express.static(path.join(__dirname, 'src/uploads')));
 //Rutas
-app.use('/user',require('./src/routes/user.route'))
-app.use('/role',require('./src/routes/role.route'))
-app.use('/inscription',require('./src/routes/inscription.route'))
-app.use('/period',require('./src/routes/period.route'))
-app.use('/grades',require('./src/routes/grades.route'))
-app.use('/tuition',require('./src/routes/tuition.route'))
-app.use('/tuitionType',require('./src/routes/tuitionType.route'))
-app.use('/extracurricular',require('./src/routes/extracurricular.route'))
-app.use('/pension',require('./src/routes/pension.route'))
-app.use('/course',require('./src/routes/course.route'))
-app.use('/transportation',require('./src/routes/transportation.route'))
-app.use('/cafeteria',require('./src/routes/cafeteria.route'))
-app.use('/discount',require('./src/routes/discount.route'))
-app.use('/certificate',require('./src/routes/certificate.route'))
-app.use('/technical',require('./src/routes/technical.route'))
-app.use('/documentosMatricula',require('./src/routes/documentosMatricula.route'))
-app.use('/schoolYear',require('./src/routes/schoolYear.route'))
-app.use('/attendingManagements',require('./src/routes/attendingManagements.route'))
-app.use('/teacher',require('./src/routes/teacher.router'))
-app.use('/studentDatabase',require('./src/routes/studentDatabase.route'))
-app.use('/leveling',require('./src/routes/leveling.route'))
-app.use('/historialAcademico',require('./src/routes/historialAcademico.route'))
-app.use('/aptitudes',require('./src/routes/aptitudes.route'))
-app.use('/padres-familia',require('./src/routes/padreFamilia.route'))
-app.use('/hermanos',require('./src/routes/hermanos.route'))
-app.use('/canalReferencia',require('./src/routes/canalReferencia.route'))
-app.use('/acudiente',require('./src/routes/acudiente.route'))
-app.use('/pagoMatricula',require('./src/routes/pagoMatricula.route'))
-app.use('/pago-pension',require('./src/routes/pensionPago.route'))
+app.use('/user', require('./src/routes/user.route'))
+app.use('/role', require('./src/routes/role.route'))
+app.use('/inscription', require('./src/routes/inscription.route'))
+app.use('/period', require('./src/routes/period.route'))
+app.use('/grades', require('./src/routes/grades.route'))
+app.use('/tuition', require('./src/routes/tuition.route'))
+app.use('/tuitionType', require('./src/routes/tuitionType.route'))
+app.use('/extracurricular', require('./src/routes/extracurricular.route'))
+app.use('/pension', require('./src/routes/pension.route'))
+app.use('/course', require('./src/routes/course.route'))
+app.use('/transportation', require('./src/routes/transportation.route'))
+app.use('/cafeteria', require('./src/routes/cafeteria.route'))
+app.use('/discount', require('./src/routes/discount.route'))
+app.use('/certificate', require('./src/routes/certificate.route'))
+app.use('/technical', require('./src/routes/technical.route'))
+app.use('/documentosMatricula', require('./src/routes/documentosMatricula.route'))
+app.use('/schoolYear', require('./src/routes/schoolYear.route'))
+app.use('/attendingManagements', require('./src/routes/attendingManagements.route'))
+app.use('/teacher', require('./src/routes/teacher.router'))
+app.use('/studentDatabase', require('./src/routes/studentDatabase.route'))
+app.use('/leveling', require('./src/routes/leveling.route'))
+app.use('/historialAcademico', require('./src/routes/historialAcademico.route'))
+app.use('/aptitudes', require('./src/routes/aptitudes.route'))
+app.use('/padres-familia', require('./src/routes/padreFamilia.route'))
+app.use('/hermanos', require('./src/routes/hermanos.route'))
+app.use('/canalReferencia', require('./src/routes/canalReferencia.route'))
+app.use('/acudiente', require('./src/routes/acudiente.route'))
+app.use('/pagoMatricula', require('./src/routes/pagoMatricula.route'))
+app.use('/pago-pension', require('./src/routes/pensionPago.route'))
 
 
 teacherModel.sync({ alter: true })
@@ -132,7 +135,7 @@ pensionesMeses.sync({ alter: true })
 matriculasPagos.sync({ alter: true })
 
 
-app.listen(config.app.port || 3000,()=>console.log(`listen on server: ${config.app.port}`));
+app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));
 
 
 console.log(process.env)

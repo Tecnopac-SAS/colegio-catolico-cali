@@ -3,3 +3,4 @@ node_modules
 .env
 pm2_log
 .envDelete
+src/uploads/*

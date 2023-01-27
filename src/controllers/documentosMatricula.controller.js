@@ -58,9 +58,7 @@ documentosMatriculaCtrl.create = async (req, res) => {
 
 documentosMatriculaCtrl.getDocuments = async (req, res) => {
     try {
-        const documentosMatricula = await documentosMatriculaModel.findAll({
-            where: { isActive: true }
-        });
+        const documentosMatricula = await documentosMatriculaModel.findAll();
         //Add host to documentUrl
         documentosMatricula.map(documento => {
             return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;

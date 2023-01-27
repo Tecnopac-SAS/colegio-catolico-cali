@@ -1,7 +1,7 @@
 const documentosMatriculaCtrl = {};
-const path = require('path');
 const { Op } = require('sequelize');
-const RandomHelper = require('../helpers/random');
+const { storeFile } = require('../helpers/files');
+
 
 const documentosMatriculaModel = require('../models/documentosMatricula.model');
 const EstudianteModel = require('../models/studentDatabase.model');
@@ -17,20 +17,21 @@ documentosMatriculaCtrl.create = async (req, res) => {
     if (title && canViewType) {
         if (canViewType != 'all' && !canViewValue) {
         } else {
-            const fileName = RandomHelper.makeUniq(15) + path.extname(file.name);
-            const pathImg = path.join(__dirname, '../') + `/uploads/${fileName}`;
-            file.mv(pathImg);
+            const fileName = storeFile(file);
 
             const documentoMatricula = await documentosMatriculaModel.create({
                 title,
                 canViewType,
                 canViewValue,
-                documentUrl: `/${fileName}`
+                documentUrl: fileName
             });
             return res.json({
                 success: true,
                 mensaje: 'documento creado',
-                documentoMatricula
+                documentoMatricula: {
+                    ...documentoMatricula.toJSON(),
+                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                }
             })
         }
     }
@@ -56,6 +57,21 @@ documentosMatriculaCtrl.create = async (req, res) => {
 }
 
 documentosMatriculaCtrl.getDocuments = async (req, res) => {
+    try {
+        const documentosMatricula = await documentosMatriculaModel.findAll({
+            where: { isActive: true }
+        });
+        //Add host to documentUrl
+        documentosMatricula.map(documento => {
+            return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
+        })
+        return res.json(documentosMatricula)
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
     const { studentId } = req.params;
     try {
         // Get student
@@ -92,19 +108,39 @@ documentosMatriculaCtrl.getDocuments = async (req, res) => {
 }
 
 documentosMatriculaCtrl.update = async (req, res) => {
-    const { isActive } = req.body;
+    const { isActive, title, canViewType, canViewValue, } = req.body;
     const { id } = req.params;
     try {
         const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
-        console.log({ documentoMatricula });
         if (documentoMatricula) {
-            if (typeof isActive === 'boolean') {
+            if (isActive != undefined) {
                 documentoMatricula.isActive = isActive;
+                if (title) {
+                    documentoMatricula.title = title;
+                }
+                if (canViewType) {
+                    documentoMatricula.canViewType = canViewType;
+                }
+                if (canViewValue) {
+                    if (canViewType === 'all') {
+                        documentoMatricula.canViewValue = null;
+                    } else {
+                        documentoMatricula.canViewValue = canViewValue;
+                    }
+                }
+                if (req.files?.file) {
+                    const { file } = req.files;
+                    const fileName = storeFile(file);
+                    documentoMatricula.documentUrl = fileName;
+                }
                 await documentoMatricula.save();
                 return res.json({
                     success: true,
                     mensaje: 'Documento actualizado',
-                    documentoMatricula
+                    documentoMatricula: {
+                        ...documentoMatricula.toJSON(),
+                        documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                    }
                 })
             } else {
                 return res.json({
@@ -139,11 +175,11 @@ documentosMatriculaCtrl.consultarDocumentosMatriculas = async (req, res) => {
         })
     }
 }
-
+ 
 documentosMatriculaCtrl.consultarDocumentosMatricula = async (req, res) => {
     try {
         const { name } = req.params;
-        const result = await documentosMatriculaModel.findAll({ where: { name: { [Op.like]: `${name}%` } } });
+        const result = await documentosMatriculaModel.findAll({ where: { name: { [Op.like]: `${ name } % ` } } });
         res.json({
             mensaje: 'ok',
             result
@@ -166,9 +202,9 @@ documentosMatriculaCtrl.consultarId = async (req, res) => {
         res.send(error.message);
     }
 };
-
-
-
+ 
+ 
+ 
 documentosMatriculaCtrl.actualizarDocumentosMatricula = async (req, res) => {
     try {
         const { id } = req.params;
@@ -193,13 +229,13 @@ documentosMatriculaCtrl.actualizarDocumentosMatricula = async (req, res) => {
                 result: user
             })
         }
-
+ 
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
-
+ 
 documentosMatriculaCtrl.deshabilitar = async (req, res) => {
     try {
         const { id } = req.params;
@@ -224,12 +260,12 @@ documentosMatriculaCtrl.deshabilitar = async (req, res) => {
                 result: user
             })
         }
-
+ 
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
-
+ 
 */
 module.exports = documentosMatriculaCtrl

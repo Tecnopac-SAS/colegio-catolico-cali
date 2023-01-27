@@ -136,41 +136,36 @@ documentosMatriculaCtrl.update = async (req, res) => {
     try {
         const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
         if (documentoMatricula) {
-            if (isActive != undefined) {
+            if (isActive !== undefined) {
                 documentoMatricula.isActive = isActive;
-                if (title) {
-                    documentoMatricula.title = title;
-                }
-                if (canViewType) {
-                    documentoMatricula.canViewType = canViewType;
-                }
-                if (canViewValue) {
-                    if (canViewType === 'all') {
-                        documentoMatricula.canViewValue = null;
-                    } else {
-                        documentoMatricula.canViewValue = canViewValue;
-                    }
-                }
-                if (req.files?.file) {
-                    const { file } = req.files;
-                    const fileName = storeFile(file);
-                    documentoMatricula.documentUrl = fileName;
-                }
-                await documentoMatricula.save();
-                return res.json({
-                    success: true,
-                    mensaje: 'Documento actualizado',
-                    documentoMatricula: {
-                        ...documentoMatricula.toJSON(),
-                        documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
-                    }
-                })
-            } else {
-                return res.json({
-                    success: false,
-                    mensaje: 'El campo isActive es requerido y debe ser un valor booleano'
-                })
             }
+            if (title) {
+                documentoMatricula.title = title;
+            }
+            if (canViewType) {
+                documentoMatricula.canViewType = canViewType;
+            }
+            if (canViewValue) {
+                if (canViewType === 'all') {
+                    documentoMatricula.canViewValue = null;
+                } else {
+                    documentoMatricula.canViewValue = canViewValue;
+                }
+            }
+            if (req.files?.file) {
+                const { file } = req.files;
+                const fileName = storeFile(file);
+                documentoMatricula.documentUrl = fileName;
+            }
+            await documentoMatricula.save();
+            return res.json({
+                success: true,
+                mensaje: 'Documento actualizado',
+                documentoMatricula: {
+                    ...documentoMatricula.toJSON(),
+                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                }
+            })
         } else {
             return res.json({
                 success: false,

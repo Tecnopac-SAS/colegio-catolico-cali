@@ -62,6 +62,8 @@ documentosMatriculaCtrl.getDocumentByID = async (req, res) => {
         const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
         if (documentoMatricula) {
             return res.json({
+                success: true,
+                mensaje: 'Documento encontrado',
                 result: {
                     ...documentoMatricula.toJSON(),
                     documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`

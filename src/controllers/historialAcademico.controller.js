@@ -3,6 +3,9 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const historialAcademicoModel = require('../models/historialAcademico.model')
+const histPreescolarModel = require('../models/histPreescolar.model')
+const histPrimariaModel = require('../models/histPrimaria.model')
+const histBachilleratoModel = require('../models/histBachillerato.model')
 const historialAcademicoCtrl = {};
 
 historialAcademicoCtrl.consultarhistorialAcademicoes = async(req,res)=>{
@@ -52,29 +55,70 @@ historialAcademicoCtrl.consultarId = async (req, res) => {
 };
 
 historialAcademicoCtrl.crearhistorialAcademico = async(req,res)=>{
-    const {preescolar,
-        gradoCursadoPreescolar,gradoCursadoJardin,
-        gradoCursadoTransicion,primaria,gradoCursadoPrimaria1,
-        gradoCursadoPrimaria2,gradoCursadoPrimaria3,
-        gradoCursadoPrimaria4,gradoCursadoPrimaria5,
-        bachillerato,gradoCursadoBachillerato6,gradoCursadoBachillerato7,
-        gradoCursadoBachillerato8,
-        anioAnterior,motivoRetiro,
-        repeticionAnio,distincionAcademica,idEstudiante}= req.body 
+    const {
+        preescolar,
+        // gradoCursadoPreescolar,
+        // gradoCursadoJardin,
+        // gradoCursadoTransicion,
+        primaria,
+        // gradoCursadoPrimaria1,
+        // gradoCursadoPrimaria2,
+        // gradoCursadoPrimaria3,
+        // gradoCursadoPrimaria4,
+        // gradoCursadoPrimaria5,
+        bachillerato,
+        // gradoCursadoBachillerato6,
+        // gradoCursadoBachillerato7,
+        // gradoCursadoBachillerato8,
+        anioAnterior,
+        motivoRetiro,
+        repeticionAnio,
+        distincionAcademica,
+        idEstudiante}= req.body 
     if(preescolar==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
-    }
+    }    
     else {
-        await historialAcademicoModel.create({preescolar, gradoCursadoPreescolar,gradoCursadoJardin,
-            gradoCursadoTransicion,primaria,gradoCursadoPrimaria1,
-            gradoCursadoPrimaria2,gradoCursadoPrimaria3,
-            gradoCursadoPrimaria4,gradoCursadoPrimaria5,
-            bachillerato,gradoCursadoBachillerato6,gradoCursadoBachillerato7,
-            gradoCursadoBachillerato8,
-            anioAnterior,motivoRetiro,
-            repeticionAnio,distincionAcademica,idEstudiante})
+        preescolar.forEach(async(element) => {
+            await histPreescolarModel.create({
+                nombre:element.nombre,
+                gradoCursadoPreescolar:(element.gradoCursadoPreescolar==true||element.gradoCursadoPreescolar == "true")?true:false,
+                gradoCursadoJardin:(element.gradoCursadoJardin==true||element.gradoCursadoJardin == "true")?true:false,
+                gradoCursadoTransicion:(element.gradoCursadoTransicion==true||element.gradoCursadoTransicion == "true")?true:false,
+                idEstudiante:'1'
+            })
+            
+        });
+        primaria.forEach(async(element) => {
+            await histPrimariaModel.create({
+                nombre:element.nombre,
+                gradoCursadoPrimaria1:(element.gradoCursadoPrimaria1==true||element.gradoCursadoPrimaria1 == "true")?true:false,
+                gradoCursadoPrimaria2:(element.gradoCursadoPrimaria2==true||element.gradoCursadoPrimaria2 == "true")?true:false,
+                gradoCursadoPrimaria3:(element.gradoCursadoPrimaria3==true||element.gradoCursadoPrimaria3 == "true")?true:false,
+                gradoCursadoPrimaria4:(element.gradoCursadoPrimaria4==true||element.gradoCursadoPrimaria4 == "true")?true:false,
+                gradoCursadoPrimaria5:(element.gradoCursadoPrimaria5==true||element.gradoCursadoPrimaria5 == "true")?true:false,
+                idEstudiante:'1'
+            })
+            
+        });
+        bachillerato.forEach(async(element) => {
+            await histBachilleratoModel.create({
+                nombre:element.nombre,
+                gradoCursadoBachillerato6:(element.gradoCursadoBachillerato6==true||element.gradoCursadoBachillerato6 == "true")?true:false,
+                gradoCursadoBachillerato7:(element.gradoCursadoBachillerato7==true||element.gradoCursadoBachillerato7 == "true")?true:false,
+                gradoCursadoBachillerato8:(element.gradoCursadoBachillerato8==true||element.gradoCursadoBachillerato8 == "true")?true:false,
+                idEstudiante:'1'
+            })
+            
+        });
+        await historialAcademicoModel.create({
+            anioAnterior,
+            motivoRetiro,
+            repeticionAnio,
+            distincionAcademica,
+            idEstudiante})
         res.json({
             mensaje: 'historial Academico  creado',
         })

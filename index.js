@@ -39,6 +39,9 @@ const hermanoModel = require('./src/models/hermanos.model')
 const canalReferenciaModel = require('./src/models/canalReferencia.model')
 const pensionesMeses = require('./src/models/pensionMeses.model')
 const matriculasPagos = require('./src/models/matriculasPagos.model')
+const histPreescolar = require('./src/models/histPreescolar.model')
+const histPrimaria = require('./src/models/histPrimaria.model')
+const histBachillerato = require('./src/models/histBachillerato.model')
 
 
 const bdSq = require('./src/db/databaseSq')
@@ -133,6 +136,9 @@ canalReferenciaModel.sync({ alter: true })
 
 pensionesMeses.sync({ alter: true })
 matriculasPagos.sync({ alter: true })
+histPreescolar.sync({ alter: true })
+histPrimaria.sync({ alter: true })
+histBachillerato.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

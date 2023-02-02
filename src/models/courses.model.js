@@ -6,8 +6,11 @@ Courses.init({
     asignature:DataTypes.STRING,
     starDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
+    starHour:DataTypes.STRING,
+    finalHour:DataTypes.STRING,
     price:DataTypes.BIGINT,
     typeCourse:DataTypes.STRING,
+    description:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

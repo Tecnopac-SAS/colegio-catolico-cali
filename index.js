@@ -42,6 +42,7 @@ const matriculasPagos = require('./src/models/matriculasPagos.model')
 const histPreescolar = require('./src/models/histPreescolar.model')
 const histPrimaria = require('./src/models/histPrimaria.model')
 const histBachillerato = require('./src/models/histBachillerato.model')
+const coursesInscription = require('./src/models/coursesInscription.model')
 
 
 const bdSq = require('./src/db/databaseSq')
@@ -139,6 +140,7 @@ matriculasPagos.sync({ alter: true })
 histPreescolar.sync({ alter: true })
 histPrimaria.sync({ alter: true })
 histBachillerato.sync({ alter: true })
+coursesInscription.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

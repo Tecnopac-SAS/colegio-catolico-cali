@@ -9,6 +9,7 @@ router.get('/listarAsignatureId/:id',CourseCtrl.consultarId);
 router.post('/crearCourse',CourseCtrl.crearCourse);
 router.put('/actualizarCourse/:id',CourseCtrl.actualizarCourse)
 router.put('/deshabilitar/:id' ,CourseCtrl.deshabilitar)
+router.post('/pago',CourseCtrl.pago);
 
 
 

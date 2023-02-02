@@ -22,8 +22,12 @@ const Hermano = require('./hermanos.model');
 const Leveling = require('./leveling.model');
 const PensionesMeses = require('./pensionMeses.model');
 const MatriculasPagos = require('./matriculasPagos.model');
+const CoursesInscription = require('./coursesInscription.model');
 
 // Uno a uno
+CoursesInscription.belongsTo(Estudiante, { as: "coursesInscriptionAsEstudiante", foreignKey: "idEstudiante" });
+CoursesInscription.belongsTo(Course, { as: "coursesInscriptionAsCourse", foreignKey: "idCourse" });
+
 PensionesMeses.belongsTo(Acudiente, { as: "pensionesMesesAsEstudiante", foreignKey: "idAcudiente" });
 MatriculasPagos.belongsTo(Acudiente, { as: "matriculasPagosAsEstudiante", foreignKey: "idAcudiente" });
 Estudiante.belongsTo(Grade,{as: "estudianteAsGrade", foreignKey:'idGrade'})

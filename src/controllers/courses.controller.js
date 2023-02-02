@@ -3,6 +3,7 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const courseModel = require('../models/courses.model')
+const coursesInscription = require('../models/coursesInscription.model')
 const courseCtrl = {};
 
 courseCtrl.consultarCourses = async(req,res)=>{
@@ -145,4 +146,49 @@ courseCtrl.deshabilitar = async (req, res) => {
         res.send(error.message);
     }
 };
+
+courseCtrl.pago = async(req,res)=>{
+    const {monto,idCourse,metodoPago,idEstudiante}= req.body 
+
+     if(idCourse==null){
+        res.json({
+            mensaje: 'No tienes curso asignado',
+            status:false
+        })
+    }
+    else {
+        const inscripcion = await coursesInscription.findOne({ where: { idCourse: idCourse }, include: { association: 'coursesInscriptionAsCourse' } })
+        // const search = await courseModel.findOne({ where: { id: idCourse } })
+        if(inscripcion === null){
+            const datos = await coursesInscription.create({monto,idCourse,metodoPago,idEstudiante})
+            if (datos) {
+                res.json({
+                    mensaje: 'Curso registrado',
+                    status:true
+                })
+            }else{
+                res.json({
+                    mensaje: 'No se pudo registrar el curso',
+                    status:false
+                })
+            }
+        }else{
+            if (inscripcion.coursesInscriptionAsCourse.finalDate > new Date()) {
+                res.json({
+                    mensaje: 'Curso ya pagado anteriormente',
+                    status:false
+                })
+            }else{
+                const datos = await coursesInscription.create({monto,idCourse,metodoPago,idEstudiante})
+                res.json({
+                    mensaje: 'Curso registrado',
+                    status:true
+                })
+
+            }
+        }
+    }
+
+   
+}
 module.exports= courseCtrl

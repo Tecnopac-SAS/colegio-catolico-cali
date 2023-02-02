@@ -8,6 +8,9 @@ Technical.init({
     startDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
     price:DataTypes.BIGINT,
+    starHour:DataTypes.STRING,
+    finalHour:DataTypes.STRING,
+    description:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

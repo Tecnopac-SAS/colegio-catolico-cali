@@ -8,6 +8,7 @@ router.get('/', DocumentosMatriculaCtrl.getDocuments);
 router.get('/:id', DocumentosMatriculaCtrl.getDocumentByID);
 router.get('/student/:studentId', DocumentosMatriculaCtrl.getDocumentsByStudent);
 router.put('/:id', DocumentosMatriculaCtrl.update);
+router.get('/:id/download', DocumentosMatriculaCtrl.download);
 
 /* router.get('/listarDocumentosMatriculas',DocumentosMatriculaCtrl.consultarDocumentosMatriculas);
 router.get('/listarDocumentosMatricula/:name',DocumentosMatriculaCtrl.consultarDocumentosMatricula);

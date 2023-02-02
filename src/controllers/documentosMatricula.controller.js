@@ -1,10 +1,16 @@
+const path = require('path');
 const documentosMatriculaCtrl = {};
 const { Op } = require('sequelize');
-const { storeFile } = require('../helpers/files');
+const { storeFile,downloadFile } = require('../helpers/files');
+
 
 
 const documentosMatriculaModel = require('../models/documentosMatricula.model');
 const EstudianteModel = require('../models/studentDatabase.model');
+
+const formatUrl = (documentoMatriculaId) =>{
+    return `${process.env.HOST}/documentosMatricula/${documentoMatriculaId}/download`
+}
 
 documentosMatriculaCtrl.create = async (req, res) => {
     const {
@@ -30,7 +36,7 @@ documentosMatriculaCtrl.create = async (req, res) => {
                 mensaje: 'documento creado',
                 documentoMatricula: {
                     ...documentoMatricula.toJSON(),
-                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                    documentUrl: formatUrl(documentoMatricula.id)
                 }
             })
         }
@@ -66,10 +72,10 @@ documentosMatriculaCtrl.getDocumentByID = async (req, res) => {
                 mensaje: 'Documento encontrado',
                 result: {
                     ...documentoMatricula.toJSON(),
-                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                    documentUrl: formatUrl(documentoMatricula.id)
                 }
             })
-        } else {
+        } else {            
             return res.json({
                 success: false,
                 mensaje: 'Documento no encontrado'
@@ -86,7 +92,7 @@ documentosMatriculaCtrl.getDocuments = async (req, res) => {
         const documentosMatricula = await documentosMatriculaModel.findAll();
         //Add host to documentUrl
         documentosMatricula.map(documento => {
-            return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
+            return documento.documentUrl = formatUrl(documento.id);
         })
         return res.json(documentosMatricula)
     } catch (error) {
@@ -114,10 +120,14 @@ documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
                 }
             });
             //Add host to documentUrl
-            documentosMatricula.map(documento => {
-                return documento.documentUrl = `${process.env.HOST}${documento.documentUrl}`;
+            const documentosMatriculaWithUrlFormated = documentosMatricula.map(documento => {
+                documento = { 
+                    ...documento.toJSON(),
+                    documentUrl : formatUrl(documento.id)
+                };
+                return documento;
             })
-            return res.json(documentosMatricula)
+            return res.json(documentosMatriculaWithUrlFormated)
         } else {
             return res.json({
                 success: false,
@@ -163,7 +173,7 @@ documentosMatriculaCtrl.update = async (req, res) => {
                 mensaje: 'Documento actualizado',
                 documentoMatricula: {
                     ...documentoMatricula.toJSON(),
-                    documentUrl: `${process.env.HOST}${documentoMatricula.documentUrl}`
+                    documentUrl: formatUrl(documentoMatricula.id)
                 }
             })
         } else {
@@ -176,6 +186,27 @@ documentosMatriculaCtrl.update = async (req, res) => {
         res.status(500).send(error.message);
     }
 }
+
+
+documentosMatriculaCtrl.download = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
+        if (documentoMatricula) {
+            const filePath = path.join(__dirname, '../') + `/uploads/${documentoMatricula.documentUrl}`;
+            res.setHeader(`Content-Disposition`, `attachment`);
+            res.download(filePath);
+
+            //Meotodos de descarga Header Content-Disposition
+            //  - inline (default): Abre el contenido en el navegador
+            //  - attachment : Descarga el contenido 
+        }
+    } catch(error){
+        res.status(500).send(error.message);
+    }
+}
+
+
 /*
 documentosMatriculaCtrl.consultarDocumentosMatriculas = async (req, res) => {
     try {

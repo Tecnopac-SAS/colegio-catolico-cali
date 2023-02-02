@@ -8,6 +8,7 @@ router.get('/listarTechnicalId/:id',TechnicalCtrl.consultarId);
 router.post('/crearTechnical',TechnicalCtrl.crearTechnical);
 router.put('/actualizarTechnical/:id',TechnicalCtrl.actualizarTechnical)
 router.put('/deshabilitar/:id' ,TechnicalCtrl.deshabilitar)
+router.post('/pago',TechnicalCtrl.pago);
 
 
 

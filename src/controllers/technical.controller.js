@@ -3,6 +3,7 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const technicalModel = require('../models/technical.model')
+const technicalInscription = require('../models/technicalInscription.model')
 const technicalCtrl = {};
 
 technicalCtrl.consultarTechnicals = async(req,res)=>{
@@ -129,5 +130,50 @@ technicalCtrl.deshabilitar = async (req, res) => {
         res.send(error.message);
     }
 };
+
+technicalCtrl.pago = async(req,res)=>{
+    const {monto,idTechnical,metodoPago,idEstudiante}= req.body 
+
+     if(idTechnical==null){
+        res.json({
+            mensaje: 'No tienes media técnica asignado',
+            status:false
+        })
+    }
+    else {
+        const inscripcion = await technicalInscription.findOne({ where: { idTechnical: idTechnical }, include: { association: 'technicalInscriptionAsTechnical' } })
+        // const search = await courseModel.findOne({ where: { id: idTechnical } })
+        if(inscripcion === null){
+            const datos = await technicalInscription.create({monto,idTechnical,metodoPago,idEstudiante})
+            if (datos) {
+                res.json({
+                    mensaje: 'Media técnica registrado',
+                    status:true
+                })
+            }else{
+                res.json({
+                    mensaje: 'No se pudo registrar la media técnica',
+                    status:false
+                })
+            }
+        }else{
+            if (inscripcion.technicalInscriptionAsTechnical.finalDate > new Date()) {
+                res.json({
+                    mensaje: 'Media técnica ya pagada anteriormente',
+                    status:false
+                })
+            }else{
+                const datos = await technicalInscription.create({monto,idTechnical,metodoPago,idEstudiante})
+                res.json({
+                    mensaje: 'Media técnica registrado',
+                    status:true
+                })
+
+            }
+        }
+    }
+
+   
+}
 
 module.exports= technicalCtrl

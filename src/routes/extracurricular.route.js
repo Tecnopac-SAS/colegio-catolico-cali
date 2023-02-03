@@ -6,6 +6,7 @@ const uploadCtrl = require('../controllers/upload.controller');
 
 router.get('/listarExtracurricular',extracurricularCtrl.consultarExtracurriculares);
 router.post('/crearExtracurricular',uploadCtrl.single('imagen'),extracurricularCtrl.crearExtracurricular);
+router.post('/pago',extracurricularCtrl.pago);
 router.get('/extracurricular/img/:img',extracurricularCtrl.getImage)
 router.get('/listarExtracurricularId/:id',extracurricularCtrl.consultarId);
 router.put('/actualizarExtracurricular/:id',extracurricularCtrl.actualizarExtracurricular)

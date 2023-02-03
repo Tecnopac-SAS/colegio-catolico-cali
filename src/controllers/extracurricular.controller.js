@@ -6,6 +6,7 @@ const multer  = require('multer')
 const md5 = require('md5')
 const path = require('path');
 const extracurricularModel = require('../models/extracurricular.model')
+const extracurricularInscriptionModel = require('../models/extracurricularInscription.model')
 const extracurricularCtrl = {};
 
 extracurricularCtrl.consultarExtracurriculares = async(req,res)=>{
@@ -155,5 +156,49 @@ extracurricularCtrl.deshabilitar = async (req, res) => {
     }
 };
 
+extracurricularCtrl.pago = async(req,res)=>{
+    const {monto,idExtracurricular,metodoPago,idEstudiante}= req.body 
+
+     if(idExtracurricular==null){
+        res.json({
+            mensaje: 'No tienes extracurricular asignado',
+            status:false
+        })
+    }
+    else {
+        const inscripcion = await extracurricularInscriptionModel.findOne({ where: { idExtracurricular: idExtracurricular }, include: { association: 'extracurricularInscriptionAsExtracurricular' } })
+        // const search = await courseModel.findOne({ where: { id: idExtracurricular } })
+        if(inscripcion === null){
+            const datos = await extracurricularInscriptionModel.create({monto,idExtracurricular,metodoPago,idEstudiante})
+            if (datos) {
+                res.json({
+                    mensaje: 'Extracurricular registrado',
+                    status:true
+                })
+            }else{
+                res.json({
+                    mensaje: 'No se pudo registrar el extracurricular',
+                    status:false
+                })
+            }
+        }else{
+            if (inscripcion.extracurricularInscriptionAsExtracurricular.finalDate > new Date()) {
+                res.json({
+                    mensaje: 'Extracurricular ya pagada anteriormente',
+                    status:false
+                })
+            }else{
+                const datos = await technicalInscription.create({monto,idExtracurricular,metodoPago,idEstudiante})
+                res.json({
+                    mensaje: 'Extracurricular registrado',
+                    status:true
+                })
+
+            }
+        }
+    }
+
+   
+}
 
 module.exports= extracurricularCtrl

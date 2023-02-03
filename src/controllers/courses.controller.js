@@ -67,7 +67,7 @@ courseCtrl.consultarId = async (req, res) => {
 };
 
 courseCtrl.crearCourse = async(req,res)=>{
-    const {asignature,starDate,finalDate,price,idTeacher,typeCourse}= req.body 
+    const {asignature,starDate,finalDate,price,idTeacher,typeCourse,starHour,finalHour,description}= req.body 
 
      if(asignature==null){
         res.json({
@@ -76,7 +76,7 @@ courseCtrl.crearCourse = async(req,res)=>{
     }
     else {
        
-        const data = await courseModel.create({asignature,starDate,finalDate,price,idTeacher,typeCourse})
+        const data = await courseModel.create({asignature,starDate,finalDate,price,idTeacher,typeCourse,starHour,finalHour,description})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -88,11 +88,11 @@ courseCtrl.crearCourse = async(req,res)=>{
 courseCtrl.actualizarCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        let {asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive} = req.body;
+        let {asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive,starHour,finalHour,description} = req.body;
         if (id === undefined || asignature === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await courseModel.update({asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive},{
+        await courseModel.update({asignature,starDate,finalDate,price,idTeacher,typeCourse,isActive,starHour,finalHour,description},{
             where: {
                 id: id
             }

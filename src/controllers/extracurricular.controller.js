@@ -45,6 +45,7 @@ extracurricularCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await extracurricularModel.findOne({ where: { id: id },include: { association: 'extracurricularAsTeacher' }});
+        
         res.json({
             mensaje: 'ok',
             result
@@ -156,6 +157,23 @@ extracurricularCtrl.deshabilitar = async (req, res) => {
     }
 };
 
+extracurricularCtrl.misExtracurriculares = async(req,res)=>{
+    const {idEstudiante}= req.body 
+
+    const inscripcion = await extracurricularInscriptionModel.findAll({ where: { idEstudiante: idEstudiante }, include: { association: 'extracurricularInscriptionAsExtracurricular',include:{association:'extracurricularAsTeacher'} } })
+
+    if(inscripcion !== null){
+        res.json({
+            result: inscripcion,
+            status:true
+        })
+    }else{
+        res.json({
+            status:false
+        })
+    }
+
+}
 extracurricularCtrl.pago = async(req,res)=>{
     const {monto,idExtracurricular,metodoPago,idEstudiante}= req.body 
 

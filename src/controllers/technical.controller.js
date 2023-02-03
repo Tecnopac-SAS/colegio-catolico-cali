@@ -72,11 +72,11 @@ technicalCtrl.crearTechnical= async(req,res)=>{
 technicalCtrl.actualizarTechnical= async (req, res) => {
     try {
         const { id } = req.params;
-        let {course,startDate,finalDate,price,idTeacher} = req.body;
+        let {course,startDate,finalDate,price,idTeacher,starHour,finalHour,description} = req.body;
         if (id === undefined || course === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await technicalModel.update({course,startDate,finalDate,price,idTeacher},{
+        await technicalModel.update({course,startDate,finalDate,price,idTeacher,starHour,finalHour,description},{
             where: {
                 id: id
             }

@@ -52,7 +52,7 @@ technicalCtrl.consultarId = async (req, res) => {
 };
 
 technicalCtrl.crearTechnical= async(req,res)=>{
-    const {course,startDate,finalDate,price,idTeacher}= req.body 
+    const {course,startDate,finalDate,price,idTeacher,starHour,finalHour,description}= req.body 
 
      if(course==null){
         res.json({
@@ -61,7 +61,7 @@ technicalCtrl.crearTechnical= async(req,res)=>{
     }
     else {
        
-        const data = await technicalModel.create({course,startDate,finalDate,price,idTeacher})
+        const data = await technicalModel.create({course,startDate,finalDate,price,idTeacher,starHour,finalHour,description})
         res.json({
             mensaje: 'Certificado creado',
         })

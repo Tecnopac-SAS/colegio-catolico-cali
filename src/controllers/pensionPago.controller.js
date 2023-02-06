@@ -21,18 +21,19 @@ pensionPagoCtrl.consultarPensiones = async(req,res)=>{
 }
 pensionPagoCtrl.pagarPensiones = async(req,res)=>{
     const {pensiones} = req.body
+    const { tipo } = req.params;
     var result
     try {
         Object.keys(pensiones).forEach (async(key) => {
             const pension = await pensionPagoModel.findOne({where:{id: pensiones[key].id}});
             if (pension.valor!=pensiones[key].valor) {
-                result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor},{
+                result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor,metodoPago:tipo},{
                     where: {
                         id: pensiones[key].id
                     }
                 });
             }else{
-                result = await pensionPagoModel.update({estatus:'Pagado'},{
+                result = await pensionPagoModel.update({estatus:'Pagado',metodoPago:tipo},{
                     where: {
                         id: pensiones[key].id
                     }

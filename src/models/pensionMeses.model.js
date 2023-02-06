@@ -9,6 +9,7 @@ PensionesMeses.init({
     mora:DataTypes.STRING,
     estatus:DataTypes.STRING,
     valorConDescuento:DataTypes.STRING,
+    metodoPago:DataTypes.STRING,
 }, 
 {
     sequelize,

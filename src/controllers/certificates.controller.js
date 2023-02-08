@@ -1,5 +1,5 @@
 const config = require('../../config')
-const {sequelize, Op} = require('sequelize');
+const {sequelize, Op, where} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const certificatesModel = require('../models/certificates.model')
@@ -9,6 +9,38 @@ const certificatesCtrl = {};
 certificatesCtrl.consultarCertificates = async(req,res)=>{
     try {
         const result = await certificatesModel.findAll();
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
+certificatesCtrl.listarCertificatesAcu = async(req,res)=>{
+    try {
+        const result = await certificatesModel.findAll({where: {isActive: true}});
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
+certificatesCtrl.listCertificatesInscription = async(req,res)=>{
+    try {
+        const result = await certificateInscription.findAll({where: {idEstudiante: req.params.id}, include:{association: 'certificateInscriptionAsCertificate'}});
         res.json({
             status: 200,
             mensaje: 'ok',

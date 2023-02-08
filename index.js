@@ -49,6 +49,7 @@ const extracurricularInscription = require('./src/models/extracurricularInscript
 
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
+const CertificateInscription = require('./src/models/certificateInscription.model');
 require('./src/models/asociations');
 
 
@@ -146,6 +147,7 @@ histBachillerato.sync({ alter: true })
 coursesInscription.sync({ alter: true })
 technicalInscription.sync({ alter: true })
 extracurricularInscription.sync({ alter: true })
+CertificateInscription.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

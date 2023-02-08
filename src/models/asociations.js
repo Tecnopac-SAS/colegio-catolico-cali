@@ -26,8 +26,15 @@ const CoursesInscription = require('./coursesInscription.model');
 const TechnicalInscription = require('./technicalInscription.model');
 const Technical = require('./technical.model');
 const ExtracurricularInscription = require('./extracurricularInscription.model');
+const CertificateInscription = require('./certificateInscription.model');
+const Certificate = require('./certificates.model');
 
 // Uno a uno
+CertificateInscription.belongsTo(Certificate, { as: "certificateInscriptionAsCertificate", foreignKey: "idCertificate" });
+CertificateInscription.belongsTo(Grade, { as: "certificateInscriptionAsGrade", foreignKey: "idGrade" });
+CertificateInscription.belongsTo(Estudiante, { as: "certificateInscriptionAsEstudiante", foreignKey: "idEstudiante" });
+
+
 CoursesInscription.belongsTo(Estudiante, { as: "coursesInscriptionAsEstudiante", foreignKey: "idEstudiante" });
 CoursesInscription.belongsTo(Course, { as: "coursesInscriptionAsCourse", foreignKey: "idCourse" });
 TechnicalInscription.belongsTo(Estudiante, { as: "technicalInscriptionAsEstudiante", foreignKey: "idEstudiante" });

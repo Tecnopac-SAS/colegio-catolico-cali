@@ -87,6 +87,20 @@ certificatesCtrl.consultarCertificate = async (req, res) => {
     }
 };
 
+certificatesCtrl.certificateInscriptionId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await certificateInscription.findOne({ where: { id: id }, include:[{association: 'certificateInscriptionAsEstudiante'}, {association: 'certificateInscriptionAsCertificate'}, {association: 'certificateInscriptionAsGrade'}]});
+        let acudiente = await Acudiente.findOne({where: {idEstudiante: result.certificateInscriptionAsEstudiante.id}});
+        res.json({
+            mensaje: 'ok',
+            result:{...result , ...acudiente}
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 certificatesCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;

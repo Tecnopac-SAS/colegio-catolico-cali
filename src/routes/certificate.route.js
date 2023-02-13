@@ -8,6 +8,7 @@ router.get('/listarCertificatesAcu',CertificateCtrl.listarCertificatesAcu);
 router.get('/listCertificatesInscription/:id',CertificateCtrl.listCertificatesInscription);
 router.get('/listarCertificate/:concept',CertificateCtrl.consultarCertificate);
 router.get('/listarCertificateId/:id',CertificateCtrl.consultarId);
+router.get('/certificateInscriptionId/:id',CertificateCtrl.certificateInscriptionId);
 router.post('/crearCertificate',CertificateCtrl.crearCertificate);
 router.put('/actualizarCertificate/:id',CertificateCtrl.actualizarCertificate)
 router.put('/deshabilitar/:id' ,CertificateCtrl.deshabilitar)

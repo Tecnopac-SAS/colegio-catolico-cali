@@ -3,7 +3,9 @@ const {sequelize, Op, where} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const certificatesModel = require('../models/certificates.model')
-const certificateInscription = require('../models/certificateInscription.model')
+const certificateInscription = require('../models/certificateInscription.model');
+const Acudiente = require('../models/acudiente.model');
+const { json } = require('body-parser');
 const certificatesCtrl = {};
 
 certificatesCtrl.consultarCertificates = async(req,res)=>{
@@ -25,6 +27,22 @@ certificatesCtrl.consultarCertificates = async(req,res)=>{
 certificatesCtrl.listarCertificatesAcu = async(req,res)=>{
     try {
         const result = await certificatesModel.findAll({where: {isActive: true}});
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
+certificatesCtrl.listCertificatesInscriptionAll = async(req,res)=>{
+    try {
+        const result = await certificateInscription.findAll({include:{association: 'certificateInscriptionAsCertificate'}});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -207,4 +225,37 @@ certificatesCtrl.pago = async(req,res)=>{
 
    
 }
+
+certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
+    try {
+        let { dato,id } = req.params;
+        dato=decodeURIComponent(dato)
+        let results = [];
+        let tabla=[]
+        result = await certificateInscription.findAll({ where:{ idEstudiante:id}, include:{association: 'certificateInscriptionAsCertificate'}});
+        result.forEach(element => {
+            tabla.push(element.certificateInscriptionAsCertificate)
+        });
+        for(var i=0; i<tabla.length; i++) {
+            for(key in tabla[i].dataValues) {
+                if (key!='createdAt' && key!='updatedAt') {
+                    if(String(tabla[i][key]).indexOf(dato)!=-1) {
+                        results.push({certificateInscriptionAsCertificate:tabla[i]});
+                        break;
+                    }
+                }
+            }
+        }
+        
+       
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:results
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 module.exports= certificatesCtrl

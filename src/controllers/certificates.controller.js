@@ -258,4 +258,22 @@ certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
         res.send(error.message);
     }
 };
+certificatesCtrl.statusChange = async (req, res) => {
+    const { status} = req.body;
+    const { id } = req.params;
+    try {
+        const certificate = await certificateInscription.findOne({ where: { id: id } });
+        if (certificate) {
+            if (status !== undefined) {
+                certificate.status = status;
+                await certificate.save();
+                res.json({ mensaje: 'ok', result: certificate });
+            }
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+
 module.exports= certificatesCtrl

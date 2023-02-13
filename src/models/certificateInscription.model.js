@@ -8,6 +8,7 @@ CertificateInscription.init({
     canalEntrega:DataTypes.STRING,
     metodoPago:DataTypes.STRING,
     entregado:DataTypes.BOOLEAN,
+    status:DataTypes.BOOLEAN,
 }, 
 
 {

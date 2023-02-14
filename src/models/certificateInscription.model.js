@@ -6,6 +6,7 @@ CertificateInscription.init({
     monto:DataTypes.STRING,
     detalle:DataTypes.STRING,
     canalEntrega:DataTypes.STRING,
+    documentUrl:DataTypes.STRING,
     metodoPago:DataTypes.STRING,
     entregado:DataTypes.BOOLEAN,
     status:DataTypes.BOOLEAN,

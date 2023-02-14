@@ -10,6 +10,7 @@ router.get('/listarCertificate/:concept',CertificateCtrl.consultarCertificate);
 router.get('/listarCertificateId/:id',CertificateCtrl.consultarId);
 router.get('/certificateInscriptionId/:id',CertificateCtrl.certificateInscriptionId);
 router.post('/crearCertificate',CertificateCtrl.crearCertificate);
+router.post('/createDocumentoCertificate',CertificateCtrl.createDocumentoCertificate);
 router.put('/actualizarCertificate/:id',CertificateCtrl.actualizarCertificate)
 router.put('/deshabilitar/:id' ,CertificateCtrl.deshabilitar)
 router.get('/inscriptionAllSearch/:dato/:id' ,CertificateCtrl.listarInscriptionAllSearch)

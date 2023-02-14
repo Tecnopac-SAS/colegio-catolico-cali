@@ -6,6 +6,7 @@ const certificatesModel = require('../models/certificates.model')
 const certificateInscription = require('../models/certificateInscription.model');
 const Acudiente = require('../models/acudiente.model');
 const { json } = require('body-parser');
+const { storeFile } = require('../helpers/files');
 const certificatesCtrl = {};
 
 certificatesCtrl.consultarCertificates = async(req,res)=>{
@@ -248,13 +249,13 @@ certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
         let tabla=[]
         result = await certificateInscription.findAll({ where:{ idEstudiante:id}, include:{association: 'certificateInscriptionAsCertificate'}});
         result.forEach(element => {
-            tabla.push(element.certificateInscriptionAsCertificate)
+            tabla.push(element)
         });
         for(var i=0; i<tabla.length; i++) {
-            for(key in tabla[i].dataValues) {
+            for(key in tabla[i]['certificateInscriptionAsCertificate'].dataValues) {
                 if (key!='createdAt' && key!='updatedAt') {
-                    if(String(tabla[i][key]).indexOf(dato)!=-1) {
-                        results.push({certificateInscriptionAsCertificate:tabla[i]});
+                    if(String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato)!=-1) {
+                        results.push(tabla[i]);
                         break;
                     }
                 }
@@ -275,6 +276,39 @@ certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
 certificatesCtrl.statusChange = async (req, res) => {
     const { status} = req.body;
     const { id } = req.params;
+    try {
+        const certificate = await certificateInscription.findOne({ where: { id: id } });
+        if (certificate) {
+            if (status !== undefined) {
+                certificate.status = status;
+                await certificate.save();
+                res.json({ mensaje: 'ok', result: certificate });
+            }
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+certificatesCtrl.createDocumentoCertificate = async (req, res) => {
+    const { file } = req.files;
+    const { id } = req.body;
+    const fileName = storeFile(file);
+    const certificate = await certificateInscription.findOne({ where: { id: id } });
+    certificate.documentUrl = fileName;
+    await certificate.save();
+
+    if (certificate) {
+        return res.json({
+            success: true,
+            mensaje: 'documento creado',
+        })
+    }else{
+        return res.json({
+            success: false,
+            mensaje: 'documento no creado',
+        })
+    }
+
     try {
         const certificate = await certificateInscription.findOne({ where: { id: id } });
         if (certificate) {

@@ -90,6 +90,7 @@ app.use('/acudiente', require('./src/routes/acudiente.route'))
 app.use('/pagoMatricula', require('./src/routes/pagoMatricula.route'))
 app.use('/pago-pension', require('./src/routes/pensionPago.route'))
 app.use('/soportePagos', require('./src/routes/soportePagos.route'))
+app.use('/historicoCartera', require('./src/routes/historicoCartera.route'))
 
 
 teacherModel.sync({ alter: true })

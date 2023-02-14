@@ -1,3 +1,4 @@
+const path = require('path');
 const config = require('../../config')
 const {sequelize, Op, where} = require('sequelize');
 const { QueryTypes } = require('sequelize');
@@ -95,7 +96,7 @@ certificatesCtrl.certificateInscriptionId = async (req, res) => {
         let acudiente = await Acudiente.findOne({where: {idEstudiante: result.certificateInscriptionAsEstudiante.id}});
         res.json({
             mensaje: 'ok',
-            result:{...result , ...acudiente}
+            result:{result , ...acudiente, documentUrl:formatUrl(result.id)}
         })
     } catch (error) {
         res.status(500);
@@ -308,20 +309,26 @@ certificatesCtrl.createDocumentoCertificate = async (req, res) => {
             mensaje: 'documento no creado',
         })
     }
-
+};
+const formatUrl = (certificateInscriptionId) =>{
+    return `${process.env.HOST}/certificate/${certificateInscriptionId}/download`
+}
+certificatesCtrl.download = async (req, res) => {
+    const { id } = req.params;
     try {
         const certificate = await certificateInscription.findOne({ where: { id: id } });
         if (certificate) {
-            if (status !== undefined) {
-                certificate.status = status;
-                await certificate.save();
-                res.json({ mensaje: 'ok', result: certificate });
-            }
+            const filePath = path.join(__dirname, '../') + `/uploads/${certificate.documentUrl}`;
+            res.setHeader(`Content-Disposition`, `attachment`);
+            res.download(filePath);
+
+            //Meotodos de descarga Header Content-Disposition
+            //  - inline (default): Abre el contenido en el navegador
+            //  - attachment : Descarga el contenido 
         }
-    } catch (error) {
+    } catch(error){
         res.status(500).send(error.message);
     }
-};
-
+}
 
 module.exports= certificatesCtrl

@@ -16,6 +16,7 @@ router.put('/deshabilitar/:id' ,CertificateCtrl.deshabilitar)
 router.get('/inscriptionAllSearch/:dato/:id' ,CertificateCtrl.listarInscriptionAllSearch)
 router.post('/pago',CertificateCtrl.pago);
 router.put('/:id', CertificateCtrl.statusChange);
+router.get('/:id/download', CertificateCtrl.download);
 
 
 

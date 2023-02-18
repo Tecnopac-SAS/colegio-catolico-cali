@@ -20,6 +20,7 @@ Estudiante.init({
     telefono:DataTypes.STRING,
     correo:DataTypes.STRING,
     tipoCupo:DataTypes.STRING,
+    viveCon:DataTypes.STRING,
     estadoEstudiante:{
     type:DataTypes.STRING,
     defaultValue: "Aspirante",

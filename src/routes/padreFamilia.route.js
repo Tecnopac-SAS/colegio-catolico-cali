@@ -9,7 +9,9 @@ router.post('/crearMadreFamilia',PadreFamiliaCtrl.crearMadreFamilia);
 router.post('/crearAcudiente',PadreFamiliaCtrl.crearAcudiente);
 router.post('/crearResponsable',PadreFamiliaCtrl.crearResponsable);
 router.get('/listarPadreFamiliaId/:id',PadreFamiliaCtrl.consultarId);
+router.get('/getAllAcudiente/:id',PadreFamiliaCtrl.getAllAcudiente);
 router.put('/actualizarPadreFamilia/:id',PadreFamiliaCtrl.actualizarPadreFamilia)
+router.put('/actualizarAcudiente/:id',PadreFamiliaCtrl.actualizarAcudiente)
 router.put('/deshabilitar/:id' ,PadreFamiliaCtrl.deshabilitar)
 
 

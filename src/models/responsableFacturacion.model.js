@@ -14,6 +14,7 @@ Responsable.init({
     correoElectronico:DataTypes.STRING,
     direccion:DataTypes.STRING,
     celular:DataTypes.STRING,
+    responsable:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

@@ -4,7 +4,9 @@ const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const padreFamiliaModel = require('../models/padreFamilia.model')
 const acudienteModel = require('../models/acudiente.model')
-const responsableModel = require('../models/responsableFacturacion.model')
+const responsableModel = require('../models/responsableFacturacion.model');
+const studentDatabase = require('../models/studentDatabase.model');
+const { join } = require('path');
 const padreFamiliaCtrl = {};
 
 padreFamiliaCtrl.consultarPadreFamilia = async(req,res)=>{
@@ -52,6 +54,74 @@ padreFamiliaCtrl.consultarId = async (req, res) => {
         res.send(error.message);
     }
 };
+padreFamiliaCtrl.getAllAcudiente = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const acudiente = await acudienteModel.findOne({ where: { id: id },include: { association: 'acudienteAsEstudiante' }});
+        const responsable = await responsableModel.findOne({ where: { idEstudiante: acudiente.idEstudiante }});
+        const padre = await padreFamiliaModel.findOne({ where: { idEstudiante: acudiente.idEstudiante, parentesco: 'Padre'}});
+        const madre = await padreFamiliaModel.findOne({ where: { idEstudiante: acudiente.idEstudiante, parentesco: 'Madre'}});
+        res.json({
+            mensaje: 'ok',
+            result: {acudiente,padre,madre,responsable}
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+padreFamiliaCtrl.actualizarAcudiente = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { acudiente, estudiante, madre, padre, responsable } = req.body;
+        if (id === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+  
+        let acudienteRes = await acudienteModel.update({...acudiente},{
+            where: {
+                id: acudiente.id
+            }
+        })
+        let studentRes = await studentDatabase.update({...estudiante},{
+            where: {
+                id: estudiante.id
+            }
+        })
+        let madreRes = await padreFamiliaModel.update({...madre},{
+            where: {
+                id: madre.id
+            }
+        })
+        let padreRes = await padreFamiliaModel.update({...padre},{
+            where: {
+                id: padre.id
+            }
+        })
+        let responsableRes = await responsableModel.update({...responsable},{
+            where: {
+                id: responsable.id
+            }
+        })
+        if(acudienteRes,studentRes,madreRes,padreRes,responsableRes){
+
+            res.json({
+                status: 200,
+                mensaje: 'Datos actualizados',
+            })
+        }else {
+            res.json({
+                status: 500,
+                mensaje: 'Error al actualizar los datos',
+            })
+        }
+
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
 padreFamiliaCtrl.crearPadreFamilia = async(req,res)=>{
     const {estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
@@ -61,7 +131,7 @@ padreFamiliaCtrl.crearPadreFamilia = async(req,res)=>{
         })
     }
     else {
-        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
+        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante,parentesco:'Padre'})
         res.json({
             mensaje: 'Padre de familia creado',
         })
@@ -77,7 +147,7 @@ padreFamiliaCtrl.crearMadreFamilia = async(req,res)=>{
         })
     }
     else {
-        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
+        await padreFamiliaModel.create({estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante,parentesco:'Madre'})
         res.json({
             mensaje: 'Madre de familia creado',
         })
@@ -104,14 +174,14 @@ padreFamiliaCtrl.crearAcudiente = async(req,res)=>{
 
 
 padreFamiliaCtrl.crearResponsable = async(req,res)=>{
-    const {tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante}= req.body 
+    const {tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante,responsable}= req.body 
     if(tipoDocumento==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        await responsableModel.create({tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante})
+        await responsableModel.create({tipoPersona,razonSocial,tipoDocumento,identificacion,direccion,pais,departamento,ciudad,correoElectronico,celular,idEstudiante,responsable})
         res.json({
             mensaje: 'Responsable creado',
         })
@@ -153,6 +223,7 @@ padreFamiliaCtrl.actualizarPadreFamilia = async (req, res) => {
         res.send(error.message);
     }
 };
+
 
 
 padreFamiliaCtrl.deshabilitar = async (req, res) => {

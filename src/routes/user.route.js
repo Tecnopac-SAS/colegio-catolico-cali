@@ -14,6 +14,7 @@ router.put('/deshabilitarUsuario/:id' ,userCtrl.deshabilitarUsuario)
 
 router.get('/recuperarPass/:email',userCtrl.recuperarPass)
 router.put('/nuevaContrasena/:id' ,userCtrl.nuevaContraseña)
+router.put('/nuevaContrasenaConfirm/:id' ,userCtrl.nuevaContraseñaConfirm)
 
 router.get('/generarCaptcha' ,userCtrl.cadenaAleatoria)
 

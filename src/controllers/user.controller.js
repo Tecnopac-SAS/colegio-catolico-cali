@@ -270,6 +270,49 @@ userCtrl.recuperarPass = async (req,res)=>{
 }
 
 
+userCtrl.nuevaContraseñaConfirm = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let {newPass,passActual} = req.body;
+        if (newPass === undefined || passActual === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        // passActual = await bcrypt.hash(passActual,10)
+        console.log(passActual)
+        newPass = await bcrypt.hash(newPass,10)
+        // passActual = await bcrypt.hash(passActual,10)
+
+        result = await userModel.findOne({ where: { id: id } });
+        const match = await bcrypt.compare(passActual,result.password)
+        if(match){
+            actuali = await userModel.update({password:newPass},{
+                where: {
+                    id: id
+                }
+            })
+            if (actuali) {
+                return res.json({
+                    status:200,
+                    mensaje: 'La contraseña se ha actualizado correctamente',
+                })
+            }else{
+                return res.json({
+                    status:400,
+                    mensaje: 'La contraseña no se ha actualizado',
+                })
+            }
+        }else{
+            return res.json({
+                status:400,
+                mensaje: 'La contraseña actual no coincide',
+            })
+        }
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 userCtrl.nuevaContraseña = async (req, res) => {
     try {
         const { id } = req.params;

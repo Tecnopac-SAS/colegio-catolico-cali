@@ -87,7 +87,7 @@ historialAcademicoCtrl.crearhistorialAcademico = async(req,res)=>{
                 gradoCursadoPreescolar:(element.gradoCursadoPreescolar==true||element.gradoCursadoPreescolar == "true")?true:false,
                 gradoCursadoJardin:(element.gradoCursadoJardin==true||element.gradoCursadoJardin == "true")?true:false,
                 gradoCursadoTransicion:(element.gradoCursadoTransicion==true||element.gradoCursadoTransicion == "true")?true:false,
-                idEstudiante:'1'
+                idEstudiante:localStorage.getItem('idEstudiante')
             })
             
         });
@@ -99,7 +99,7 @@ historialAcademicoCtrl.crearhistorialAcademico = async(req,res)=>{
                 gradoCursadoPrimaria3:(element.gradoCursadoPrimaria3==true||element.gradoCursadoPrimaria3 == "true")?true:false,
                 gradoCursadoPrimaria4:(element.gradoCursadoPrimaria4==true||element.gradoCursadoPrimaria4 == "true")?true:false,
                 gradoCursadoPrimaria5:(element.gradoCursadoPrimaria5==true||element.gradoCursadoPrimaria5 == "true")?true:false,
-                idEstudiante:'1'
+                idEstudiante:localStorage.getItem('idEstudiante')
             })
             
         });
@@ -109,7 +109,7 @@ historialAcademicoCtrl.crearhistorialAcademico = async(req,res)=>{
                 gradoCursadoBachillerato6:(element.gradoCursadoBachillerato6==true||element.gradoCursadoBachillerato6 == "true")?true:false,
                 gradoCursadoBachillerato7:(element.gradoCursadoBachillerato7==true||element.gradoCursadoBachillerato7 == "true")?true:false,
                 gradoCursadoBachillerato8:(element.gradoCursadoBachillerato8==true||element.gradoCursadoBachillerato8 == "true")?true:false,
-                idEstudiante:'1'
+                idEstudiante:localStorage.getItem('idEstudiante')
             })
             
         });

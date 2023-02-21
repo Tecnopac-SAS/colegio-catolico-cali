@@ -10,6 +10,31 @@ const acudiente = require('../models/acudiente.model')
 const moment = require('moment');
 const historicoCarteraCtrl = {};
 
+
+historicoCarteraCtrl.totalDeuda = async(req,res)=>{
+    const { id } = req.params;
+    try {
+        // acudient = await acudiente.findOne({ where:{ id:id}, include: { association: 'acudienteAsEstudiante' }});
+
+        result = await pensionMesesModel.findAll({ where:{ idAcudiente:id,estatus:'Pendiente'}});
+
+        let total = 0;
+        result.forEach(element => {
+            total = total + ((element.valorConDescuento)?element.valorConDescuento:element.valor)
+        });
+
+        res.json({
+            status: 200,
+            result:total
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
 historicoCarteraCtrl.listarHistoricoCartera = async(req,res)=>{
     const { id } = req.params;
     try {

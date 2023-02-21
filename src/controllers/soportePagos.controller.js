@@ -82,8 +82,9 @@ soportePagosCtrl.listarMisSoportesPagosSearch = async (req, res) => {
 
         for(var i=0; i<tabla.length; i++) {
             for(key in tabla[i]) {
-                if(tabla[i][key].indexOf(dato)!=-1) {
-                results.push(tabla[i]);
+                if(String(tabla[i][key]).indexOf(dato)!=-1) {
+                    results.push(tabla[i]);
+                    break;
                 }
             }
         }

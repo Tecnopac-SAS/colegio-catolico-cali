@@ -28,11 +28,14 @@ const Technical = require('./technical.model');
 const ExtracurricularInscription = require('./extracurricularInscription.model');
 const CertificateInscription = require('./certificateInscription.model');
 const Certificate = require('./certificates.model');
+const CafeteriaPagos = require('./cafeteriaPagos.model');
 
 // Uno a uno
 CertificateInscription.belongsTo(Certificate, { as: "certificateInscriptionAsCertificate", foreignKey: "idCertificate" });
 CertificateInscription.belongsTo(Grade, { as: "certificateInscriptionAsGrade", foreignKey: "idGrade" });
 CertificateInscription.belongsTo(Estudiante, { as: "certificateInscriptionAsEstudiante", foreignKey: "idEstudiante" });
+
+CafeteriaPagos.belongsTo(Acudiente, { as: "cafeteriaPagosAsAcudiente ", foreignKey: "idAcudiente" });
 
 
 CoursesInscription.belongsTo(Estudiante, { as: "coursesInscriptionAsEstudiante", foreignKey: "idEstudiante" });

@@ -45,6 +45,7 @@ const histBachillerato = require('./src/models/histBachillerato.model')
 const coursesInscription = require('./src/models/coursesInscription.model')
 const technicalInscription = require('./src/models/technicalInscription.model')
 const extracurricularInscription = require('./src/models/extracurricularInscription.model')
+const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
 
 
 const bdSq = require('./src/db/databaseSq')
@@ -91,6 +92,7 @@ app.use('/pagoMatricula', require('./src/routes/pagoMatricula.route'))
 app.use('/pago-pension', require('./src/routes/pensionPago.route'))
 app.use('/soportePagos', require('./src/routes/soportePagos.route'))
 app.use('/historicoCartera', require('./src/routes/historicoCartera.route'))
+app.use('/cafeteriaPagos', require('./src/routes/cafeteriaPagos.route'))
 
 
 teacherModel.sync({ alter: true })
@@ -149,6 +151,7 @@ coursesInscription.sync({ alter: true })
 technicalInscription.sync({ alter: true })
 extracurricularInscription.sync({ alter: true })
 CertificateInscription.sync({ alter: true })
+cafeteriaPagosModel.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

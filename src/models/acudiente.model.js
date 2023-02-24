@@ -19,7 +19,7 @@ Acudiente.init({
     telefono:DataTypes.STRING,
     celular:DataTypes.STRING,
     bolsillo:DataTypes.DOUBLE,
-    lonchera:DataTypes.DOUBLE,
+    // lonchera:DataTypes.DOUBLE,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

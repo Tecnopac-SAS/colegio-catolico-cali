@@ -1,9 +1,10 @@
 const matricula = require('../models/matriculasPagos.model')
 const pensiones = require('../models/pensionMeses.model')
+const acudiente = require('../models/acudiente.model')
+const {sequelize, Op} = require('sequelize');
 const moment = require('moment');
 const { json } = require('body-parser');
 const matriculaCtrl = {};
-const sequelize = require('sequelize');
 
 
 
@@ -12,8 +13,20 @@ matriculaCtrl.crearPago = async (req, res) => {
         let {monto,metodoPago,idAcudiente,valMes,meses} = req.body;
         // return  res.json(req.body)
         fechaPago = moment().format(`YYYY-MM-DD`)
-        let year= moment().format(`YYYY`)
+        let year= moment().format(`YYYY`)    
+        let matriculaCheck = await matricula.findOne({where:{idAcudiente,fechaPago:{[Op.between]:[moment().format(`YYYY-MM-01`),moment().format(`YYYY-MM-31`)],}}})
+        if (matriculaCheck) {
+            return res.json({
+                status: false,
+                mensaje: 'Matricula pagada anteriormente',
+            })
+        }
         const data = await matricula.create({monto,metodoPago,fechaPago,idAcudiente})
+        if (metodoPago == 'bolsillo') {
+            let acudienteM = await acudiente.findOne({where:{id:idAcudiente}})
+            let nuevoBolsillo = acudienteM.bolsillo - monto
+            await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:idAcudiente}})
+        }
         
         let vuelta=0
         for (let index = 06; vuelta < meses; index++) {
@@ -27,10 +40,12 @@ matriculaCtrl.crearPago = async (req, res) => {
         }
         if (data) {
             res.json({
+                status: true,
                 mensaje: 'Matricula pagada',
             })
         }else{
             res.json({
+                status: false,
                 mensaje: 'Error al pagar',
             })
         }
@@ -46,7 +61,6 @@ matriculaCtrl.getPago = async (req, res) => {
         if (idAcudiente === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        const {Op} = sequelize;
         matriculaRes = await matricula.findOne({ 
             where: { 
                 idAcudiente,

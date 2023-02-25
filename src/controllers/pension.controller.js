@@ -52,7 +52,7 @@ pensionCtrl.consultarId = async (req, res) => {
     }
 };
 pensionCtrl.crearPension = async(req,res)=>{
-    const {price,discount,use,idGrade}= req.body 
+    const {price,discount,use,idGrade,interes}= req.body 
 
      if(price==null){
         res.json({
@@ -61,7 +61,7 @@ pensionCtrl.crearPension = async(req,res)=>{
     }
     else {
        
-        const data = await pensionModel.create({price,discount,use,idGrade})
+        const data = await pensionModel.create({price,discount,use,idGrade,interes})
         res.json({
             mensaje: 'Pensión creada',
         })

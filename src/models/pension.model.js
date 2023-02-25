@@ -6,6 +6,7 @@ Pension.init({
 
     price:DataTypes.BIGINT,
     discount:DataTypes.BIGINT,
+    interes:DataTypes.BIGINT,
     use:DataTypes.STRING,
     idGrade:DataTypes.STRING,
     isActive: {

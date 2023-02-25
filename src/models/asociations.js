@@ -35,7 +35,7 @@ CertificateInscription.belongsTo(Certificate, { as: "certificateInscriptionAsCer
 CertificateInscription.belongsTo(Grade, { as: "certificateInscriptionAsGrade", foreignKey: "idGrade" });
 CertificateInscription.belongsTo(Estudiante, { as: "certificateInscriptionAsEstudiante", foreignKey: "idEstudiante" });
 
-CafeteriaPagos.belongsTo(Acudiente, { as: "cafeteriaPagosAsAcudiente ", foreignKey: "idAcudiente" });
+CafeteriaPagos.belongsTo(Estudiante, { as: "cafeteriaPagosAsEstudiante", foreignKey: "idEstudiante" });
 
 
 CoursesInscription.belongsTo(Estudiante, { as: "coursesInscriptionAsEstudiante", foreignKey: "idEstudiante" });

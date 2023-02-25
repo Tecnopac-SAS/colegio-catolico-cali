@@ -4,7 +4,9 @@ const cafeteriaPagosCtrl = require('../controllers/cafeteriaPagos.controller');
 
 
 router.post('/crearPago',cafeteriaPagosCtrl.crearPago);
-router.post('/getPagos',cafeteriaPagosCtrl.getPagos);
+router.get('/getPagos',cafeteriaPagosCtrl.getPagos);
+router.get('/listPagoSearch/:dato',cafeteriaPagosCtrl.listPagoSearch);
+router.get('/entregarTarjeta/:id',cafeteriaPagosCtrl.entregarTarjeta);
 
 
 

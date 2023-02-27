@@ -46,6 +46,7 @@ ExtracurricularInscription.belongsTo(Estudiante, { as: "extracurricularInscripti
 ExtracurricularInscription.belongsTo(Extracurricular, { as: "extracurricularInscriptionAsExtracurricular", foreignKey: "idExtracurricular" });
 
 PensionesMeses.belongsTo(Acudiente, { as: "pensionesMesesAsEstudiante", foreignKey: "idAcudiente" });
+PensionesMeses.belongsTo(Pension, { as: "pensionesMesesAsPension", foreignKey: "idPension" });
 MatriculasPagos.belongsTo(Acudiente, { as: "matriculasPagosAsEstudiante", foreignKey: "idAcudiente" });
 Estudiante.belongsTo(Grade,{as: "estudianteAsGrade", foreignKey:'idGrade'})
 // Usuario tiene una direccion

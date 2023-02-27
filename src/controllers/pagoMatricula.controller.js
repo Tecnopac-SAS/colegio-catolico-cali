@@ -10,7 +10,7 @@ const matriculaCtrl = {};
 
 matriculaCtrl.crearPago = async (req, res) => {
     try {
-        let {monto,metodoPago,idAcudiente,valMes,meses} = req.body;
+        let {monto,metodoPago,idAcudiente,valMes,meses,idPension} = req.body;
         // return  res.json(req.body)
         fechaPago = moment().format(`YYYY-MM-DD`)
         let year= moment().format(`YYYY`)    
@@ -32,7 +32,7 @@ matriculaCtrl.crearPago = async (req, res) => {
         for (let index = 06; vuelta < meses; index++) {
             vuelta++
             let indexForm = index.toString().padStart(2, '0')
-            const mes = await pensiones.create({fechaPago:moment().format(`${year}-${indexForm}-01`),valor:valMes,mora:'No',estatus:'Pendiente',idAcudiente})
+            const mes = await pensiones.create({fechaPago:moment().format(`${year}-${indexForm}-01`),valor:valMes,mora:false,estatus:'Pendiente',idAcudiente,idPension})
             if (index==12) {
                 index=00
                 year++

@@ -1,16 +1,36 @@
+const {sequelize, Op, where} = require('sequelize');
+const { QueryTypes } = require('sequelize');
+
 const config = require('../../config')
 const pensionPagoModel = require('../models/pensionMeses.model')
 const acudiente = require('../models/acudiente.model')
 const pensionPagoCtrl = {};
+const moment = require('moment');
 
 pensionPagoCtrl.consultarPensiones = async(req,res)=>{
     const {idAcudiente} = req.body
     try {
-        const result = await pensionPagoModel.findAll({where:{idAcudiente}});
+        const result = await pensionPagoModel.findAll({
+            where:{
+                idAcudiente,
+                createdAt: {[Op.between]:[new Date(moment().format(`YYYY-01-01 00:00:00`)),new Date(moment().format(`YYYY-12-31 23:59:59`))]}
+            },
+            include: {association: 'pensionesMesesAsPension'}
+        });
+        let tabla = []
+        result.forEach(element => {
+            // return res.json({prueba:{...element.toJSON()}})
+            if (new Date() > new Date(moment(new Date(element.fechaPago)).add(6, 'days'))) {
+                tabla.push({...element.toJSON(),valor:element.valor+Math.floor(element.valor*element.pensionesMesesAsPension.interes)/100,mora:true})
+            }else{
+                tabla.push({...element.toJSON(),mora:false})
+            }
+        });
+
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result:tabla
         })
     } catch (error) {
         res.status(500);
@@ -40,7 +60,7 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
             if (pension.valor!=pensiones[key].valor) {
                 monto = Number(pensiones[key].valor)
                 console.log("monto ", monto)
-                result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor,metodoPago:tipo},{
+                result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor,metodoPago:tipo,mora:pensiones[key].mora},{
                     where: {
                         id: pensiones[key].id
                     }
@@ -48,7 +68,7 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
             }else{
                 console.log("entro en el else")
                 monto = Number(pension.valor)
-                result = await pensionPagoModel.update({estatus:'Pagado',metodoPago:tipo},{
+                result = await pensionPagoModel.update({estatus:'Pagado',metodoPago:tipo,mora:pensiones[key].mora},{
                     where: {
                         id: pensiones[key].id
                     }

@@ -6,7 +6,10 @@ PensionesMeses.init({
     // mes:DataTypes.STRING,
     fechaPago:DataTypes.STRING,
     valor:DataTypes.DOUBLE,
-    mora:DataTypes.STRING,
+    mora:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false
+    },
     estatus:DataTypes.STRING,
     valorConDescuento:DataTypes.STRING,
     metodoPago:DataTypes.STRING,

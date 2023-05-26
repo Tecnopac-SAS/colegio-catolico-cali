@@ -19,7 +19,6 @@ avalpay.paymentStatus = async (req, res) => {
         let token = await makeRequest();
         token = JSON.parse(token);
         let paymentStatus = await makePaymentStatus(token.access_token, pmtId);
-        console.log(paymentStatus);
         res.json({ message: JSON.parse(paymentStatus) });
     } catch (error) {
         res.status(500);

@@ -40,7 +40,7 @@ async function makeRequest() {
   return response;
 }
 
-function httpRequestPay(options, amount,invoiceType, desc) {
+function httpRequestPay(options, amount,invoiceType, portalURL, desc) {
   var postData = querystring.stringify({
     grant_type: "client_credentials",
     scope: "payment_mgmt/sesskey_payment"
@@ -94,7 +94,7 @@ function httpRequestPay(options, amount,invoiceType, desc) {
       "RefInfo": [
         {
           "RefId": "PortalURL",
-          "RefType": "http://localhost:4200/pago-pension"
+          "RefType": `http://localhost:4200/${portalURL}`
         },
         {
           "RefId": "LogoURL",
@@ -134,7 +134,7 @@ function httpRequestPay(options, amount,invoiceType, desc) {
   });
 }
 
-async function makeRequestPay(token, amount,invoiceType, desc) {
+async function makeRequestPay(token, amount,invoiceType,portalURL, desc) {
   const options = {
     hostname: 'qa.psp.ath.com.co',
     path: '/payment/Payments_Trn/Trn',
@@ -152,7 +152,7 @@ async function makeRequestPay(token, amount,invoiceType, desc) {
     },
   };
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-  const response = await httpRequestPay(options, amount,invoiceType, desc);
+  const response = await httpRequestPay(options, amount,invoiceType, portalURL,desc);
   return response;
 }
 async function makePaymentStatus(token, pmtId) {

@@ -3,10 +3,10 @@ const avalpay = {};
 
 avalpay.payment = async (req, res) => {
     try {
-        const { amount,invoiceType, desc} = req.body;
+        const { amount,invoiceType,portalURL,desc} = req.body;
         let token = await makeRequest();
         token = JSON.parse(token);
-        let payment = await makeRequestPay(token.access_token, amount, invoiceType, desc);
+        let payment = await makeRequestPay(token.access_token, amount, invoiceType, portalURL, desc);
         res.json({ message: JSON.parse(payment) });
     } catch (error) {
         res.status(500);

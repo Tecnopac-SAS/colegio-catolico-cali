@@ -5,6 +5,7 @@ class MatriculasPagos extends Model {}
 MatriculasPagos.init({
     monto:DataTypes.DOUBLE,
     metodoPago:DataTypes.STRING,
+    jornada:DataTypes.STRING,
     fechaPago:DataTypes.STRING,
 }, 
 {

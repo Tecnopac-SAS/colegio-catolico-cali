@@ -91,7 +91,7 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
         
         res.json({
             status: true,
-            mensaje: 'pago realizado',
+            mensaje: 'Pago realizado!',
             result:result
         })
     } catch (error) {

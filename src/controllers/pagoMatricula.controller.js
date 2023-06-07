@@ -10,8 +10,7 @@ const matriculaCtrl = {};
 
 matriculaCtrl.crearPago = async (req, res) => {
     try {
-        let {monto,metodoPago,idAcudiente,valMes,meses,idPension} = req.body;
-        // return  res.json(req.body)
+        let {monto,metodoPago,jornada,idAcudiente,valMes,meses,idPension} = req.body;
         fechaPago = moment().format(`YYYY-MM-DD`)
         let year= moment().format(`YYYY`)    
         let matriculaCheck = await matricula.findOne({where:{idAcudiente,fechaPago:{[Op.between]:[moment().format(`YYYY-MM-01`),moment().format(`YYYY-MM-31`)],}}})
@@ -21,7 +20,7 @@ matriculaCtrl.crearPago = async (req, res) => {
                 mensaje: 'Matricula pagada anteriormente',
             })
         }
-        const data = await matricula.create({monto,metodoPago,fechaPago,idAcudiente})
+        const data = await matricula.create({monto,metodoPago,fechaPago,jornada,idAcudiente})
         if (metodoPago == 'bolsillo') {
             let acudienteM = await acudiente.findOne({where:{id:idAcudiente}})
             let nuevoBolsillo = acudienteM.bolsillo - monto
@@ -29,7 +28,9 @@ matriculaCtrl.crearPago = async (req, res) => {
         }
         
         let vuelta=0
-        for (let index = 06; vuelta < meses; index++) {
+        let index;
+        //Tipo de calendario
+        for (index = 9; vuelta < meses; index++) {
             vuelta++
             let indexForm = index.toString().padStart(2, '0')
             const mes = await pensiones.create({fechaPago:moment().format(`${year}-${indexForm}-01`),valor:valMes,mora:false,estatus:'Pendiente',idAcudiente,idPension})

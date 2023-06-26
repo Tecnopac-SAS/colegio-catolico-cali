@@ -94,6 +94,7 @@ app.use('/soportePagos', require('./src/routes/soportePagos.route'))
 app.use('/historicoCartera', require('./src/routes/historicoCartera.route'))
 app.use('/cafeteriaPagos', require('./src/routes/cafeteriaPagos.route'))
 app.use('/avalpay', require('./src/routes/avalpay.route'))
+app.use('/downloads', require('./src/routes/downloads.route'))
 
 
 

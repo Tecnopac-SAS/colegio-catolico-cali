@@ -26,7 +26,8 @@ attendingManagementCtrl.consultarAttendingManagements = async(req,res)=>{
 attendingManagementCtrl.consultarAttendingManagement = async (req, res) => {
     try {
         const { nombres } = req.params;
-        const result = await acudiente.findAll({ where: { nombres:{[Op.like]:`${nombres}%`}}});
+        const result = await acudiente.findAll({ include: [{ association: 'acudienteAsEstudiante' }],
+        where: { nombres:{[Op.like]:`${nombres}%`}}});
         res.json({
             mensaje: 'ok',
             result

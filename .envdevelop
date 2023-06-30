@@ -1,7 +1,7 @@
 DB_HOST="tecnopac-mariadb.cflkp1qysre8.us-east-1.rds.amazonaws.com"
 DB_NAME="colegio"
 DB_USER="admin"
-PASSWORD=",P6c5#Sd{65zi17"
+DB_PASSWORD=",P6c5#Sd{65zi17"
 	
 PORT=3000
 SECRET_KEY="SECRETA"

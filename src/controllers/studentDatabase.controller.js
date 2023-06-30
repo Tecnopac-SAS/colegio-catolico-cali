@@ -34,13 +34,12 @@ studentDatabaseCtrl.getMatricula = async(req,res)=>{
     try {
         const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
         let user = resultUser.userAsAcudiente
-        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});        
-        const resultMatricula = await matriculaModel.findOne({where:{id:resultStudent.idGrade} });
+        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});
+        const resultMatricula = await matriculaModel.findOne({where:{idGrade:resultStudent.idGrade} });
 
         fechaActual =  new Date()
         fechaInicio =  new Date(resultMatricula.startDate)
         fechaFin = new Date(resultMatricula.finalDate)
-
         matriculaValidada= (fechaActual>fechaInicio&&fechaActual<fechaFin)?resultMatricula.price:resultMatricula.surcharge
 
         res.json({

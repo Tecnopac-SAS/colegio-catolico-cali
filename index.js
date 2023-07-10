@@ -51,6 +51,7 @@ const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 const CertificateInscription = require('./src/models/certificateInscription.model');
+const PagosPresenciales = require('./src/models/pagosPresenciales.model');
 require('./src/models/asociations');
 
 
@@ -95,6 +96,7 @@ app.use('/historicoCartera', require('./src/routes/historicoCartera.route'))
 app.use('/cafeteriaPagos', require('./src/routes/cafeteriaPagos.route'))
 app.use('/avalpay', require('./src/routes/avalpay.route'))
 app.use('/downloads', require('./src/routes/downloads.route'))
+app.use('/pagosPresenciales', require('./src/routes/pagosPresenciales.route'))
 
 
 
@@ -155,6 +157,8 @@ technicalInscription.sync({ alter: true })
 extracurricularInscription.sync({ alter: true })
 CertificateInscription.sync({ alter: true })
 cafeteriaPagosModel.sync({ alter: true })
+
+PagosPresenciales.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

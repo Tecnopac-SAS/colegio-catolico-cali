@@ -8,6 +8,8 @@ Transportation.init({
     routeNumber:DataTypes.STRING,
     responsible:DataTypes.STRING,
     price:DataTypes.BIGINT,
+    cupo:DataTypes.INTEGER,
+    cupo_disponible:DataTypes.INTEGER,
     routeType:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,

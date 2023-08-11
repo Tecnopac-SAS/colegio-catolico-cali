@@ -47,13 +47,12 @@ const coursesInscription = require('./src/models/coursesInscription.model')
 const technicalInscription = require('./src/models/technicalInscription.model')
 const extracurricularInscription = require('./src/models/extracurricularInscription.model')
 const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
-
+const documentos = require('./src/models/documentos.model');
+const PagosPresenciales = require('./src/models/pagosPresenciales.model');
 
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 const CertificateInscription = require('./src/models/certificateInscription.model');
-const PagosPresenciales = require('./src/models/pagosPresenciales.model');
-const transportationRequestCtrl = require('./src/controllers/transportation-request.controller');
 require('./src/models/asociations');
 
 
@@ -79,6 +78,7 @@ app.use('/transportationRequest', require('./src/routes/transportation-request.r
 app.use('/cafeteria', require('./src/routes/cafeteria.route'))
 app.use('/discount', require('./src/routes/discount.route'))
 app.use('/certificate', require('./src/routes/certificate.route'))
+app.use('/documentos', require('./src/routes/documentos.route'))
 app.use('/technical', require('./src/routes/technical.route'))
 app.use('/documentosMatricula', require('./src/routes/documentosMatricula.route'))
 app.use('/schoolYear', require('./src/routes/schoolYear.route'))
@@ -161,8 +161,9 @@ technicalInscription.sync({ alter: true })
 extracurricularInscription.sync({ alter: true })
 CertificateInscription.sync({ alter: true })
 cafeteriaPagosModel.sync({ alter: true })
-
 PagosPresenciales.sync({ alter: true })
+
+documentos.sync({ alter: true })
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

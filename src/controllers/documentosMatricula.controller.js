@@ -1,8 +1,6 @@
 const path = require('path');
 const documentosMatriculaCtrl = {};
 const { Op } = require('sequelize');
-const { storeFile,downloadFile } = require('../helpers/files');
-
 
 
 const documentosMatriculaModel = require('../models/documentosMatricula.model');
@@ -17,26 +15,23 @@ documentosMatriculaCtrl.create = async (req, res) => {
         title,
         canViewType,
         canViewValue,
+        documentoid,
     } = req.body
-    const { file } = req.files;
 
     if (title && canViewType) {
         if (canViewType != 'all' && !canViewValue) {
         } else {
-            const fileName = storeFile(file);
-
             const documentoMatricula = await documentosMatriculaModel.create({
                 title,
                 canViewType,
                 canViewValue,
-                documentUrl: fileName
+                documentoid,
             });
             return res.json({
                 success: true,
                 mensaje: 'documento creado',
                 documentoMatricula: {
                     ...documentoMatricula.toJSON(),
-                    documentUrl: formatUrl(documentoMatricula.id)
                 }
             })
         }
@@ -71,8 +66,7 @@ documentosMatriculaCtrl.getDocumentByID = async (req, res) => {
                 success: true,
                 mensaje: 'Documento encontrado',
                 result: {
-                    ...documentoMatricula.toJSON(),
-                    documentUrl: formatUrl(documentoMatricula.id)
+                    ...documentoMatricula.toJSON()
                 }
             })
         } else {            
@@ -90,10 +84,6 @@ documentosMatriculaCtrl.getDocumentByID = async (req, res) => {
 documentosMatriculaCtrl.getDocuments = async (req, res) => {
     try {
         const documentosMatricula = await documentosMatriculaModel.findAll();
-        //Add host to documentUrl
-        documentosMatricula.map(documento => {
-            return documento.documentUrl = formatUrl(documento.id);
-        })
         return res.json(documentosMatricula)
     } catch (error) {
         res.status(500).send(error.message);
@@ -119,15 +109,7 @@ documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
                     ]
                 }
             });
-            //Add host to documentUrl
-            const documentosMatriculaWithUrlFormated = documentosMatricula.map(documento => {
-                documento = { 
-                    ...documento.toJSON(),
-                    documentUrl : formatUrl(documento.id)
-                };
-                return documento;
-            })
-            return res.json(documentosMatriculaWithUrlFormated)
+            return res.json(documentosMatricula)
         } else {
             return res.json({
                 success: false,
@@ -162,18 +144,12 @@ documentosMatriculaCtrl.update = async (req, res) => {
                     documentoMatricula.canViewValue = canViewValue;
                 }
             }
-            if (req.files?.file) {
-                const { file } = req.files;
-                const fileName = storeFile(file);
-                documentoMatricula.documentUrl = fileName;
-            }
             await documentoMatricula.save();
             return res.json({
                 success: true,
                 mensaje: 'Documento actualizado',
                 documentoMatricula: {
                     ...documentoMatricula.toJSON(),
-                    documentUrl: formatUrl(documentoMatricula.id)
                 }
             })
         } else {
@@ -187,24 +163,6 @@ documentosMatriculaCtrl.update = async (req, res) => {
     }
 }
 
-
-documentosMatriculaCtrl.download = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
-        if (documentoMatricula) {
-            const filePath = path.join(__dirname, '../') + `/uploads/${documentoMatricula.documentUrl}`;
-            res.setHeader(`Content-Disposition`, `attachment`);
-            res.download(filePath);
-
-            //Meotodos de descarga Header Content-Disposition
-            //  - inline (default): Abre el contenido en el navegador
-            //  - attachment : Descarga el contenido 
-        }
-    } catch(error){
-        res.status(500).send(error.message);
-    }
-}
 
 
 /*

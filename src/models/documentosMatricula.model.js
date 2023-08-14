@@ -7,7 +7,7 @@ DocumentosMatricula.init({
     title: DataTypes.STRING,
     canViewType: DataTypes.STRING,
     canViewValue: DataTypes.STRING,
-    documentUrl: DataTypes.STRING,
+    documentoid: DataTypes.INTEGER,
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

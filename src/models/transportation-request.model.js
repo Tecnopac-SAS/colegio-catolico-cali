@@ -7,8 +7,6 @@ TransportationRequest.init({
     routeid:DataTypes.INTEGER,
     acudienteid:DataTypes.INTEGER,
     estudianteid:DataTypes.INTEGER,
-    direccion_recogida:DataTypes.STRING,
-    direccion_entrega:DataTypes.STRING,
     estudianteid:DataTypes.INTEGER,
     estudianteid:DataTypes.INTEGER,
     estudianteid:DataTypes.INTEGER,

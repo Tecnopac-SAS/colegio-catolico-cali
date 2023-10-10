@@ -7,7 +7,8 @@ const transportationCtrl = {};
 
 transportationCtrl.consultarTransportations = async(req,res)=>{
     try {
-        const result = await transportationModel.findAll();
+        const { jornada } = req.params;
+        const result = await transportationModel.findAll({ where: { jornada: jornada}});
         res.json({
             status: 200,
             mensaje: 'ok',

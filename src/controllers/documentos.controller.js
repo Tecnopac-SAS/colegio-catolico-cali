@@ -74,14 +74,7 @@ documentosCtrl.actualizarDocumento = async (req, res) => {
 documentosCtrl.crearPDFDocumento = async (req, res) => {
   try {
     const { id } = req.params;
-    const { 
-        acudiente_nombre,
-        estudiante_nombre,
-        estudiante_grado,
-        valor_matricula_letras,
-        valor_matricula,
-        tabla_pensiones 
-      } = req.body;
+    const { acudiente_nombre, estudiante_nombre, estudiante_grado } = req.body;
 
     if (id === undefined) {
       return res.status(400).json({ message: "Bad Request. Please fill all fields." });
@@ -98,7 +91,8 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
     }
 
     // Inicia el navegador Puppeteer
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+      const browser = await puppeteer.launch({ args: ['--no-sandbox'] });	
+    //const browser = await puppeteer.launch({ignoreDefaultArgs: ['--disable-extensions']})
 
     // Crea una nueva página
     const page = await browser.newPage();
@@ -112,9 +106,6 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
       fecha_actual_mes: new Date().getMonth() + 1,
       fecha_actual_dia: new Date().getDate(),
       estudiante_grado: estudiante_grado,
-      valor_matricula_letras: valor_matricula_letras,
-      valor_matricula: valor_matricula,
-      tabla_pensiones: tabla_pensiones
     };
 
     // Función para reemplazar variables en el HTML
@@ -133,7 +124,7 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
 
     // Genera el PDF y obtén los datos del PDF en forma de buffer
     const pdfBuffer = await page.pdf({
-      format: 'Legal',
+      format: 'A4',
       margin: {
         top: '20px',
         bottom: '20px',

@@ -22,6 +22,22 @@ transportationCtrl.consultarTransportations = async(req,res)=>{
         })
     }
 }
+transportationCtrl.consultarTransportationsAll = async(req,res)=>{
+    try {
+        const result = await transportationModel.findAll();
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result:result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
 
 transportationCtrl.consultarTransportation = async (req, res) => {
     try {
@@ -52,7 +68,7 @@ transportationCtrl.consultarId = async (req, res) => {
 };
 
 transportationCtrl.crearTransportation = async(req,res)=>{
-    const {routeName,routeNumber,responsible,routeType,price}= req.body 
+    const {routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible}= req.body 
 
      if(routeName==null){
         res.json({
@@ -61,7 +77,7 @@ transportationCtrl.crearTransportation = async(req,res)=>{
     }
     else {
        
-        const data = await transportationModel.create({routeName,routeNumber,responsible,routeType,price})
+        const data = await transportationModel.create({routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -72,11 +88,11 @@ transportationCtrl.crearTransportation = async(req,res)=>{
 transportationCtrl.actualizarTransportation = async (req, res) => {
     try {
         const { id } = req.params;
-        let {routeName,routeNumber,responsible,routeType,price} = req.body;
+        let {routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price} = req.body;
         if (id === undefined || routeName === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationModel.update({routeName,routeNumber,responsible,routeType,price},{
+        await transportationModel.update({routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price},{
             where: {
                 id: id
             }

@@ -2,6 +2,7 @@ const {Router} = require('express');
 const router = Router();
 const TransportationCtrl = require('../controllers/transportation.controller');
 
+router.get('/listarTransportations',TransportationCtrl.consultarTransportationsAll);
 router.get('/listarTransportations/:jornada',TransportationCtrl.consultarTransportations);
 router.get('/listarTransportation/:routeName',TransportationCtrl.consultarTransportation);
 router.get('/listarTransportationId/:id',TransportationCtrl.consultarId);

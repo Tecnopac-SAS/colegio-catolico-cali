@@ -3,7 +3,7 @@ const router = Router();
 const userCtrl = require('../controllers/user.controller');
 
 router.get('/listarUsuarios',userCtrl.consultarUsuarios);
-router.get('/listarUsuario/:id',userCtrl.consultarUsuario);
+router.get('/listarUsuario/:id',userCtrl.getUserId);
 router.get('/listarUsuarioEmail/:email',userCtrl.getUser);
 
 router.post('/agregarUsuario',userCtrl.crearUsuario);

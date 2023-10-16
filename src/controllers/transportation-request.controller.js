@@ -37,6 +37,20 @@ transportationRequestCtrl.consultarTransportationRequest = async (req, res) => {
     }
 };
 
+transportationRequestCtrl.consultarTransportationByStudentRequest = async (req, res) => {
+    try {
+        const {estudianteid,acudienteid } = req.params;
+        const result = await transportationRequestModel.findAll({ where: { estudianteid: estudianteid, acudienteid: acudienteid}});
+        res.json({
+            mensaje: 'ok',
+            result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 transportationRequestCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;

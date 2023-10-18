@@ -11,6 +11,10 @@ Transportation.init({
     cupo:DataTypes.INTEGER,
     cupo_disponible:DataTypes.INTEGER,
     routeType:DataTypes.STRING,
+    direccion_recogida:DataTypes.STRING,
+    direccion_entrega:DataTypes.STRING,
+    jornada:DataTypes.INTEGER,
+    descripcion:DataTypes.STRING,
     isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

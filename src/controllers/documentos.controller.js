@@ -91,7 +91,8 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
     }
 
     // Inicia el navegador Puppeteer
-    const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ args: ['--no-sandbox'] });	
+    //const browser = await puppeteer.launch({ignoreDefaultArgs: ['--disable-extensions']})
 
     // Crea una nueva página
     const page = await browser.newPage();

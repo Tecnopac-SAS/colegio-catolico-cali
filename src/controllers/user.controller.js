@@ -64,6 +64,20 @@ userCtrl.getUser = async (req, res) => {
     }
 };
 
+userCtrl.getUserId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await userModel.findOne({ where: { id: id } });
+        res.json({
+            mensaje: 'ok',
+            result: result
+        })
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 userCtrl.login = async(req,res)=>{
     try {
         const {email,password,tipo}= req.body

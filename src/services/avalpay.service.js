@@ -35,7 +35,7 @@ async function makeRequest() {
       'Authorization':'Basic MzFoMHJlbzJwbTBndmhndjZyOGsycnFnamg6MTc0Y2o0bmp1bjYybXIzYmMxanRmY3Vsb2RsbmFjZmdmNDBvdDVkYzZjaHVvZG9rbDRxcA=='
     },
   };
-  // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
   const response = await httpRequest(options);
   return response;
 }

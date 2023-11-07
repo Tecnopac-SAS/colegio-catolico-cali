@@ -32,10 +32,10 @@ async function makeRequest() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':'Basic NzN2YmZ1NHRhbjJmZHNlaDY1aHNxNnVrMnY6cmJwY203Y2htY3IzNmQ5bmI0OHNuYXZqYjZkNGRodTFnaWpqZnFhMG5kNXRmcjdyOGF2'
+      'Authorization':'Basic /vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ=='
     },
   };
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+  // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
   const response = await httpRequest(options);
   return response;
 }

@@ -32,7 +32,7 @@ async function makeRequest() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':'Basic MzFoMHJlbzJwbTBndmhndjZyOGsycnFnamg6MTc0Y2o0bmp1bjYybXIzYmMxanRmY3Vsb2RsbmFjZmdmNDBvdDVkYzZjaHVvZG9rbDRxcA=='
+      'Authorization':'Basic NzN2YmZ1NHRhbjJmZHNlaDY1aHNxNnVrMnY6cmJwY203Y2htY3IzNmQ5bmI0OHNuYXZqYjZkNGRodTFnaWpqZnFhMG5kNXRmcjdyOGF2'
     },
   };
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
@@ -94,7 +94,7 @@ function httpRequestPay(options, amount,invoiceType, portalURL, desc) {
       "RefInfo": [
         {
           "RefId": "PortalURL",
-          "RefType": `http://localhost:4200/${portalURL}`
+          "RefType": `http://app.colegiocatolicocali.edu.co/${portalURL}`
         },
         {
           "RefId": "LogoURL",
@@ -169,7 +169,7 @@ async function makePaymentStatus(token, pmtId) {
       'X-IdentSerialNum': '0',
       'X-IPAddr':'192.168.1.15',
       'X-Sesskey': token,
-      'X-Authorization': "8BJSTdcX4BY=QWpSS29OV0NUOE9RdU1qeVcyODAvSDNIRUpiM0JwTGl5S2hRZXA3SmwyOXpBNjJaN1pTN3UrMEJPUnZEb05YbTBJVkxBdnFnbkU4M2crMXBJK21MZnRzYXhteTRZUnNZQjFZMkpGWkdnWE0xQnVMcjNaRytmOVBQZWwxTmp4QVExeGtCVlE9PQ==",
+      'X-Authorization': "/vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ==",
       "X-ApprovalId": pmtId
     },
   };

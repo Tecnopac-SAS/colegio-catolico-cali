@@ -32,7 +32,7 @@ async function makeRequest() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':'Basic /vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ=='
+      'Authorization':'Basic MzFoMHJlbzJwbTBndmhndjZyOGsycnFnamg6MTc0Y2o0bmp1bjYybXIzYmMxanRmY3Vsb2RsbmFjZmdmNDBvdDVkYzZjaHVvZG9rbDRxcA=='
     },
   };
   // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
@@ -148,7 +148,7 @@ async function makeRequestPay(token, amount,invoiceType,portalURL, desc) {
       'X-IdentSerialNum': '0',
       'X-IPAddr':'192.168.1.15',
       'X-Sesskey': token,
-      'X-Authorization': "8BJSTdcX4BY=QWpSS29OV0NUOE9RdU1qeVcyODAvSDNIRUpiM0JwTGl5S2hRZXA3SmwyOXpBNjJaN1pTN3UrMEJPUnZEb05YbTBJVkxBdnFnbkU4M2crMXBJK21MZnRzYXhteTRZUnNZQjFZMkpGWkdnWE0xQnVMcjNaRytmOVBQZWwxTmp4QVExeGtCVlE9PQ=="
+      'X-Authorization': "/vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ=="
     },
   };
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;

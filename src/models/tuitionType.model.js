@@ -18,7 +18,7 @@ TuitionType.init({
 
 {
     sequelize,
-    modelName: "tuitionType",
+    modelName: "tuitionTypes",
     tableName: 'tuitionTypes'
 });
 

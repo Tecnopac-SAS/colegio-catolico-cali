@@ -12,6 +12,7 @@ router.get('/extracurricular/img/:img',extracurricularCtrl.getImage)
 router.get('/listarExtracurricularId/:id',extracurricularCtrl.consultarId);
 router.put('/actualizarExtracurricular/:id',extracurricularCtrl.actualizarExtracurricular)
 router.put('/deshabilitar/:id' ,extracurricularCtrl.deshabilitar)
+router.put('/desvincularse/:id' ,extracurricularCtrl.desvincularse)
 
 
 

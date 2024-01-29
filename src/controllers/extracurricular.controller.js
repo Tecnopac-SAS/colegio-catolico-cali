@@ -5,8 +5,10 @@ const bdSq = require('../db/databaseSq')
 const multer  = require('multer')
 const md5 = require('md5')
 const path = require('path');
+const Acudiente = require('../models/acudiente.model');
 const extracurricularModel = require('../models/extracurricular.model')
 const extracurricularInscriptionModel = require('../models/extracurricularInscription.model')
+const technicalInscription = require('../models/technicalInscription.model')
 const extracurricularCtrl = {};
 
 extracurricularCtrl.consultarExtracurriculares = async(req,res)=>{
@@ -66,25 +68,23 @@ extracurricularCtrl.getImage = async (req,res)=>{
     }
 
     else{
-        //let path_img = 'src/uploads/productos/default.jpg';
+        let path_img = 'src/uploads';
         res.status(200).sendFile(path.resolve(path_img));
     }
 
 }
 
 extracurricularCtrl.crearExtracurricular = async(req,res)=>{
-    const {activity,startDate,finalDate,price,information,schedule,idTeacher}= req.body 
+    const {activity,startDate,finalDate,price,information,schedule,idTeacher,imagen}= req.body 
     if(activity==""){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        const imagen_path = req.file.path;
 
-        const name = imagen_path.split('\\');
-        const imagenCargada = name[7];
-        await extracurricularModel.create({imagen:imagenCargada,activity,startDate,finalDate,price,information,schedule,idTeacher})
+        // const imagenCargada = name[7];
+        await extracurricularModel.create({imagen:imagen,activity,startDate,finalDate,price,information,schedule,idTeacher})
         res.json({
             mensaje: 'Extracurricular  creado',
         })
@@ -156,11 +156,32 @@ extracurricularCtrl.deshabilitar = async (req, res) => {
         res.send(error.message);
     }
 };
+extracurricularCtrl.desvincularse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { idEstudiante, idExtracurricular } = req.body;
+        const delet = await extracurricularInscriptionModel.update({isActive: 0},{
+            where: {
+                id: id,
+                idExtracurricular: idExtracurricular,
+                idEstudiante: idEstudiante
+            }
+        })
+         if(delet){
+            return res.json({
+                mensaje: 'desvinculado',
+            })
+        }
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 
 extracurricularCtrl.misExtracurriculares = async(req,res)=>{
     const {idEstudiante}= req.body 
 
-    const inscripcion = await extracurricularInscriptionModel.findAll({ where: { idEstudiante: idEstudiante }, include: { association: 'extracurricularInscriptionAsExtracurricular',include:{association:'extracurricularAsTeacher'} } })
+    const inscripcion = await extracurricularInscriptionModel.findAll({ where: { idEstudiante: idEstudiante, isActive: 1 }, include: { association: 'extracurricularInscriptionAsExtracurricular',include:{association:'extracurricularAsTeacher'} } })
 
     if(inscripcion !== null){
         res.json({
@@ -175,7 +196,7 @@ extracurricularCtrl.misExtracurriculares = async(req,res)=>{
 
 }
 extracurricularCtrl.pago = async(req,res)=>{
-    const {monto,idExtracurricular,metodoPago,idEstudiante}= req.body 
+    const {monto,idExtracurricular,metodoPago,idEstudiante,idAcudiente,isActive}= req.body 
 
      if(idExtracurricular==null){
         res.json({
@@ -184,11 +205,16 @@ extracurricularCtrl.pago = async(req,res)=>{
         })
     }
     else {
-        const inscripcion = await extracurricularInscriptionModel.findOne({ where: { idExtracurricular: idExtracurricular }, include: { association: 'extracurricularInscriptionAsExtracurricular' } })
+        const inscripcion = await extracurricularInscriptionModel.findOne({ where: { idExtracurricular: idExtracurricular, isActive: isActive }, include: { association: 'extracurricularInscriptionAsExtracurricular' } })
         // const search = await courseModel.findOne({ where: { id: idExtracurricular } })
         if(inscripcion === null){
-            const datos = await extracurricularInscriptionModel.create({monto,idExtracurricular,metodoPago,idEstudiante})
+            const datos = await extracurricularInscriptionModel.create({monto,idExtracurricular,metodoPago,idEstudiante,isActive})
             if (datos) {
+                if (metodoPago == 'bolsillo') {
+                    let acudienteM = await Acudiente.findOne({where:{id:idAcudiente}})
+                    let nuevoBolsillo = acudienteM.bolsillo - monto
+                    await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:idAcudiente}})
+                }
                 res.json({
                     mensaje: 'Extracurricular registrado',
                     status:true
@@ -206,7 +232,7 @@ extracurricularCtrl.pago = async(req,res)=>{
                     status:false
                 })
             }else{
-                const datos = await technicalInscription.create({monto,idExtracurricular,metodoPago,idEstudiante})
+                const datos = await technicalInscription.create({monto,idExtracurricular,metodoPago,idEstudiante,isActive})
                 res.json({
                     mensaje: 'Extracurricular registrado',
                     status:true

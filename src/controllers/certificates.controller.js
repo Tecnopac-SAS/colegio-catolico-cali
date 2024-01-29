@@ -4,6 +4,7 @@ const {sequelize, Op, where} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const certificatesModel = require('../models/certificates.model')
+const pensionPagoModel = require('../models/pensionMeses.model')
 const certificateInscription = require('../models/certificateInscription.model');
 const Acudiente = require('../models/acudiente.model');
 const { json } = require('body-parser');
@@ -198,7 +199,7 @@ certificatesCtrl.deshabilitar = async (req, res) => {
 };
 
 certificatesCtrl.pago = async(req,res)=>{
-    const {monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante}= req.body 
+    const {monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,idAcudiente}= req.body 
 
      if(idCertificate==null){
         res.json({
@@ -208,10 +209,16 @@ certificatesCtrl.pago = async(req,res)=>{
     }
     else {
         const certificado = await certificateInscription.findOne({ where: { idCertificate: idCertificate, idGrade: idGrade }})
+
         // const search = await courseModel.findOne({ where: { id: idCertificate } })
         if(certificado === null){
             const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante})
             if (datos) {
+                if (metodoPago == 'bolsillo') {
+                    let acudienteM = await Acudiente.findOne({where:{id:idAcudiente}})
+                    let nuevoBolsillo = acudienteM.bolsillo - monto
+                    await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:idAcudiente}})
+                }
                 res.json({
                     mensaje: 'Certificado registrado',
                     status:true
@@ -223,19 +230,11 @@ certificatesCtrl.pago = async(req,res)=>{
                 })
             }
         }else{
-            if (certificado.createdAt < new Date()) {
-                res.json({
-                    mensaje: 'Certificado ya pagado anteriormente',
-                    status:false
-                })
-            }else{
-                const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante})
-                res.json({
-                    mensaje: 'Certificado registrado',
-                    status:true
-                })
-
-            }
+            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante})
+            res.json({
+                mensaje: 'Certificado registrado',
+                status:true
+            })
         }
     }
 

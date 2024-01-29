@@ -74,7 +74,18 @@ documentosCtrl.actualizarDocumento = async (req, res) => {
 documentosCtrl.crearPDFDocumento = async (req, res) => {
   try {
     const { id } = req.params;
-    const { acudiente_nombre, estudiante_nombre, estudiante_grado } = req.body;
+    const { 
+      acudiente_nombre,
+      estudiante_nombre,
+      estudiante_grado,
+      valor_matricula_letras,
+      valor_matricula,
+      tabla_pensiones,
+      total_pensiones,
+      total_pensiones_letras,
+      mensualidad_letras,
+      mensualidad
+    } = req.body;
 
     if (id === undefined) {
       return res.status(400).json({ message: "Bad Request. Please fill all fields." });
@@ -106,6 +117,13 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
       fecha_actual_mes: new Date().getMonth() + 1,
       fecha_actual_dia: new Date().getDate(),
       estudiante_grado: estudiante_grado,
+      valor_matricula_letras: valor_matricula_letras,
+      valor_matricula: valor_matricula,
+      tabla_pensiones: tabla_pensiones,
+      total_pensiones: total_pensiones,
+      total_pensiones_letras: total_pensiones_letras,
+      mensualidad: mensualidad,
+      mensualidad_letras: mensualidad_letras,
     };
 
     // Función para reemplazar variables en el HTML

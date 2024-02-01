@@ -10,6 +10,7 @@ CertificateInscription.init({
     metodoPago:DataTypes.STRING,
     entregado:DataTypes.BOOLEAN,
     status:DataTypes.BOOLEAN,
+    paymentCode:DataTypes.STRING,
 }, 
 
 {

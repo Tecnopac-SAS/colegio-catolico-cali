@@ -210,11 +210,6 @@ extracurricularCtrl.pago = async(req,res)=>{
         if(inscripcion === null){
             const datos = await extracurricularInscriptionModel.create({monto,idExtracurricular,metodoPago,idEstudiante,isActive})
             if (datos) {
-                if (metodoPago == 'bolsillo') {
-                    let acudienteM = await Acudiente.findOne({where:{id:idAcudiente}})
-                    let nuevoBolsillo = acudienteM.bolsillo - monto
-                    await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:idAcudiente}})
-                }
                 res.json({
                     mensaje: 'Extracurricular registrado',
                     status:true

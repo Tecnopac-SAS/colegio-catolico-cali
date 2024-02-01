@@ -71,18 +71,6 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
                 });
 
             }
-            console.log({result})
-
-            if (result) {
-                console.log({tipo})
-                if (tipo == 'bolsillo') {
-                    const acudienteM = await acudiente.findOne({where:{id:pension.idAcudiente}})
-                    console.log({acudienteM})
-                    nuevoBolsillo = acudienteM.bolsillo - monto
-                    console.log({nuevoBolsillo})
-                    await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:pension.idAcudiente}})
-                }
-            }
         }
         
         res.json({

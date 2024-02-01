@@ -74,7 +74,8 @@ documentosCtrl.actualizarDocumento = async (req, res) => {
 documentosCtrl.crearPDFDocumento = async (req, res) => {
   try {
     const { id } = req.params;
-    const { 
+    const {
+      //Documentos Matrícula 
       acudiente_nombre,
       estudiante_nombre,
       estudiante_grado,
@@ -84,7 +85,12 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
       total_pensiones,
       total_pensiones_letras,
       mensualidad_letras,
-      mensualidad
+      mensualidad,
+      //Soportes de Pago
+      paymentCode,
+      soporte_pago_monto,
+      soporte_pago_concepto
+
     } = req.body;
 
     if (id === undefined) {
@@ -110,20 +116,26 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
 
     // Variables y sus valores para reemplazar en el template
     const variables = {
-      acudiente_nombre: acudiente_nombre,
-      estudiante_nombre: estudiante_nombre,
-      fecha_actual: new Date(),
+
+      //Documentos Matrícula 
+      acudiente_nombre: acudiente_nombre || '',
+      estudiante_nombre: estudiante_nombre || '',
+      fecha_actual: new Date().toISOString().split('T')[0],
       fecha_actual_anio: new Date().getFullYear(),
       fecha_actual_mes: new Date().getMonth() + 1,
       fecha_actual_dia: new Date().getDate(),
-      estudiante_grado: estudiante_grado,
-      valor_matricula_letras: valor_matricula_letras,
-      valor_matricula: valor_matricula,
-      tabla_pensiones: tabla_pensiones,
-      total_pensiones: total_pensiones,
-      total_pensiones_letras: total_pensiones_letras,
-      mensualidad: mensualidad,
-      mensualidad_letras: mensualidad_letras,
+      estudiante_grado: estudiante_grado || '',
+      valor_matricula_letras: valor_matricula_letras || '',
+      valor_matricula: valor_matricula || '',
+      tabla_pensiones: tabla_pensiones || '',
+      total_pensiones: total_pensiones || '',
+      total_pensiones_letras: total_pensiones_letras || '',
+      mensualidad: mensualidad || '',
+      mensualidad_letras: mensualidad_letras || '',
+      //Soportes de Pago
+      paymentCode: paymentCode || '',
+      soporte_pago_monto: soporte_pago_monto || '',
+      soporte_pago_concepto: soporte_pago_concepto || ''
     };
 
     // Función para reemplazar variables en el HTML

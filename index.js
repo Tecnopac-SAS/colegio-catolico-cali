@@ -53,6 +53,7 @@ const PagosPresenciales = require('./src/models/pagosPresenciales.model');
 const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 const CertificateInscription = require('./src/models/certificateInscription.model');
+const SoportesPago = require('./src/models/soportesPago.model');
 require('./src/models/asociations');
 
 
@@ -162,6 +163,7 @@ extracurricularInscription.sync({ alter: true })
 CertificateInscription.sync({ alter: true })
 cafeteriaPagosModel.sync({ alter: true })
 PagosPresenciales.sync({ alter: true })
+SoportesPago.sync({ alter: true })
 
 documentos.sync({ alter: true })
 

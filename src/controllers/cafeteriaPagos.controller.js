@@ -15,11 +15,6 @@ cafeteriaPagosCtrl.crearPago = async(req,res)=>{
         idEstudiante:idEstudiante,
     })
     if (crearPago) {
-        if (data.metodoPago == 'bolsillo') {
-            let acudienteM = await acudiente.findOne({where:{id:idAcudiente}})
-            let nuevoBolsillo = acudienteM.bolsillo - data.cant
-            await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:idAcudiente}})
-        }
         res.status(200).json({
             status:true,
             message:'Pago realizado con exito'

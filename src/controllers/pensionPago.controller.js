@@ -52,21 +52,17 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
         const pensionesArray = Object.keys(pensiones);
 
         for (let key = 0; key < pensionesArray.length; key++) {
-            console.log("--------------------")
-            console.log("entro al index " + key)
             var monto = 0
             const pension = await pensionPagoModel.findOne({where:{id: pensiones[key].id}});
             console.log('pension.valor!=pensiones[key].valor', pension.valor!=pensiones[key].valor)
             if (pension.valor!=pensiones[key].valor) {
                 monto = Number(pensiones[key].valor)
-                console.log("monto ", monto)
                 result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor,metodoPago:tipo,mora:pensiones[key].mora},{
                     where: {
                         id: pensiones[key].id
                     }
                 });
             }else{
-                console.log("entro en el else")
                 monto = Number(pension.valor)
                 result = await pensionPagoModel.update({estatus:'Pagado',metodoPago:tipo,mora:pensiones[key].mora},{
                     where: {
@@ -74,18 +70,6 @@ pensionPagoCtrl.pagarPensiones = async(req,res)=>{
                     }
                 });
 
-            }
-            console.log({result})
-
-            if (result) {
-                console.log({tipo})
-                if (tipo == 'bolsillo') {
-                    const acudienteM = await acudiente.findOne({where:{id:pension.idAcudiente}})
-                    console.log({acudienteM})
-                    nuevoBolsillo = acudienteM.bolsillo - monto
-                    console.log({nuevoBolsillo})
-                    await acudiente.update({bolsillo:nuevoBolsillo},{where:{id:pension.idAcudiente}})
-                }
             }
         }
         

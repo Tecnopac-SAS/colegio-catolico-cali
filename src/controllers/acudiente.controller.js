@@ -118,4 +118,35 @@ acudienteCtrl.getLonchera = async (req, res) => {
     }
 };
 
+
+acudienteCtrl.descuentoBolsillo = async (req, res) => {
+    try {
+        const {idAcudiente, cant} = req.body;
+        if (idAcudiente === undefined || cant === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        const acudiente1 = await acudienteModel.findOne({
+            where: {
+                id: idAcudiente
+            }
+        })
+        let newBolsillo = (acudiente1.bolsillo)-cant;
+        const data = await acudienteModel.update({bolsillo: newBolsillo},{
+            where: {
+                id: idAcudiente
+            }
+        })
+        if(data){
+            res.json({
+                mensaje: `Descuento realizado! ${newBolsillo}`
+            })
+        }
+
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 module.exports= acudienteCtrl

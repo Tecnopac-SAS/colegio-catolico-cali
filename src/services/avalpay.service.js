@@ -27,12 +27,12 @@ function httpRequest(options) {
 
 async function makeRequest() {
   const options = {
-    hostname: 'qa.psp.ath.com.co',
+    hostname: 'prd.psp.ath.com.co',
     path: '/security/oauth2/oauth2-token',
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':'Basic MzFoMHJlbzJwbTBndmhndjZyOGsycnFnamg6MTc0Y2o0bmp1bjYybXIzYmMxanRmY3Vsb2RsbmFjZmdmNDBvdDVkYzZjaHVvZG9rbDRxcA=='
+      'Authorization':'Basic NzN2YmZ1NHRhbjJmZHNlaDY1aHNxNnVrMnY6cmJwY203Y2htY3IzNmQ5bmI0OHNuYXZqYjZkNGRodTFnaWpqZnFhMG5kNXRmcjdyOGF2'
     },
   };
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
@@ -94,7 +94,7 @@ function httpRequestPay(options, amount,invoiceType, portalURL, desc) {
       "RefInfo": [
         {
           "RefId": "PortalURL",
-          "RefType": `http://localhost:4200/${portalURL}`
+          "RefType": `http://app.colegiocatolicocali.edu.co/${portalURL}`
         },
         {
           "RefId": "LogoURL",
@@ -136,7 +136,7 @@ function httpRequestPay(options, amount,invoiceType, portalURL, desc) {
 
 async function makeRequestPay(token, amount,invoiceType,portalURL, desc) {
   const options = {
-    hostname: 'qa.psp.ath.com.co',
+    hostname: 'prd.psp.ath.com.co',
     path: '/payment/Payments_Trn/Trn',
     method: 'POST',
     headers: {
@@ -148,7 +148,7 @@ async function makeRequestPay(token, amount,invoiceType,portalURL, desc) {
       'X-IdentSerialNum': '0',
       'X-IPAddr':'192.168.1.15',
       'X-Sesskey': token,
-      'X-Authorization': "q2sIy2aJLUo=SHg5V250RzVTZkNXMk1EeVdGVXMrbW5ITnBmak81N2ozTGhUSTU3d25EUndFNzdCK1pTLytld1NOUjNXbnNIbng3dFhTUHFnZ3hVM2dQbG9Jc1NETmM4ajJUUzRZVFVZQkE0SUpGZC9yR0UyUC9uNHlieXRaY2JNVUYxTnRqVlAxQzhCVlE9PQ=="
+      'X-Authorization': "/vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ=="
     },
   };
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
@@ -157,7 +157,7 @@ async function makeRequestPay(token, amount,invoiceType,portalURL, desc) {
 }
 async function makePaymentStatus(token, pmtId) {
   const options = {
-    hostname: 'qa.psp.ath.com.co',
+    hostname: 'prd.psp.ath.com.co',
     path: '/payment/Payments_BasicData/BasicData/'+pmtId,
     method: 'GET',
     headers: {
@@ -169,7 +169,7 @@ async function makePaymentStatus(token, pmtId) {
       'X-IdentSerialNum': '0',
       'X-IPAddr':'192.168.1.15',
       'X-Sesskey': token,
-      'X-Authorization': "q2sIy2aJLUo=SHg5V250RzVTZkNXMk1EeVdGVXMrbW5ITnBmak81N2ozTGhUSTU3d25EUndFNzdCK1pTLytld1NOUjNXbnNIbng3dFhTUHFnZ3hVM2dQbG9Jc1NETmM4ajJUUzRZVFVZQkE0SUpGZC9yR0UyUC9uNHlieXRaY2JNVUYxTnRqVlAxQzhCVlE9PQ==",
+      'X-Authorization': "/vdk1R3BBj4=SmhSRW5yR0NLOUNnL0oveVQxSTdvSDM2UHBUMktJbTd5TDlJT0lyamkyeHdFS0xFN2JxazUrMENQUi9CbzluaTBPTklXZnZHZ0U4MmdPRnBJOWVNSTlrejd6YTRZUlJGRTFFRGVGVnZwM00yQnUzOTNaS3BZOVBmYVFaWmp6WVcxQmtCVlE9PQ==",
       "X-ApprovalId": pmtId
     },
   };

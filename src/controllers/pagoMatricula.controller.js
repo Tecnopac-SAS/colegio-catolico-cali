@@ -13,15 +13,14 @@ matriculaCtrl.crearPago = async (req, res) => {
         let {monto,metodoPago,jornada,idAcudiente,valMes,meses,idPension} = req.body;
         fechaPago = moment().format(`YYYY-MM-DD`)
         let year= moment().format(`YYYY`)    
-        let matriculaCheck = await matricula.findOne({where:{idAcudiente,fechaPago:{[Op.between]:[moment().format(`YYYY-MM-05`),moment().format(`YYYY-MM-31`)],}}})
+        let matriculaCheck = await matricula.findOne({where:{idAcudiente,fechaPago:{[Op.between]:[moment().format(`YYYY-MM-01`),moment().format(`YYYY-MM-31`)],}}})
         if (matriculaCheck) {
             return res.json({
                 status: false,
                 mensaje: 'Matricula pagada anteriormente',
             })
-        }
+        }else{
         const data = await matricula.create({monto,metodoPago,fechaPago,jornada,idAcudiente})
-        
         let vuelta=0
         let index;
         //Tipo de calendario
@@ -45,6 +44,8 @@ matriculaCtrl.crearPago = async (req, res) => {
                 mensaje: 'Error al pagar',
             })
         }
+    }
+
 
     } catch (error) {
         res.status(500);

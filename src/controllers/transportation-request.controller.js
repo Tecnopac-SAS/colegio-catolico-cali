@@ -6,7 +6,7 @@ const transportationRequestModel = require('../models/transportation-request.mod
 const transportationModel = require('../models/transportation.model');
 const transportationRequestCtrl = {};
 
-transportationRequestCtrl.consultarTransportationsRequest = async(req,res)=>{
+transportationRequestCtrl.consultarTransportationsRequests = async(req,res)=>{
     try {
         const result = await transportationRequestModel.findAll();
         res.json({
@@ -25,8 +25,8 @@ transportationRequestCtrl.consultarTransportationsRequest = async(req,res)=>{
 
 transportationRequestCtrl.consultarTransportationRequest = async (req, res) => {
     try {
-        const { routeName } = req.params;
-        const result = await transportationRequestModel.findAll({ where: { routeName:{[Op.like]:`${routeName}%`}}});
+        const { id } = req.params;
+        const result = await transportationRequestModel.findAll({ where: { id: id }});
         res.json({
             mensaje: 'ok',
             result
@@ -65,45 +65,48 @@ transportationRequestCtrl.consultarId = async (req, res) => {
     }
 };
 
-transportationRequestCtrl.aprobarCupo = async (req, res) => {
+transportationRequestCtrl.aprobarSolicitud = async (req, res) => {
     try {
         const { id } = req.params;
-        const { estado, cupo , idruta} = req.body;
-        if (estado === null || cupo === null) {
+        const { estado, routeid} = req.body;
+        if (estado === null || routeid === null) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationRequestModel.update({estado: estado},{
+        await transportationRequestModel.update({estado: estado, routeid: routeid},{
             where: {
                 id: id
             }
         });
-        await transportationModel.update({cupo_disponible: cupo},{
-            where: {
-                id: idruta
-            }
-        });
         res.json({
+            status: true,
             mensaje: 'ok'
         })
     } catch (error) {
         res.status(500);
-        res.send(error.message);
+        res.json({
+            status: false,
+            mensaje: error.message
+        })
     }
 };
 
-transportationRequestCtrl.crearTransportationRequest = async(req,res)=>{
-    const {routeid,acudienteid,estudianteid,estado,direccion_recogida,direccion_entrega}= req.body 
 
-     if(routeid==null){
+
+transportationRequestCtrl.crearTransportationRequest = async(req,res)=>{
+    
+    const {routeid,acudienteid,estudianteid,estado,routeType,datosResponsable,direccion_recogida,direccion_entrega}= req.body 
+
+     if(routeType==null || acudienteid==null || estudianteid==null || estado==null || datosResponsable==null || direccion_recogida==null || direccion_entrega==null || datosResponsable=='' || direccion_recogida=='' || direccion_entrega==''){
         res.json({
+            status: false,
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-       
-        const data = await transportationRequestModel.create({routeid,acudienteid,estudianteid,estado,direccion_recogida,direccion_entrega})
+        const data = await transportationRequestModel.create({routeid,acudienteid,estudianteid,estado,routeType,datosResponsable,direccion_recogida,direccion_entrega})
         res.json({
-            mensaje: 'Curso creado',
+            status: true,
+            mensaje: 'Solicitud creada!',
         })
     }
 
@@ -116,7 +119,7 @@ transportationRequestCtrl.actualizarTransportation = async (req, res) => {
         if (id === undefined || routeName === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await transportationRequestModel.update({routeName,routeNumber,responsible,routeType,price},{
+        await transportationRequestModel.update({routeid,acudienteid,estudianteid,estado,routeType,datosResponsable,direccion_recogida,direccion_entrega},{
             where: {
                 id: id
             }
@@ -124,7 +127,7 @@ transportationRequestCtrl.actualizarTransportation = async (req, res) => {
         const user = await transportationRequestModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
-                mensaje: 'curso no encontrado',
+                mensaje: 'Solicitud no encontrada!',
             })
         }
         else {

@@ -79,7 +79,7 @@ transportationCtrl.crearTransportation = async(req,res)=>{
        
         const data = await transportationModel.create({routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible})
         res.json({
-            mensaje: 'Curso creado',
+            mensaje: 'Ruta creada!',
         })
     }
 
@@ -100,7 +100,7 @@ transportationCtrl.actualizarTransportation = async (req, res) => {
         const user = await transportationModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
-                mensaje: 'curso no encontrado',
+                mensaje: 'Ruta no encontrada!',
             })
         }
         else {

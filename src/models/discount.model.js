@@ -14,6 +14,10 @@ Discount.init({
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
+    status: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+    },
 }, 
 
 {

@@ -52,16 +52,16 @@ tuitionTypeCtrl.consultarId = async (req, res) => {
 };
 
 tuitionTypeCtrl.crearTuitionType = async(req,res)=>{
-    const {description,price,startDate,finalDate,surcharge,grade}= req.body 
+    const {grade,startDate,finalDate, ordinary_price, extraordinary_startDate,extraordinary_finalDate, extraordinary_price}= req.body 
 
-     if(description==null){
+     if(grade==null || startDate==null || finalDate ==null || ordinary_price==null){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
        
-        const data = await tuitionTypeModel.create({description,price,startDate,finalDate,surcharge,grade})
+        const data = await tuitionTypeModel.create({grade,startDate,finalDate, ordinary_price, extraordinary_startDate,extraordinary_finalDate, extraordinary_price})
         let idTuition=data.id
         await tuitionModel.create({idTuition})
         res.json({
@@ -75,15 +75,13 @@ tuitionTypeCtrl.crearTuitionType = async(req,res)=>{
 tuitionTypeCtrl.actualizarTuition = async (req, res) => {
     try {
         const { id } = req.params;
-        let {grade,startDate,finalDate,price} = req.body;
-        if (id === undefined || price === undefined) {
+        const {grade,startDate,finalDate, extraordinary_startDate,extraordinary_finalDate, ordinary_price, extraordinary_price} = req.body;
+        if (id === undefined || ordinary_price === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await tuitionTypeModel.update({grade,startDate,finalDate,price},{
-            where: {
-                id: id
-            }
-        })
+        await tuitionTypeModel.update({ grade,startDate,finalDate, ordinary_price, extraordinary_startDate,extraordinary_finalDate, extraordinary_price},{
+            where: { id: id }
+        });
         const user = await tuitionTypeModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({

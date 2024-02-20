@@ -1,11 +1,3 @@
-const config = require('../../config')
-const sequelize = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
-const multer  = require('multer')
-const md5 = require('md5')
-const path = require('path');
-const Acudiente = require('../models/acudiente.model');
 const extracurricularModel = require('../models/extracurricular.model')
 const extracurricularInscriptionModel = require('../models/extracurricularInscription.model')
 const technicalInscription = require('../models/technicalInscription.model')
@@ -13,7 +5,6 @@ const extracurricularCtrl = {};
 
 extracurricularCtrl.consultarExtracurriculares = async(req,res)=>{
     try {
-        //const result = await extracurricularModel.findAll();
         const result = await extracurricularModel.findAll({ include: { association: 'extracurricularAsTeacher' }});
         res.json({
             status: 200,
@@ -58,22 +49,6 @@ extracurricularCtrl.consultarId = async (req, res) => {
     }
 };
 
-extracurricularCtrl.getImage = async (req,res)=>{
-    const {img} = req.params;
-
-    if(img!="null"){
-        let path_img = 'src/uploads/'+ img;
-        res.status(200).sendFile(path.resolve(path_img));
-
-    }
-
-    else{
-        let path_img = 'src/uploads';
-        res.status(200).sendFile(path.resolve(path_img));
-    }
-
-}
-
 extracurricularCtrl.crearExtracurricular = async(req,res)=>{
     const {activity,startDate,finalDate,price,information,schedule,idTeacher,imagen}= req.body 
     if(activity==""){
@@ -83,10 +58,9 @@ extracurricularCtrl.crearExtracurricular = async(req,res)=>{
     }
     else {
 
-        // const imagenCargada = name[7];
-        await extracurricularModel.create({imagen:imagen,activity,startDate,finalDate,price,information,schedule,idTeacher})
+        await extracurricularModel.create({imagen,activity,startDate,finalDate,price,information,schedule,idTeacher})
         res.json({
-            mensaje: 'Extracurricular  creado',
+            mensaje: 'Extracurricular creado',
         })
     }
 
@@ -95,14 +69,11 @@ extracurricularCtrl.crearExtracurricular = async(req,res)=>{
 extracurricularCtrl.actualizarExtracurricular = async (req, res) => {
     try {
         const { id } = req.params;
-        const {activity,startDate,finalDate,idTeacher,information,schedule} = req.body;
+        const {activity,startDate,finalDate,idTeacher,information,schedule,imagen,price} = req.body;
         if (id === undefined || activity === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        // const imagen_path = req.file.path;
-        // const name = imagen_path.split('\\');
-        // const imagenCargada = name[7];
-        await extracurricularModel.update({activity,startDate,finalDate,idTeacher,information,schedule},{
+        await extracurricularModel.update({activity,startDate,finalDate,idTeacher,information,schedule,imagen,price},{
             where: {
                 id: id
             }
@@ -206,7 +177,6 @@ extracurricularCtrl.pago = async(req,res)=>{
     }
     else {
         const inscripcion = await extracurricularInscriptionModel.findOne({ where: { idExtracurricular: idExtracurricular, isActive: isActive }, include: { association: 'extracurricularInscriptionAsExtracurricular' } })
-        // const search = await courseModel.findOne({ where: { id: idExtracurricular } })
         if(inscripcion === null){
             const datos = await extracurricularInscriptionModel.create({monto,idExtracurricular,metodoPago,idEstudiante,isActive})
             if (datos) {

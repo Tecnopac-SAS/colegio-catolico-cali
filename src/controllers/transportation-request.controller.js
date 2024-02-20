@@ -8,7 +8,7 @@ const transportationRequestCtrl = {};
 
 transportationRequestCtrl.consultarTransportationsRequests = async(req,res)=>{
     try {
-        const result = await transportationRequestModel.findAll();
+        const result = await transportationRequestModel.findAll({include: [{ association: 'TransportationRequestAsTransportation' }]});
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -79,7 +79,7 @@ transportationRequestCtrl.aprobarSolicitud = async (req, res) => {
         });
         res.json({
             status: true,
-            mensaje: 'ok'
+            mensaje: 'Solicitud Aprobada!'
         })
     } catch (error) {
         res.status(500);
@@ -132,7 +132,7 @@ transportationRequestCtrl.actualizarTransportation = async (req, res) => {
         }
         else {
             res.json({
-                mensaje: 'ok',
+                mensaje: 'Solicitud modificada!',
                 result:user
             })
         }

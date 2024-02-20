@@ -30,6 +30,9 @@ const CertificateInscription = require('./certificateInscription.model');
 const Certificate = require('./certificates.model');
 const CafeteriaPagos = require('./cafeteriaPagos.model');
 const SoportesPago = require('./soportesPago.model');
+const TransportationRequest = require('./transportation-request.model');
+const Transportation = require('./transportation.model');
+const transportationCtrl = require('../controllers/transportation.controller');
 
 // Uno a uno
 CertificateInscription.belongsTo(Certificate, { as: "certificateInscriptionAsCertificate", foreignKey: "idCertificate" });
@@ -84,6 +87,7 @@ Grade.hasMany(Pension, { as: "gradesAsPension", foreignKey: "idGrade" });*/
 Course.belongsTo(Teacher, { as: "courseAsTeacher", foreignKey: "idTeacher" });
 Teacher.hasMany(Course, { as: "teacherAsCourse", foreignKey: "idTeacher" });
 
+TransportationRequest.belongsTo(Transportation, { as: "TransportationRequestAsTransportation", foreignKey: "routeid" });
 
 Extracurricular.belongsTo(Teacher, { as: "extracurricularAsTeacher", foreignKey: "idTeacher" });
 Teacher.hasMany(Extracurricular, { as: "teacherAsExtracurricular", foreignKey: "idTeacher" });

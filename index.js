@@ -101,7 +101,7 @@ app.use('/cafeteriaPagos', require('./src/routes/cafeteriaPagos.route'))
 app.use('/avalpay', require('./src/routes/avalpay.route'))
 app.use('/downloads', require('./src/routes/downloads.route'))
 app.use('/pagosPresenciales', require('./src/routes/pagosPresenciales.route'))
-
+9
 
 
 teacherModel.sync({ alter: true })

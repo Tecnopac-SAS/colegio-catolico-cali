@@ -123,7 +123,7 @@ documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
 }
 
 documentosMatriculaCtrl.update = async (req, res) => {
-    const { isActive, title, canViewType, canViewValue, } = req.body;
+    const { isActive, title, canViewType, canViewValue, documentoid, canViewTuitionType } = req.body;
     const { id } = req.params;
     try {
         const documentoMatricula = await documentosMatriculaModel.findOne({ where: { id: id } });
@@ -143,6 +143,12 @@ documentosMatriculaCtrl.update = async (req, res) => {
                 } else {
                     documentoMatricula.canViewValue = canViewValue;
                 }
+            }
+            if (documentoid) {
+                documentoMatricula.documentoid = documentoid;
+            }
+            if (canViewTuitionType) {
+                documentoMatricula.canViewTuitionType = canViewTuitionType;
             }
             await documentoMatricula.save();
             return res.json({

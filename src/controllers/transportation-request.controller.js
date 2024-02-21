@@ -96,7 +96,7 @@ transportationRequestCtrl.crearTransportationRequest = async(req,res)=>{
     
     const {routeid,acudienteid,estudianteid,estado,routeType,datosResponsable,direccion_recogida,direccion_entrega}= req.body 
 
-     if(routeType==null || acudienteid==null || estudianteid==null || estado==null || datosResponsable==null || direccion_recogida==null || direccion_entrega==null || datosResponsable=='' || direccion_recogida=='' || direccion_entrega==''){
+     if(routeType==null || acudienteid==null || estudianteid==null || estado==null || datosResponsable==null){
         res.json({
             status: false,
             mensaje: 'Los campos deben estar diligenciados en su totalidad'

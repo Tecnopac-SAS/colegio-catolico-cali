@@ -5,6 +5,7 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
+const studentDatabaseModel = require('../models/studentDatabase.model')
 const roleModel = require('../models/role.model');
 const recoverPasswordModel = require('../models/recoverPassword.model');
 const nodemailer = require("nodemailer");
@@ -82,6 +83,8 @@ userCtrl.login = async(req,res)=>{
     try {
         const {email,password,tipo}= req.body
         const result = await userModel.findOne({ where: { email: email, idRole:tipo }, include: [ 'userAsRole','userAsAcudiente' ] }); 
+        const resultStudent = await studentDatabaseModel.findOne({where:{id:result.userAsAcudiente.idEstudiante}});        
+
         if (email == "" || password == "" ) {
             return res.json({
                 mensaje: 'Los campos no pueden estar vacios',
@@ -97,11 +100,12 @@ userCtrl.login = async(req,res)=>{
             const token = jwt.sign({id:result.id},config.secret.word)
             if (result.idRole!=1) {
                 res.json({
-                    mensaje: 'Bienvenido',
+                    mensaje: 'Bienvenido Acudiente',
                     id: result.id,
                     nombres: result.name,
                     idAcudiente: result.idAcudiente,
                     idEstudiante: result.userAsAcudiente.idEstudiante,
+                    idGrade: resultStudent.idGrade,
                     idRole: result.userAsRole.role,
                     bolsillo: result.userAsAcudiente.bolsillo,
                     token,

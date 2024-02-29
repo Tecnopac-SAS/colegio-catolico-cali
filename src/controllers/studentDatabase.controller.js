@@ -15,7 +15,7 @@ studentDatabaseCtrl.getPension = async(req,res)=>{
         const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
         let user = resultUser.userAsAcudiente
         const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});        
-        const resultPension = await pensionModel.findOne({where:{id:resultStudent.idGrade} });
+        const resultPension = await pensionModel.findOne({where:{idGrade:resultStudent.idGrade} });
 
         res.json({
             status: 200,

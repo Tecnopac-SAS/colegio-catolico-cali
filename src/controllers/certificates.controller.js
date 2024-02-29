@@ -167,6 +167,49 @@ certificatesCtrl.actualizarCertificate = async (req, res) => {
     }
 };
 
+certificatesCtrl.actualizarCertificateInscription = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let {documentUrl,status,paid} = req.body;
+        if (id === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await certificateInscription.update({documentUrl,status,paid},{
+            where: {
+                id: id
+            }
+        })
+        res.json({
+            mensaje: 'ok'
+        })
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+certificatesCtrl.actualizarCertificateInscriptionPaid = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const {paid} = req.body;
+        if (id === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        await certificateInscription.update({paid: paid},{
+            where: {
+                id: id
+            }
+        })
+        res.json({
+            mensaje: 'ok'
+        })
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 certificatesCtrl.deshabilitar = async (req, res) => {
     try {
         const { id } = req.params;
@@ -199,7 +242,7 @@ certificatesCtrl.deshabilitar = async (req, res) => {
 };
 
 certificatesCtrl.pago = async(req,res)=>{
-    const {monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode}= req.body 
+    const {monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid}= req.body 
 
      if(idCertificate==null){
         res.json({
@@ -211,7 +254,7 @@ certificatesCtrl.pago = async(req,res)=>{
         const certificado = await certificateInscription.findOne({ where: { idCertificate: idCertificate, idGrade: idGrade }})
 
         if(certificado === null){
-            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode})
+            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid})
             if (datos) {
                 res.json({
                     mensaje: 'Certificado registrado',
@@ -224,7 +267,7 @@ certificatesCtrl.pago = async(req,res)=>{
                 })
             }
         }else{
-            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode})
+            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid})
             if(datos){
                 res.json({
                     mensaje: 'Certificado registrado',
@@ -290,45 +333,9 @@ certificatesCtrl.statusChange = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
-certificatesCtrl.createDocumentoCertificate = async (req, res) => {
-    const { file } = req.files;
-    const { id } = req.body;
-    const fileName = storeFile(file);
-    const certificate = await certificateInscription.findOne({ where: { id: id } });
-    certificate.documentUrl = fileName;
-    await certificate.save();
 
-    if (certificate) {
-        return res.json({
-            success: true,
-            mensaje: 'documento creado',
-        })
-    }else{
-        return res.json({
-            success: false,
-            mensaje: 'documento no creado',
-        })
-    }
-};
 const formatUrl = (certificateInscriptionId) =>{
     return `${process.env.HOST}/certificate/${certificateInscriptionId}/download`
-}
-certificatesCtrl.download = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const certificate = await certificateInscription.findOne({ where: { id: id } });
-        if (certificate) {
-            const filePath = path.join(__dirname, '../') + `/uploads/${certificate.documentUrl}`;
-            res.setHeader(`Content-Disposition`, `attachment`);
-            res.download(filePath);
-
-            //Meotodos de descarga Header Content-Disposition
-            //  - inline (default): Abre el contenido en el navegador
-            //  - attachment : Descarga el contenido 
-        }
-    } catch(error){
-        res.status(500).send(error.message);
-    }
 }
 
 module.exports= certificatesCtrl

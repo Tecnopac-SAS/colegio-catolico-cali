@@ -9,8 +9,12 @@ CertificateInscription.init({
     documentUrl:DataTypes.STRING,
     metodoPago:DataTypes.STRING,
     entregado:DataTypes.BOOLEAN,
-    status:DataTypes.BOOLEAN,
+    status:DataTypes.INTEGER,
     paymentCode:DataTypes.STRING,
+    paid: {
+        type: DataTypes.INTEGER,
+        defaultValue: false,
+    },
 }, 
 
 {

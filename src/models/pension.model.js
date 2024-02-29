@@ -5,7 +5,7 @@ class Pension extends Model {}
 Pension.init({
 
     price:DataTypes.BIGINT,
-    discount:DataTypes.BIGINT,
+    discount:DataTypes.INTEGER,
     interes:DataTypes.BIGINT,
     use:DataTypes.STRING,
     idGrade:DataTypes.STRING,

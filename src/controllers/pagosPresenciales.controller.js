@@ -24,15 +24,15 @@ pagosPresencialesCtrl.consultarPagosPresenciales = async(req,res)=>{
 }
 
 pagosPresencialesCtrl.crearPagoPresencial = async(req,res)=>{
-    const {servicio,fecha,observacion,estado}= req.body 
-
-     if(servicio == null || fecha == null ||observacion == null ||estado == null){
+    const {paymentCode,servicio,observacion,estado,monto}= req.body 
+    const fecha = new Date(moment());
+     if(paymentCode == null || servicio == null || fecha == null ){
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     }
     else {
-        const data = await pagosPresencialesModel.create({servicio,fecha,observacion,estado})
+        const data = await pagosPresencialesModel.create({paymentCode,servicio,fecha,observacion,estado,monto})
         res.json({
             mensaje: 'Pago creado',
         })
@@ -40,26 +40,46 @@ pagosPresencialesCtrl.crearPagoPresencial = async(req,res)=>{
 
 }
 
-// pagosPresencialesCtrl.actualizarRole = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const { role } = req.body;
+pagosPresencialesCtrl.updatePagoPresencial = async(req,res)=>{
+    const { id } = req.params
+    const {paymentCode,servicio,observacion,estado}= req.body 
+    const fecha = new Date(moment());
+     if(paymentCode == null || servicio == null || fecha == null || estado == null){
+        res.json({
+            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+        })
+    }
+    else {
+        const data = await pagosPresencialesModel.update({paymentCode,servicio,fecha,observacion,estado},{
+            where: {
+                id: id
+            }
+        })
+        res.json({
+            mensaje: 'Pago actualizado',
+        })
+    }
 
-//         if (id === undefined || role === undefined) {
-//             res.status(400).json({ message: "Bad Request. Please fill all field." });
-//         }
+}
+pagosPresencialesCtrl.updateStatusPagoPresencial = async(req,res)=>{
+    const { id } = req.params
+    const { estado }= req.body 
+     if( estado == null){
+        res.json({
+            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+        })
+    }
+    else {
+        const data = await pagosPresencialesModel.update({estado: estado},{
+            where: {
+                id: id
+            }
+        })
+        res.json({
+            mensaje: 'Pago actualizado',
+        })
+    }
 
-//         const param = {role};
-//         const connection = await getConnection();
-//         const result = await connection.query("UPDATE user SET ? WHERE id = ?", [param, id]);
-//         res.json({
-//             mensaje: 'ok',
-//             result
-//         })
-//     } catch (error) {
-//         res.status(500);
-//         res.send(error.message);
-//     }
-// };
+}
 
 module.exports= pagosPresencialesCtrl

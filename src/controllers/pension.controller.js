@@ -7,8 +7,7 @@ const pensionCtrl = {};
 
 pensionCtrl.consultarPensiones = async(req,res)=>{
     try {
-        //const result = await pensionModel.findAll({ include: { association: 'pensionAsGrade' } });
-        const result = await pensionModel.findAll();
+        const result = await pensionModel.findAll({ include: { association: 'pensionAsDiscounts' } });
         res.json({
             status: 200,
             mensaje: 'ok',
@@ -26,8 +25,7 @@ pensionCtrl.consultarPensiones = async(req,res)=>{
 pensionCtrl.consultarPension = async (req, res) => {
     try {
         const { idGrade } = req.params;
-        //const result = await pensionModel.findAll({include: { association: 'pensionAsGrade' }, where: { description:{[Op.like]:`${description}%`}}});
-        const result = await pensionModel.findAll({ where: { idGrade:{[Op.like]:`${idGrade}%`}}});
+        const result = await pensionModel.findAll({ where: { idGrade:{[Op.like]:`${idGrade}%`}}, include: { association: 'pensionAsDiscounts' }});
         res.json({
             mensaje: 'ok',
             result
@@ -41,7 +39,7 @@ pensionCtrl.consultarPension = async (req, res) => {
 pensionCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await pensionModel.findOne({ where: { id: id } });
+        const result = await pensionModel.findOne({ where: { id: id }, include: { association: 'pensionAsDiscounts' } });
         res.json({
             mensaje: 'ok',
             result

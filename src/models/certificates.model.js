@@ -12,7 +12,7 @@ Certificate.init({
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
-      },
+    },
 }, 
 
 {

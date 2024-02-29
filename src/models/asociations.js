@@ -5,6 +5,7 @@ const Inscription = require('./inscription.model');
 const Grade = require('./grade.model')
 const TuitionType = require('./tuitionType.model');
 const Tuition = require('./tuition.model');
+const Discounts = require('./discount.model');
 const Pension = require('./pension.model')
 const recoverPassword = require('./recoverPassword.model')
 const Teacher = require('./teacher.model')
@@ -82,6 +83,9 @@ TuitionType.belongsTo(Grade, { as: "matriculaAsGrade", foreignKey: "idGrade" });
 
 /*Pension.belongsTo(Grade, { as: "pensionAsGrade", foreignKey: "idGrade" });
 Grade.hasMany(Pension, { as: "gradesAsPension", foreignKey: "idGrade" });*/
+
+Pension.belongsTo(Discounts, { as: "pensionAsDiscounts", foreignKey: "discount" });
+
 
 
 Course.belongsTo(Teacher, { as: "courseAsTeacher", foreignKey: "idTeacher" });

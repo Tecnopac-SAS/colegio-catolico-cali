@@ -89,8 +89,24 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
       //Soportes de Pago
       paymentCode,
       soporte_pago_monto,
-      soporte_pago_concepto
-
+      soporte_pago_concepto,
+      //Acuerdos de Pago
+      consecutivoAcuerdo, 
+      nombresEstudiante, 
+      apellidosEstudiante, 
+      codigoEstudiante, 
+      grado, 
+      identificacionEstudiante, 
+      nombresAcudiente, 
+      apellidosAcudiente, 
+      identificacionAcudiente, 
+      emailAcudiente, 
+      direccionAcudiente, 
+      valorTotalDeuda, 
+      fechaFirmado, 
+      description, 
+      estado, 
+      tabla_cuotas, 
     } = req.body;
 
     if (id === undefined) {
@@ -135,7 +151,24 @@ documentosCtrl.crearPDFDocumento = async (req, res) => {
       //Soportes de Pago
       paymentCode: paymentCode || '',
       soporte_pago_monto: soporte_pago_monto || '',
-      soporte_pago_concepto: soporte_pago_concepto || ''
+      soporte_pago_concepto: soporte_pago_concepto || '',
+      //Acuerdos de Pago
+      consecutivoAcuerdo: consecutivoAcuerdo || '',
+      nombresEstudiante: nombresEstudiante || '',
+      apellidosEstudiante: apellidosEstudiante || '',
+      codigoEstudiante: codigoEstudiante || '',
+      grado: grado || '',
+      identificacionEstudiante: identificacionEstudiante || '',
+      nombresAcudiente: nombresAcudiente || '',
+      apellidosAcudiente: apellidosAcudiente || '',
+      identificacionAcudiente: identificacionAcudiente || '',
+      emailAcudiente: emailAcudiente || '',
+      direccionAcudiente: direccionAcudiente || '',
+      valorTotalDeuda: valorTotalDeuda || '',
+      fechaFirmado: fechaFirmado || '',
+      description: description || '',
+      estado: estado || '',
+      tabla_cuotas: tabla_cuotas || '',
     };
 
     // Función para reemplazar variables en el HTML
@@ -186,7 +219,7 @@ documentosCtrl.downloadPDFDocumento = async (req, res) => {
     const { filename } = req.params;
     const pdfPath = `src/uploads/matriculas/${filename}`; // Ajusta la ruta
 
-    res.download(pdfPath, `${filename}.pdf`, (err) => {
+    res.download(pdfPath, `${filename}`, (err) => {
       if (err) {
         console.error('Error al descargar el archivo:', err);
         res.status(500).send('Error al descargar el archivo.');

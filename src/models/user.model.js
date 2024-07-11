@@ -1,6 +1,6 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
-const sequelize = require('../db/databaseSq')
-const bcrypt = require('bcryptjs')
+const sequelize = require('../db/databaseSq');
+const bcrypt = require('bcrypt');
 
 class User extends Model {}
 User.init({

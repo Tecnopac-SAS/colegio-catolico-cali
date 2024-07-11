@@ -1,7 +1,19 @@
-DB_HOST="tecnopac-mariadb.cflkp1qysre8.us-east-1.rds.amazonaws.com"
-DB_NAME="colegio"
-DB_USER="admin"
-DB_PASSWORD=",P6c5#Sd{65zi17"
+# DB_HOST="tecnopac-mariadb.cflkp1qysre8.us-east-1.rds.amazonaws.com"
+# DB_NAME="colegio"
+# DB_USER="admin"
+# DB_PASSWORD=",P6c5#Sd{65zi17"
+
+# HOST = 'localhost:3000'
+# DB_HOST="190.8.177.83"
+# DB_NAME="colegcat_qa_system"
+# DB_USER="colegcat"
+# DB_PASSWORD="t7U8$9#bfbu7"
+
+HOST = 'localhost:3000'
+DB_HOST="localhost"
+DB_NAME="colegcat_qa_system"
+DB_USER="root"
+DB_PASSWORD=""
 	
 PORT=3000
 SECRET_KEY="SECRETA"

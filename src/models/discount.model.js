@@ -8,7 +8,8 @@ Discount.init({
     starDate:DataTypes.DATE,
     finalDate:DataTypes.DATE,
     percentage:DataTypes.STRING,
-    frequency:DataTypes.STRING,
+    useType:DataTypes.INTEGER,
+    frequency:DataTypes.INTEGER,
     service:DataTypes.STRING,
     isActive: {
         type: DataTypes.BOOLEAN,

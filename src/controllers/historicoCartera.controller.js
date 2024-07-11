@@ -1,5 +1,5 @@
 const config = require('../../config')
-const {sequelize, Op} = require('sequelize');
+const {sequelize, Sequelize , Op, fn, col} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const coursesInscriptionModel = require('../models/coursesInscription.model')
@@ -14,8 +14,6 @@ const historicoCarteraCtrl = {};
 historicoCarteraCtrl.totalDeuda = async(req,res)=>{
     const { id } = req.params;
     try {
-        // acudient = await acudiente.findOne({ where:{ id:id}, include: { association: 'acudienteAsEstudiante' }});
-
         result = await pensionMesesModel.findAll({ where:{ idAcudiente:id,estatus:'Pendiente'}});
 
         let total = 0;
@@ -35,6 +33,58 @@ historicoCarteraCtrl.totalDeuda = async(req,res)=>{
         })
     }
 }
+
+historicoCarteraCtrl.totalDeudas = async (req, res) => {
+    try {
+        const result = await pensionMesesModel.findAll({
+            attributes: [
+                'idAcudiente',
+                'idPension',
+                'estatus',
+                'fechaPago',
+                'idPension',
+                'mora',
+                [Sequelize.fn('SUM', Sequelize.col('valor')), 'valorTotal']
+            ],
+            where: { estatus: 'Pendiente' },
+            group: ['idAcudiente', 'idPension'],
+            order: [
+                ['idAcudiente', 'ASC'],
+                ['idPension', 'ASC']
+            ],
+            include: { association: 'pensionesMesesAsAcudiente' }
+        });
+
+        res.json({
+            status: 200,
+            result: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Error en la consulta',
+            error: error.message
+        });
+    }
+};
+historicoCarteraCtrl.totalDeudasAcudiente = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(req.params);
+        const result = await pensionMesesModel.findAll({
+            where: { idAcudiente: id, estatus: 'Pendiente' },
+            include: { association: 'pensionesMesesAsAcudiente' }
+        });
+        res.json({
+            status: 200,
+            result: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Error en la consulta',
+            error: error.message
+        });
+    }
+};
 historicoCarteraCtrl.listarHistoricoCartera = async(req,res)=>{
     const { id } = req.params;
     try {
@@ -45,7 +95,6 @@ historicoCarteraCtrl.listarHistoricoCartera = async(req,res)=>{
         let tabla=[]
         let total = 0;
         result.forEach(element => {
-            // tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'curso',fecha:moment(element.createdAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})
             total = total + ((element.valorConDescuento)?element.valorConDescuento:element.valor)
         });
         tabla.push({servicio:'Pension',tipo:'Tipo',fecha: new Date(),total:total,link:'pago-pension'})
@@ -72,13 +121,6 @@ historicoCarteraCtrl.listarHistoricoCarteraSearch = async (req, res) => {
         
         let tabla=[]
         let results = [];
-        // result = await coursesInscriptionModel.findAll({ 
-        //     where:{ idEstudiante:id}, 
-        //     where:{[Op.or]:[
-        //         {metodoPago:{[Op.like]:`%${dato}%`}},
-        //         {createdAt:{[Op.like]:`%${dato}%`}}
-        //         ]
-        //     }});
         result = await coursesInscriptionModel.findAll({ where:{ idEstudiante:id}});
         result.forEach(element => {
             tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'curso',fecha:moment(element.createdAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})

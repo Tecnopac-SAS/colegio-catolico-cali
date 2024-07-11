@@ -1,7 +1,7 @@
 const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const schoolYearModel = require('../models/schoolYear.model')

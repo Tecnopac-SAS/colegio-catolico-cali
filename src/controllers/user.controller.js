@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const config = require('../../config')
 const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
@@ -96,6 +96,7 @@ userCtrl.login = async(req,res)=>{
             })
         }
         const match = await bcrypt.compare(password,result.password)
+
         if(match){
             const token = jwt.sign({id:result.id},config.secret.word)
             if (result.idRole!=1) {

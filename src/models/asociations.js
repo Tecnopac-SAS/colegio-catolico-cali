@@ -5,6 +5,7 @@ const Inscription = require('./inscription.model');
 const Grade = require('./grade.model')
 const TuitionType = require('./tuitionType.model');
 const Tuition = require('./tuition.model');
+const Deudas = require('./deudas.model');
 const Discounts = require('./discount.model');
 const Pension = require('./pension.model')
 const recoverPassword = require('./recoverPassword.model')
@@ -13,6 +14,8 @@ const Course = require('./courses.model')
 const Extracurricular = require('./extracurricular.model')
 const MediasTecnicas = require('./technical.model')
 const Estudiante = require('./studentDatabase.model')
+const AcuerdosPagosCuotas = require('./acuerdos-pago-cuotas.model')
+const AcuerdosPagos = require('./acuerdos-pago.model')
 const HistorialAcademico = require('./historialAcademico.model')
 const Aptitudes = require('./aptitudesEstadoFisico.model')
 const PadreFamilia = require('./padreFamilia.model')
@@ -51,7 +54,7 @@ ExtracurricularInscription.belongsTo(Estudiante, { as: "extracurricularInscripti
 ExtracurricularInscription.belongsTo(Extracurricular, { as: "extracurricularInscriptionAsExtracurricular", foreignKey: "idExtracurricular" });
 
 SoportesPago.belongsTo(Acudiente, { as: "soportesPagosAsEstudiante", foreignKey: "idAcudiente" });
-PensionesMeses.belongsTo(Acudiente, { as: "pensionesMesesAsEstudiante", foreignKey: "idAcudiente" });
+PensionesMeses.belongsTo(Acudiente, { as: "pensionesMesesAsAcudiente", foreignKey: "idAcudiente" });
 PensionesMeses.belongsTo(Pension, { as: "pensionesMesesAsPension", foreignKey: "idPension" });
 MatriculasPagos.belongsTo(Acudiente, { as: "matriculasPagosAsEstudiante", foreignKey: "idAcudiente" });
 Estudiante.belongsTo(Grade,{as: "estudianteAsGrade", foreignKey:'idGrade'})
@@ -61,6 +64,7 @@ User.belongsTo(Role, { as: "userAsRole", foreignKey: "idRole" });
 User.belongsTo(Acudiente, { as: "userAsAcudiente", foreignKey: "idAcudiente" });
 // Añade una clave userId a la tabla addresses
 Role.hasMany(User, { as: "rolesAsUser", foreignKey: "idRole" });
+Deudas.belongsTo(Estudiante, { as: "deudaAsEstudiante", foreignKey: "idEstudiante" });
 
 recoverPassword.belongsTo(User, { as: "recoverPasswordAsUser", foreignKey: "idUser" });
 User.hasMany(recoverPassword, { as: "userAsrecoverPassword", foreignKey: "idUser" });
@@ -112,11 +116,11 @@ Estudiante.hasMany(Aptitudes, { as: "estudianteAsAptitudes", foreignKey: "idEstu
 PadreFamilia.belongsTo(Estudiante, { as: "padreFamiliaAsEstudiante", foreignKey: "idEstudiante" });
 Estudiante.hasMany(PadreFamilia, { as: "estudianteAsPadreFamilia", foreignKey: "idEstudiante" });
 
+AcuerdosPagos.hasMany(AcuerdosPagosCuotas, { as: "AcuerdosPagosAsAcuerdosPagosCuotas", foreignKey: "idAcuerdoPago" });
+AcuerdosPagos.belongsTo(Acudiente, { as: "AcuerdosPagosAsAcudiente", foreignKey: "idAcudiente" });
+
 
 Acudiente.belongsTo(Estudiante, { as: "acudienteAsEstudiante", foreignKey: "idEstudiante" });
-
-
-Estudiante.hasMany(Acudiente, { as: "estudianteAsAcudiente", foreignKey: "idEstudiante" });
 
 
 CanalReferencia.belongsTo(Estudiante, { as: "canalReferenciaAsEstudiante", foreignKey: "idEstudiante" });

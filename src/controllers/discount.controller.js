@@ -51,7 +51,7 @@ discountCtrl.consultarId = async (req, res) => {
 };
 
 discountCtrl.crearDiscount = async(req,res)=>{
-    const {name,starDate,finalDate,percentage,frequency,service,status}= req.body 
+    const {name,starDate,finalDate,percentage,useType,frequency,service,status}= req.body 
 
      if(name==null){
         res.json({
@@ -60,7 +60,7 @@ discountCtrl.crearDiscount = async(req,res)=>{
     }
     else {
        
-        const data = await discountModel.create({name,starDate,finalDate,percentage,frequency,service,status})
+        const data = await discountModel.create({name,starDate,finalDate,percentage,useType,frequency,service,status})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -71,11 +71,11 @@ discountCtrl.crearDiscount = async(req,res)=>{
 discountCtrl.actualizarDiscount = async (req, res) => {
     try {
         const { id } = req.params;
-        let {name,starDate,finalDate,percentage,frequency,service,isActive,status} = req.body;
+        let {name,starDate,finalDate,percentage,useType,frequency,service,isActive,status} = req.body;
         if (id === undefined || name === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
-        await discountModel.update({name,starDate,finalDate,percentage,frequency,service,isActive,status},{
+        await discountModel.update({name,starDate,finalDate,percentage,useType,frequency,service,isActive,status},{
             where: {
                 id: id
             }

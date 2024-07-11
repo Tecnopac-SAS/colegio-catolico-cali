@@ -41,7 +41,7 @@ attendingManagementCtrl.consultarAttendingManagement = async (req, res) => {
 attendingManagementCtrl.consultarId = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await acudiente.findOne({ where: { id: id } });
+        const result = await acudiente.findOne({ include: [{ association: 'acudienteAsEstudiante' }], where: { id: id } });
         res.json({
             mensaje: 'ok',
             result

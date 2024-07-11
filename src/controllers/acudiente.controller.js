@@ -24,6 +24,28 @@ acudienteCtrl.getAcudiente = async (req, res) => {
         res.send(error.message);
     }
 };
+acudienteCtrl.getAcudientebyEstudiante = async (req, res) => {
+    try {
+        let {idEstudiante} = req.body;
+        if (idEstudiante === undefined) {
+            res.status(400).json({ message: "Bad Request. Please fill all field." });
+        }
+        const result = await acudienteModel.findAll({
+            where: {
+                idEstudiante: idEstudiante
+            }
+        })
+        
+        res.json({
+            mensaje: 'ok',
+            result: result
+        })
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
 acudienteCtrl.actualizarBolsillo = async (req, res) => {
     try {
         let {idAcudiente,cant} = req.body;
@@ -50,6 +72,51 @@ acudienteCtrl.actualizarBolsillo = async (req, res) => {
         res.send(error.message);
     }
 };
+acudienteCtrl.actualizarAcudiente = async (req, res) => {
+    try {
+        const { idAcudiente, nombres, apellidos, cargo, celular, correoElectronico, direccion, dondeTrabaja, identificacion, ingresoMensual, parentesco, profesion, telefono, tipoDocumento } = req.body;
+
+        console.log('ID del acudiente:', idAcudiente);
+        console.log('Datos del cuerpo de la solicitud:', req.body);
+
+        if (idAcudiente === undefined) {
+            console.error('ID de acudiente no proporcionado.');
+            return res.status(400).json({ message: "Bad Request. Please provide the acudiente ID." });
+        }
+
+        const acudienteExistente = await acudienteModel.findOne({
+            where: {
+                id: idAcudiente
+            }
+        });
+
+        console.log('Acudiente existente:', acudienteExistente);
+
+        if (!acudienteExistente) {
+            console.error('Acudiente no encontrado.');
+            return res.status(404).json({ message: "Acudiente not found." });
+        }
+
+        console.log('Actualizando acudiente...');
+
+        await acudienteModel.update({ nombres, apellidos, cargo, celular, correoElectronico, direccion, dondeTrabaja, identificacion, ingresoMensual, parentesco, profesion, telefono, tipoDocumento }, {
+            where: {
+                id: idAcudiente
+            }
+        });
+
+        console.log('Acudiente actualizado correctamente.');
+
+        res.json({
+            mensaje: 'Acudiente updated successfully.'
+        });
+
+    } catch (error) {
+        console.error('Error al actualizar el acudiente:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 acudienteCtrl.getBolsillo = async (req, res) => {
     try {
         let {idAcudiente} = req.body;

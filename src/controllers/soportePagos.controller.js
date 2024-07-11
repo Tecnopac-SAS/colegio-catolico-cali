@@ -65,6 +65,25 @@ soportePagosCtrl.listarMisSoportesPagos = async(req,res)=>{
         })
     }
 }
+soportePagosCtrl.listarSoportesPagos = async(req,res)=>{
+    try {
+        const result = await soportesPagosModel.findAll({ include: [{ association: 'soportesPagosAsEstudiante' }],order: [
+            ['fecha', 'DESC'],
+        ],});
+        res.json({
+            status: 200,
+            mensaje: 'ok',
+            result: result
+        });
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+        res.json({
+            mensaje: 'Error en la consulta'
+        })
+    }
+}
 
 
 module.exports= soportePagosCtrl

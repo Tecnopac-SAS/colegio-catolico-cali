@@ -4,6 +4,7 @@ const config = require('./config')
 const express = require('express');
 const app = express();
 const path = require('path');
+const fs = require('fs');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,6 +13,8 @@ const bdSq = require('./src/db/databaseSq')
 const Sequelize = require('sequelize');
 
 require('./src/models/asociations');
+
+const markerFilePath = path.join(__dirname, 'db_sync_marker');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -108,53 +111,68 @@ const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
 const documentos = require('./src/models/documentos.model');
 const PagosPresenciales = require('./src/models/pagosPresenciales.model');
 
+async function syncDatabase() {
+    try {
+        await recoverPasswordModel.sync({ alter: true })
+        await periodModel.sync({ alter: true })
+        await documentos.sync({ alter: true })
+        await gradesModel.sync({ alter: true })
+        await teacherModel.sync({ alter: true })
+        await studentDatabaseModel.sync({ alter: true })
+        await inscriptionModel.sync({ alter: true })
+        await extracurricularModel.sync({ alter: true })
+        await tuitionModel.sync({ alter: true })
+        await tuitionTypeModel.sync({ alter: true })
+        await roleModel.sync({ alter: true })
+        await acudienteModel.sync({ alter: true })
+        await userModel.sync({ alter: true })
+        await discountModel.sync({ alter: true })
+        await deudasModel.sync({ alter: true })
+        await pensionModel.sync({ alter: true })
+        await courseModel.sync({ alter: true })
+        await transportationModel.sync({ alter: true })
+        await transportationModel.sync({ alter: true })
+        await transportationRequestModel.sync({ alter: true })
+        await cafeteriaModel.sync({ alter: true })
+        await acuerdosPago.sync({ alter: true })
+        await acuerdosPagosCuotas.sync({ alter: true })
+        await certificateModel.sync({ alter: true })
+        await technicalModel.sync({ alter: true })
+        await documentosMatriculaModel.sync({ alter: true })
+        await schoolYearModel.sync({ alter: true })
+        await attendingManagementsModel.sync({ alter: true })
+        await levelingModel.sync({ alter: true })
+        await historialAcademicoModel.sync({ alter: true })
+        await aptitudesModel.sync({ alter: true })
+        await padreFamiliaModel.sync({ alter: true })
+        await responsableModel.sync({ alter: true })
+        await hermanoModel.sync({ alter: true })
+        await canalReferenciaModel.sync({ alter: true })
+        await pensionesMeses.sync({ alter: true })
+        await matriculasPagos.sync({ alter: true })
+        await histPreescolar.sync({ alter: true })
+        await histPrimaria.sync({ alter: true })
+        await histBachillerato.sync({ alter: true })
+        await coursesInscription.sync({ alter: true })
+        await technicalInscription.sync({ alter: true })
+        await extracurricularInscription.sync({ alter: true })
+        await CertificateInscription.sync({ alter: true })
+        await SoportesPago.sync({ alter: true })
+        await PagosPresenciales.sync({ alter: true })
+        await cafeteriaPagosModel.sync({ alter: true })
+        fs.writeFileSync(markerFilePath, 'Database synchronized');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
 
-documentos.sync({ alter: true })
-teacherModel.sync({ alter: true })
-roleModel.sync({ alter: true })
-userModel.sync({ alter: true })
-recoverPasswordModel.sync({ alter: true })
-periodModel.sync({ alter: true })
-studentDatabaseModel.sync({ alter: true })
-inscriptionModel.sync({ alter: true })
-tuitionModel.sync({ alter: true })
-tuitionTypeModel.sync({ alter: true })
-extracurricularModel.sync({ alter: true })
-acudienteModel.sync({ alter: true })
-deudasModel.sync({ alter: true })
-gradesModel.sync({ alter: true })
-pensionModel.sync({ alter: true })
-courseModel.sync({ alter: true })
-transportationModel.sync({ alter: true })
-transportationRequestModel.sync({ alter: true })
-cafeteriaModel.sync({ alter: true })
-discountModel.sync({ alter: true })
-acuerdosPago.sync({ alter: true })
-acuerdosPagosCuotas.sync({ alter: true })
-certificateModel.sync({ alter: true })
-technicalModel.sync({ alter: true })
-documentosMatriculaModel.sync({ alter: true })
-schoolYearModel.sync({ alter: true })
-attendingManagementsModel.sync({ alter: true })
-levelingModel.sync({ alter: true })
-historialAcademicoModel.sync({ alter: true })
-aptitudesModel.sync({ alter: true })
-padreFamiliaModel.sync({ alter: true })
-responsableModel.sync({ alter: true })
-hermanoModel.sync({ alter: true })
-canalReferenciaModel.sync({ alter: true })
-pensionesMeses.sync({ alter: true })
-matriculasPagos.sync({ alter: true })
-histPreescolar.sync({ alter: true })
-histPrimaria.sync({ alter: true })
-histBachillerato.sync({ alter: true })
-coursesInscription.sync({ alter: true })
-technicalInscription.sync({ alter: true })
-extracurricularInscription.sync({ alter: true })
-CertificateInscription.sync({ alter: true })
-SoportesPago.sync({ alter: true })
-PagosPresenciales.sync({ alter: true })
-cafeteriaPagosModel.sync({ alter: true })
+if (!fs.existsSync(markerFilePath)) {
+    syncDatabase().then(() => {
+        console.log("Database synchronized");
+    });
+} else {
+    console.log("Database already synchronized. Skipping sync.");
+}
 
 
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));

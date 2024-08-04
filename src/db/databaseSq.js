@@ -8,11 +8,6 @@ const sequelize = new Sequelize(
    {
    host: config.db.host,
    dialect: 'mysql',
-   dialectOptions: {
-     options: {
-         encrypt: true,
-     }
-   },
    pool: {
      acquire: 30000, // tiempo de espera en milisegundos (por ejemplo, 30 segundos)
    },

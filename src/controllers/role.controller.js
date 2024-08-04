@@ -3,6 +3,8 @@ const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const roleModel = require('../models/role.model')
+const {validationResult} = require("express-validator");
+const Role = require("../models/role.model");
 const roleCtrl = {};
 
 roleCtrl.consultarRoles = async(req,res)=>{
@@ -22,50 +24,75 @@ roleCtrl.consultarRoles = async(req,res)=>{
     }
 }
 
-roleCtrl.crearRole = async(req,res)=>{
-    const {role}= req.body 
+roleCtrl.crearRole = async(req,res)=> {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    const {role}= req.body
     const result = await roleModel.findOne({ where: { role: role} });
+
     if(result) {
         res.json({
             mensaje: 'El rol ya existe'
         })
+    } else {
+        try{
+            await roleModel.create({role})
+            res.json({
+                mensaje: 'Rol ha sido creado',
+            })
+        }catch (e){
+            console.log(e);
+        }
     }
-    else if(role==null){
+}
+
+roleCtrl.deleteRole =  async (req, res) => {
+    const { id } = req.params;
+    try{
+        await Role.destroy({
+            where: {
+                id,
+            },
+            force: true,
+        });
         res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+            mensaje: 'Se ha elimnado el Rol.',
         })
-    }
-    else {
-    
-        await roleModel.create({role})
-        res.json({
-            mensaje: 'Rol creado',
-            id: email,
-            token,
-            password:password
-        })
+    }catch (e){
+        res.status(500).send(error.message);
     }
 }
 
 roleCtrl.actualizarRole = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { role } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
 
-        if (id === undefined || role === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+    const { id } = req.params;
+    const {role, isActive} = req.body;
+
+    try {
+        const rl = await Role.findOne({ where: { id } });
+        console.log(rl.id);
+        if(rl){
+            await Role.update({
+                isActive: isActive,
+                role: role
+            }, {where: {
+                id: rl.id
+            }})
+            res.json({
+                mensaje: 'ok',
+                rl
+            })
         }
 
-        const param = {role};
-        const connection = await getConnection();
-        const result = await connection.query("UPDATE user SET ? WHERE id = ?", [param, id]);
-        res.json({
-            mensaje: 'ok',
-            result
-        })
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        res.status(500).send(error.message);
     }
 };
 

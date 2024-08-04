@@ -7,6 +7,7 @@ const acudienteModel = require('../models/acudiente.model')
 const responsableModel = require('../models/responsableFacturacion.model');
 const studentDatabase = require('../models/studentDatabase.model');
 const { join } = require('path');
+const {validationResult} = require("express-validator");
 const padreFamiliaCtrl = {};
 
 padreFamiliaCtrl.consultarPadreFamilia = async(req,res)=>{
@@ -156,19 +157,21 @@ padreFamiliaCtrl.crearMadreFamilia = async(req,res)=>{
 }
 
 padreFamiliaCtrl.crearAcudiente = async(req,res)=>{
-    const {parentesco,estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante}= req.body 
-    if(vive==""){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
+
+    const {parentesco, estado, vive, tipoDocumento, identificacion, nombres, apellidos, profesion, dondeTrabaja, cargo, ingresoMensual, correoElectronico, direccion, telefono, celular, idEstudiante}= req.body;
+
+    try{
         await acudienteModel.create({parentesco,estado,vive,tipoDocumento,identificacion,nombres,apellidos,profesion,dondeTrabaja,cargo,ingresoMensual,correoElectronico,direccion,telefono,celular,idEstudiante})
         res.json({
             mensaje: 'Acudiente  creado',
         })
+    }catch (e) {
+        console.log(e);
     }
-
 }
 
 

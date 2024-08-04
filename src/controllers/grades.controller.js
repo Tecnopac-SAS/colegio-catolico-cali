@@ -1,17 +1,18 @@
 const config = require('../../config')
 const sequelize = require('sequelize');
-const { QueryTypes } = require('sequelize');
+const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const gradesModel = require('../models/grade.model')
+const {validationResult} = require("express-validator");
 const gradesCtrl = {};
 
-gradesCtrl.consultarGrades = async(req,res)=>{
+gradesCtrl.consultarGrades = async (req, res) => {
     try {
         const result = await gradesModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -22,29 +23,31 @@ gradesCtrl.consultarGrades = async(req,res)=>{
     }
 }
 
-gradesCtrl.crearGrades = async(req,res)=>{
-    const {grades}= req.body 
-    const result = await gradesModel.findOne({ where: { grades: grades} });
-    if(result) {
-        res.json({
-            mensaje: 'El rol ya existe'
-        })
+gradesCtrl.crearGrades = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else if(grades==null){
+
+    const {description, isActive} = req.body;
+
+    const result = await gradesModel.findOne({where: {description}});
+
+    if (result) {
         res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
+            mensaje: 'El grade ya existe'
         })
-    }
-    else {
-    
-        await gradesModel.create({grades})
-        res.json({
-            mensaje: 'Rol creado',
-            id: email,
-            token,
-            password:password
-        })
+    } else {
+        try {
+            const resp =  await gradesModel.create({description, isActive})
+            res.json({
+                mensaje: 'El grade creado.',
+                resp
+            })
+        } catch (e) {
+            res.status(500).json(e);
+        }
     }
 }
 
-module.exports= gradesCtrl
+module.exports = gradesCtrl

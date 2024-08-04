@@ -1,26 +1,29 @@
 const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
-const { QueryTypes } = require('sequelize');
+const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const studentDatabaseModel = require('../models/studentDatabase.model')
 const pensionModel = require('../models/pension.model')
 const matriculaModel = require('../models/tuitionType.model')
-const acudienteModel = require('../models/acudiente.model')
 const userModel = require('../models/user.model')
 const historialAcademicoModel = require('../models/historialAcademico.model')
+const {validationResult} = require("express-validator");
 const studentDatabaseCtrl = {};
 
-studentDatabaseCtrl.getPension = async(req,res)=>{
+studentDatabaseCtrl.getPension = async (req, res) => {
     try {
-        const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
+        const resultUser = await userModel.findOne({
+            where: {id: req.body.id},
+            include: {association: 'userAsAcudiente'}
+        });
         let user = resultUser.userAsAcudiente
-        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});        
-        const resultPension = await pensionModel.findOne({where:{idGrade:resultStudent.idGrade} });
+        const resultStudent = await studentDatabaseModel.findOne({where: {id: user.idEstudiante}});
+        const resultPension = await pensionModel.findOne({where: {idGrade: resultStudent.idGrade}});
 
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:resultPension
+            result: resultPension
         })
     } catch (error) {
         res.status(500);
@@ -30,25 +33,28 @@ studentDatabaseCtrl.getPension = async(req,res)=>{
         })
     }
 }
-studentDatabaseCtrl.getMatricula = async(req,res)=>{
+studentDatabaseCtrl.getMatricula = async (req, res) => {
     try {
-        const resultUser = await userModel.findOne({where:{id:req.body.id}, include: { association: 'userAsAcudiente' } });
+        const resultUser = await userModel.findOne({
+            where: {id: req.body.id},
+            include: {association: 'userAsAcudiente'}
+        });
         let user = resultUser.userAsAcudiente
         let type;
-        const resultStudent = await studentDatabaseModel.findOne({where:{id:user.idEstudiante}});
-        const resultMatricula = await matriculaModel.findOne({where:{idGrade:resultStudent.idGrade} });
+        const resultStudent = await studentDatabaseModel.findOne({where: {id: user.idEstudiante}});
+        const resultMatricula = await matriculaModel.findOne({where: {idGrade: resultStudent.idGrade}});
 
-        fechaActual =  new Date()
+        fechaActual = new Date()
 
-        if(resultMatricula?.extraordinary_price > 0){
+        if (resultMatricula?.extraordinary_price > 0) {
 
             type = 'extraordinaria';
 
-            matriculaValidada= (fechaActual >= resultMatricula.extraordinary_startDate && fechaActual <= resultMatricula.extraordinary_finalDate) ? resultMatricula?.extraordinary_price : resultMatricula?.surcharge;
+            matriculaValidada = (fechaActual >= resultMatricula.extraordinary_startDate && fechaActual <= resultMatricula.extraordinary_finalDate) ? resultMatricula?.extraordinary_price : resultMatricula?.surcharge;
 
-        }else{
+        } else {
             type = 'ordinaria';
-            matriculaValidada= (fechaActual >= resultMatricula.startDate && fechaActual <= resultMatricula.finalDate) ? resultMatricula?.ordinary_price : resultMatricula?.surcharge;
+            matriculaValidada = (fechaActual >= resultMatricula.startDate && fechaActual <= resultMatricula.finalDate) ? resultMatricula?.ordinary_price : resultMatricula?.surcharge;
         }
 
         res.json({
@@ -64,13 +70,13 @@ studentDatabaseCtrl.getMatricula = async(req,res)=>{
         })
     }
 }
-studentDatabaseCtrl.consultarStudentDatabases = async(req,res)=>{
+studentDatabaseCtrl.consultarStudentDatabases = async (req, res) => {
     try {
         const result = await studentDatabaseModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -83,8 +89,13 @@ studentDatabaseCtrl.consultarStudentDatabases = async(req,res)=>{
 
 studentDatabaseCtrl.consultarStudentDatabase = async (req, res) => {
     try {
-        const { nombres,estadoEstudiante } = req.params;
-        const result = await studentDatabaseModel.findAll({ where: { nombres:{[Op.like]:`${nombres}%`}, estadoEstudiante: estadoEstudiante}});
+        const {nombres, estadoEstudiante} = req.params;
+        const result = await studentDatabaseModel.findAll({
+            where: {
+                nombres: {[Op.like]: `${nombres}%`},
+                estadoEstudiante: estadoEstudiante
+            }
+        });
         res.json({
             mensaje: 'ok',
             result
@@ -97,8 +108,8 @@ studentDatabaseCtrl.consultarStudentDatabase = async (req, res) => {
 
 studentDatabaseCtrl.consultarStudentEstados = async (req, res) => {
     try {
-        const { estadoEstudiante } = req.params;
-        const result = await studentDatabaseModel.findAll({ where: { estadoEstudiante:{[Op.like]:`${estadoEstudiante}%`}} });
+        const {estadoEstudiante} = req.params;
+        const result = await studentDatabaseModel.findAll({where: {estadoEstudiante: {[Op.like]: `${estadoEstudiante}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -111,8 +122,8 @@ studentDatabaseCtrl.consultarStudentEstados = async (req, res) => {
 
 studentDatabaseCtrl.consultarId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await studentDatabaseModel.findOne({ where: { id: id } });
+        const {id} = req.params;
+        const result = await studentDatabaseModel.findOne({where: {id: id}});
         res.json({
             mensaje: 'ok',
             result
@@ -123,34 +134,34 @@ studentDatabaseCtrl.consultarId = async (req, res) => {
     }
 };
 
-studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
-    const {
-    codigo,
-    grado,
-    nombres,
-    apellidos,
-    tipoDocumento,
-    identificacion,
-    expedicion,
-    lugarNacimiento,
-    fechaNacimiento,
-    edad,
-    direccion,
-    tipoDireccion,
-    barrio,
-    estrato,
-    telefono,
-    correo,
-    tipoCupo
-    }= req.body 
-
-     if(codigo==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
+studentDatabaseCtrl.crearStudentDatabase = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
-       
+
+    const {
+        codigo,
+        grado,
+        nombres,
+        apellidos,
+        tipoDocumento,
+        identificacion,
+        expedicion,
+        lugarNacimiento,
+        fechaNacimiento,
+        edad,
+        direccion,
+        tipoDireccion,
+        barrio,
+        estrato,
+        telefono,
+        correo,
+        tipoCupo
+    } = req.body
+
+
+    try {
         const data = await studentDatabaseModel.create({
             codigo,
             grado,
@@ -170,33 +181,29 @@ studentDatabaseCtrl.crearStudentDatabase = async(req,res)=>{
             correo,
             tipoCupo,
         })
-        let idEstudiante=data.id
-     
-           /* const {preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica}= req.body 
-            if(preescolar==""){
-                res.json({
-                    mensaje: 'Los campos deben estar diligenciados en su totalidad'
-                })
-            }
-            else {
-                await historialAcademicoModel.create({preescolar,gradoCursadoPreescolar,primaria,gradoCursadoPrimaria,bachilletaro,gradoCursadoBachillerato,anioAnterior,motivoRetiro,repeticionAnio,distincionAcademica,idEstudiante})
-                res.json({
-                    mensaje: 'historial Academico  creado',
-                })
-            }*/
-        
-        
+
+        let idEstudiante = data.id
+
         res.json({
             mensaje: 'Estudiante creado',
             idEstudiante: idEstudiante,
         })
+    }catch (error){
+        res.status(500);
+        res.send(error.message);
     }
+
 
 }
 
 studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         let {
             codigo,
             grado,
@@ -215,11 +222,11 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
             telefono,
             correo,
             tipoCupo,
-            estadoEstudiante
+            estadoEstudiante,
+            viveCon,
+            idGrade
         } = req.body;
-        if (id === undefined || nombres === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
+
         await studentDatabaseModel.update({
             codigo,
             grado,
@@ -238,22 +245,23 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
             telefono,
             correo,
             tipoCupo,
-            estadoEstudiante
-        },{
+            estadoEstudiante,
+            viveCon,
+            idGrade
+        }, {
             where: {
                 id: id
             }
         })
-        const user = await studentDatabaseModel.findOne({ where: { id: id } });
-         if(user === null){
-            return res.json({
-                mensaje: 'estudiante no encontrado',
-            })
-        }
-        else {
+        const user = await studentDatabaseModel.findOne({where: {id: id}});
+        if (user) {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
+            })
+        } else {
+            res.json({
+                mensaje: 'Estudiante no encontrado',
             })
         }
 
@@ -265,26 +273,25 @@ studentDatabaseCtrl.actualizarStudentDatabase = async (req, res) => {
 
 studentDatabaseCtrl.deshabilitar = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { isActive } = req.body;
+        const {id} = req.params;
+        const {isActive} = req.body;
         if (isActive === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await studentDatabaseModel.update({isActive},{
+        await studentDatabaseModel.update({isActive}, {
             where: {
                 id: id
             }
         })
-        const user = await studentDatabaseModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await studentDatabaseModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'usuario no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -296,26 +303,25 @@ studentDatabaseCtrl.deshabilitar = async (req, res) => {
 
 studentDatabaseCtrl.cambiarEstado = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { estadoEstudiante } = req.body;
+        const {id} = req.params;
+        const {estadoEstudiante} = req.body;
         if (estadoEstudiante === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await studentDatabaseModel.update({estadoEstudiante},{
+        await studentDatabaseModel.update({estadoEstudiante}, {
             where: {
                 id: id
             }
         })
-        const user = await studentDatabaseModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await studentDatabaseModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'usuario no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -327,23 +333,25 @@ studentDatabaseCtrl.cambiarEstado = async (req, res) => {
 
 studentDatabaseCtrl.studentDatabaseCount = async (req, res) => {
     try {
-        const { estadoEstudiante } = req.params;
-        const result = await bdSq.query("SELECT COUNT(*) as contador FROM estudiantes where estudiantes.estadoEstudiante=:parametro ",{replacements:{parametro:`${estadoEstudiante}`},type: QueryTypes.SELECT});
+        const {estadoEstudiante} = req.params;
+        const result = await bdSq.query("SELECT COUNT(*) as contador FROM estudiantes where estudiantes.estadoEstudiante=:parametro ", {
+            replacements: {parametro: `${estadoEstudiante}`},
+            type: QueryTypes.SELECT
+        });
         if (!result) {
             return res.json({
 
                 result: 'No hay datos',
             })
-        }
-        else {
+        } else {
             res.json({
                 result
             })
-            }
+        }
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
 
-module.exports= studentDatabaseCtrl
+module.exports = studentDatabaseCtrl

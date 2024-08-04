@@ -1,13 +1,15 @@
 const acudienteModel = require('../models/acudiente.model')
+const {validationResult} = require("express-validator");
 const acudienteCtrl = {};
 
 
 acudienteCtrl.getAcudiente = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         let {idAcudiente} = req.body;
-        if (idAcudiente === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
         const result = await acudienteModel.findOne({
             where: {
                 id: idAcudiente
@@ -24,12 +26,14 @@ acudienteCtrl.getAcudiente = async (req, res) => {
         res.send(error.message);
     }
 };
+
 acudienteCtrl.getAcudientebyEstudiante = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         let {idEstudiante} = req.body;
-        if (idEstudiante === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
         const result = await acudienteModel.findAll({
             where: {
                 idEstudiante: idEstudiante
@@ -47,8 +51,12 @@ acudienteCtrl.getAcudientebyEstudiante = async (req, res) => {
     }
 };
 acudienteCtrl.actualizarBolsillo = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
-        let {idAcudiente,cant} = req.body;
+        let {idAcudiente, cant} = req.body;
         if (idAcudiente === undefined || cant === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
@@ -73,16 +81,12 @@ acudienteCtrl.actualizarBolsillo = async (req, res) => {
     }
 };
 acudienteCtrl.actualizarAcudiente = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const { idAcudiente, nombres, apellidos, cargo, celular, correoElectronico, direccion, dondeTrabaja, identificacion, ingresoMensual, parentesco, profesion, telefono, tipoDocumento } = req.body;
-
-        console.log('ID del acudiente:', idAcudiente);
-        console.log('Datos del cuerpo de la solicitud:', req.body);
-
-        if (idAcudiente === undefined) {
-            console.error('ID de acudiente no proporcionado.');
-            return res.status(400).json({ message: "Bad Request. Please provide the acudiente ID." });
-        }
 
         const acudienteExistente = await acudienteModel.findOne({
             where: {
@@ -90,14 +94,10 @@ acudienteCtrl.actualizarAcudiente = async (req, res) => {
             }
         });
 
-        console.log('Acudiente existente:', acudienteExistente);
-
         if (!acudienteExistente) {
             console.error('Acudiente no encontrado.');
             return res.status(404).json({ message: "Acudiente not found." });
         }
-
-        console.log('Actualizando acudiente...');
 
         await acudienteModel.update({ nombres, apellidos, cargo, celular, correoElectronico, direccion, dondeTrabaja, identificacion, ingresoMensual, parentesco, profesion, telefono, tipoDocumento }, {
             where: {
@@ -105,12 +105,9 @@ acudienteCtrl.actualizarAcudiente = async (req, res) => {
             }
         });
 
-        console.log('Acudiente actualizado correctamente.');
-
         res.json({
             mensaje: 'Acudiente updated successfully.'
         });
-
     } catch (error) {
         console.error('Error al actualizar el acudiente:', error);
         res.status(500).json({ message: error.message });
@@ -118,23 +115,26 @@ acudienteCtrl.actualizarAcudiente = async (req, res) => {
 };
 
 acudienteCtrl.getBolsillo = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         let {idAcudiente} = req.body;
-        if (idAcudiente === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
         acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
-        
-        res.json({
+        res.status(200).json({
             resp: acudiente.bolsillo
         })
-
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 };
 acudienteCtrl.actualizarLonchera = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         let {idAcudiente,cant} = req.body;
         if (idAcudiente === undefined || cant === undefined) {
@@ -168,11 +168,12 @@ acudienteCtrl.actualizarLonchera = async (req, res) => {
     }
 };
 acudienteCtrl.getLonchera = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         let {idAcudiente} = req.body;
-        if (idAcudiente === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
         acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
         
         res.json({
@@ -187,6 +188,10 @@ acudienteCtrl.getLonchera = async (req, res) => {
 
 
 acudienteCtrl.descuentoBolsillo = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const {idAcudiente, cant} = req.body;
         if (idAcudiente === undefined || cant === undefined) {

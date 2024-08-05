@@ -57,15 +57,13 @@ acudienteCtrl.actualizarBolsillo = async (req, res) => {
     }
     try {
         let {idAcudiente, cant} = req.body;
-        if (idAcudiente === undefined || cant === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
+
         acudiente1 = await acudienteModel.findOne({
             where: {
                 id: idAcudiente
             }
         })
-        acudiente = await acudienteModel.update({bolsillo:cant+acudiente1.bolsillo},{
+        acudiente = await acudienteModel.update({bolsillo: cant + acudiente1.bolsillo},{
             where: {
                 id: idAcudiente
             }
@@ -95,7 +93,6 @@ acudienteCtrl.actualizarAcudiente = async (req, res) => {
         });
 
         if (!acudienteExistente) {
-            console.error('Acudiente no encontrado.');
             return res.status(404).json({ message: "Acudiente not found." });
         }
 
@@ -167,6 +164,7 @@ acudienteCtrl.actualizarLonchera = async (req, res) => {
         res.send(error.message);
     }
 };
+
 acudienteCtrl.getLonchera = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -194,9 +192,7 @@ acudienteCtrl.descuentoBolsillo = async (req, res) => {
     }
     try {
         const {idAcudiente, cant} = req.body;
-        if (idAcudiente === undefined || cant === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
+
         const acudiente1 = await acudienteModel.findOne({
             where: {
                 id: idAcudiente

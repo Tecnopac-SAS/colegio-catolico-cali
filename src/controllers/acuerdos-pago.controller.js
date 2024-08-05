@@ -1,34 +1,28 @@
-const config = require('../../config')
-const { sequelize, Op } = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const matriculaModel = require('../models/tuitionType.model')
 const acudienteModel = require('../models/acudiente.model')
 const pensionMesesModel = require('../models/pensionMeses.model')
 const acuerdosPagoModel = require('../models/acuerdos-pago.model')
+const certificateInscription = require('../models/certificateInscription.model');
 const acuerdosPagosCuotas = require('../models/acuerdos-pago-cuotas.model')
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 const acuerdosPagos = {};
 
 
-
-
 acuerdosPagos.crearAcuerdoPago = async (req, res) => {
-    const { fecha, description, valor, estado, idAcudiente, cuotas } = req.body;
-    if (!fecha || !description || !valor || !estado || !idAcudiente || !cuotas) {
-        return res.status(400).json({ message: "Bad Request. Please fill all fields." });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
 
+    const { fecha, description, valor, estado, idAcudiente, cuotas } = req.body;
     try {
-        // Crear el acuerdo de pago
         const nuevoAcuerdo = await acuerdosPagoModel.create({ fecha, description, valor, estado, idAcudiente });
 
-        // Verificar si se creó correctamente el acuerdo de pago
         if (nuevoAcuerdo) {
-            // Obtener el ID del nuevo acuerdo de pago
+
             const idAcuerdoPago = nuevoAcuerdo.id;
 
-            // Iterar sobre las cuotas y crear cada una, utilizando el id del nuevo acuerdo de pago
             for (const cuotaData of cuotas) {
                 const { cuota, fechaPago, monto } = cuotaData;
                 const formattedFechaPago = moment(fechaPago, "DD-MM-YYYY").format("YYYY-MM-DD");
@@ -98,21 +92,22 @@ acuerdosPagos.consultarAcuerdoPagoSearch = async (req, res) => {
         dato = decodeURIComponent(dato)
         let results = [];
         let tabla = []
-        result = await certificateInscription.findAll({ where: { idEstudiante: id }, include: { association: 'certificateInscriptionAsCertificate' } });
+        let result = await certificateInscription.findAll({ where: { idEstudiante: id }, include: { association: 'certificateInscriptionAsCertificate' } });
+
         result.forEach(element => {
             tabla.push(element)
         });
+
         for (var i = 0; i < tabla.length; i++) {
             for (key in tabla[i]['certificateInscriptionAsCertificate'].dataValues) {
-                if (key != 'createdAt' && key != 'updatedAt') {
-                    if (String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato) != -1) {
+                if (key !== 'createdAt' && key !== 'updatedAt') {
+                    if (String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato) !== -1) {
                         results.push(tabla[i]);
                         break;
                     }
                 }
             }
         }
-
 
         res.json({
             status: 200,

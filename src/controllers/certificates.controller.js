@@ -1,14 +1,10 @@
-const path = require('path');
-const config = require('../../config')
+
 const {sequelize, Op, where} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const certificatesModel = require('../models/certificates.model')
-const pensionPagoModel = require('../models/pensionMeses.model')
 const certificateInscription = require('../models/certificateInscription.model');
 const Acudiente = require('../models/acudiente.model');
-const { json } = require('body-parser');
-const { storeFile } = require('../helpers/files');
+const {validationResult} = require("express-validator");
+
 const certificatesCtrl = {};
 
 certificatesCtrl.consultarCertificates = async(req,res)=>{
@@ -119,21 +115,22 @@ certificatesCtrl.consultarId = async (req, res) => {
 };
 
 certificatesCtrl.crearCertificate = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {concept,time,channel,applicant,price}= req.body 
 
-     if(concept==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-       
-        const data = await certificatesModel.create({concept,time,channel,applicant,price})
+    try{
+        await certificatesModel.create({concept,time,channel,applicant,price})
         res.json({
             mensaje: 'Certificado creado',
         })
+    }catch (error){
+        res.status(500);
+        res.send(error.message);
     }
-
 }
 
 certificatesCtrl.actualizarCertificate = async (req, res) => {
@@ -297,8 +294,8 @@ certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
         });
         for(var i=0; i<tabla.length; i++) {
             for(key in tabla[i]['certificateInscriptionAsCertificate'].dataValues) {
-                if (key!='createdAt' && key!='updatedAt') {
-                    if(String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato)!=-1) {
+                if (key !== 'createdAt' && key !== 'updatedAt') {
+                    if(String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato) !== -1) {
                         results.push(tabla[i]);
                         break;
                     }

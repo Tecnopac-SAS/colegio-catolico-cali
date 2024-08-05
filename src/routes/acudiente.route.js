@@ -3,14 +3,17 @@ const router = Router();
 const acudienteCtrl = require('../controllers/acudiente.controller');
 const {check} = require("express-validator");
 
-router.post('/descBolsillo',acudienteCtrl.descuentoBolsillo);
-router.post('/addBolsillo',
+router.post('/descBolsillo',[
+    check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente"),
+    check("cant").notEmpty().withMessage("Ingrese el campo de cant")
+],acudienteCtrl.descuentoBolsillo);
+router.put('/addBolsillo',
     [
         check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente "),
         check('cant').notEmpty().withMessage("Ingresa el campo de cant")
     ],acudienteCtrl.actualizarBolsillo);
 router.post('/getBolsillo',[
-        check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente")
+        check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente"),
 ],acudienteCtrl.getBolsillo);
 router.get('/getAcudiente',
     [
@@ -20,7 +23,7 @@ router.post('/getAcudientebyEstudiante',
     [
         check('idEstudiante').notEmpty().withMessage("Ingrese el campo de idEstudiante"),
     ],acudienteCtrl.getAcudientebyEstudiante);
-router.post('/actualizarAcudiente',[
+router.put('/actualizarAcudiente',[
         check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente "),
         check('nombres').notEmpty().withMessage("Ingrese el campo de nombres"),
         check('apellidos').notEmpty().withMessage("Ingrese el campo de apellidos"),
@@ -36,8 +39,5 @@ router.post('/actualizarAcudiente',[
         check('telefono').notEmpty().withMessage("Ingresa el campo tipoDocumento")
     ],
     acudienteCtrl.actualizarAcudiente);
-
-
-
 
 module.exports= router

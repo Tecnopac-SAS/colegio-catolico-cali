@@ -5,15 +5,19 @@ const bdSq = require('../db/databaseSq');
 const documentosModel = require('../models/documentos.model')
 const documentosCtrl = {};
 const puppeteer = require('puppeteer');
+const {validationResult} = require("express-validator");
 
 
 documentosCtrl.crearDocumento = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
+
     try {
         let {titulo,template} = req.body;
-        if (titulo === undefined || template === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        documento = await documentosModel.create({titulo: titulo, template: template});
+        await documentosModel.create({titulo: titulo, template: template});
         res.json({
             mensaje: 'ok'
         })
@@ -64,7 +68,7 @@ documentosCtrl.actualizarDocumento = async (req, res) => {
             }
         });
         res.json({
-            mensaje: 'actualizado'
+            mensaje: 'El documento de a actualizado'
         })
     } catch (error) {
         res.status(500);

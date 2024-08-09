@@ -92,13 +92,15 @@ userCtrl.login = async (req, res) => {
             where: {email: email, idRole: tipo},
             include: ['userAsRole', 'userAsAcudiente']
         });
-        const resultStudent = await studentDatabaseModel.findOne({where: {id: result.userAsAcudiente.idEstudiante}});
 
-        if (result === null) {
-            return res.status(401).json({
-                mensaje: 'correo invalido',
+        if (!result) {
+            res.status(404).json({
+                mensaje: 'No hay email registrado.',
             })
         }
+
+        const resultStudent = await studentDatabaseModel.findOne({where: {id: result.userAsAcudiente.idEstudiante}});
+
         const match = await bcrypt.compare(password, result.password)
 
         if (match) {
@@ -127,7 +129,7 @@ userCtrl.login = async (req, res) => {
             }
         } else {
             res.json({
-                mensaje: 'Contraseña incorrecta'
+                mensaje: 'Contraseña incorrecta o Email incorrecto'
             })
         }
 

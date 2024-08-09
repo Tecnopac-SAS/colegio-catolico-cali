@@ -1,8 +1,6 @@
-const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const teacherModel = require('../models/teacher.model')
+const {validationResult} = require("express-validator");
 const teacherCtrl = {};
 
 teacherCtrl.consultarTeachers = async(req,res)=>{
@@ -49,36 +47,41 @@ teacherCtrl.consultarId = async (req, res) => {
         res.send(error.message);
     }
 };
-teacherCtrl.crearTeacher = async(req,res)=>{
-    const {name,course,email,number}= req.body 
-
-     if(name==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-       
-        const data = await teacherModel.create({name,course,email,number})
-        res.json({
-            mensaje: 'Curso creado',
-        })
+teacherCtrl.crearTeacher = async (req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
 
+    const {name,course,email,number}= req.body;
+
+    try{
+        await teacherModel.create({name,course,email,number})
+        res.json({
+            mensaje: 'Teacher Creado',
+        })
+    }catch (error){
+        res.status(500);
+        res.send(error.message);
+    }
 }
 
 teacherCtrl.actualizarTeacher = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const { id } = req.params;
         let {name,course,email,number} = req.body;
-        if (id === undefined || name === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
+
         await teacherModel.update({name,course,email,number},{
             where: {
                 id: id
             }
         })
+
         const user = await teacherModel.findOne({ where: { id: id } });
          if(user === null){
             return res.json({
@@ -99,12 +102,15 @@ teacherCtrl.actualizarTeacher = async (req, res) => {
 };
 
 teacherCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const { id } = req.params;
         const { isActive } = req.body;
-        if (isActive === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
+
         await teacherModel.update({isActive},{
             where: {
                 id: id

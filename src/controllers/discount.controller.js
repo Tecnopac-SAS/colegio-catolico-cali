@@ -1,7 +1,4 @@
-const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const discountModel = require('../models/discount.model')
 const discountCtrl = {};
 

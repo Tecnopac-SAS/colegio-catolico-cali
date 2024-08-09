@@ -1,4 +1,3 @@
-
 const {sequelize, Op, where} = require('sequelize');
 const certificatesModel = require('../models/certificates.model')
 const certificateInscription = require('../models/certificateInscription.model');
@@ -7,13 +6,13 @@ const {validationResult} = require("express-validator");
 
 const certificatesCtrl = {};
 
-certificatesCtrl.consultarCertificates = async(req,res)=>{
+certificatesCtrl.consultarCertificates = async (req, res) => {
     try {
         const result = await certificatesModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -23,13 +22,13 @@ certificatesCtrl.consultarCertificates = async(req,res)=>{
         })
     }
 }
-certificatesCtrl.listarCertificatesAcu = async(req,res)=>{
+certificatesCtrl.listarCertificatesAcu = async (req, res) => {
     try {
         const result = await certificatesModel.findAll({where: {isActive: true}});
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -39,13 +38,13 @@ certificatesCtrl.listarCertificatesAcu = async(req,res)=>{
         })
     }
 }
-certificatesCtrl.listCertificatesInscriptionAll = async(req,res)=>{
+certificatesCtrl.listCertificatesInscriptionAll = async (req, res) => {
     try {
-        const result = await certificateInscription.findAll({include:{association: 'certificateInscriptionAsCertificate'}});
+        const result = await certificateInscription.findAll({include: {association: 'certificateInscriptionAsCertificate'}});
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -55,13 +54,16 @@ certificatesCtrl.listCertificatesInscriptionAll = async(req,res)=>{
         })
     }
 }
-certificatesCtrl.listCertificatesInscription = async(req,res)=>{
+certificatesCtrl.listCertificatesInscription = async (req, res) => {
     try {
-        const result = await certificateInscription.findAll({where: {idEstudiante: req.params.id}, include:{association: 'certificateInscriptionAsCertificate'}});
+        const result = await certificateInscription.findAll({
+            where: {idEstudiante: req.params.id},
+            include: {association: 'certificateInscriptionAsCertificate'}
+        });
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -74,8 +76,8 @@ certificatesCtrl.listCertificatesInscription = async(req,res)=>{
 
 certificatesCtrl.consultarCertificate = async (req, res) => {
     try {
-        const { concept } = req.params;
-        const result = await certificatesModel.findAll({ where: { concept:{[Op.like]:`${concept}%`}}});
+        const {concept} = req.params;
+        const result = await certificatesModel.findAll({where: {concept: {[Op.like]: `${concept}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -88,12 +90,15 @@ certificatesCtrl.consultarCertificate = async (req, res) => {
 
 certificatesCtrl.certificateInscriptionId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await certificateInscription.findOne({ where: { id: id }, include:[{association: 'certificateInscriptionAsEstudiante'}, {association: 'certificateInscriptionAsCertificate'}, {association: 'certificateInscriptionAsGrade'}]});
+        const {id} = req.params;
+        const result = await certificateInscription.findOne({
+            where: {id: id},
+            include: [{association: 'certificateInscriptionAsEstudiante'}, {association: 'certificateInscriptionAsCertificate'}, {association: 'certificateInscriptionAsGrade'}]
+        });
         let acudiente = await Acudiente.findOne({where: {idEstudiante: result.certificateInscriptionAsEstudiante.id}});
         res.json({
             mensaje: 'ok',
-            result:{result , ...acudiente, documentUrl:formatUrl(result.id)}
+            result: {result, ...acudiente, documentUrl: formatUrl(result.id)}
         })
     } catch (error) {
         res.status(500);
@@ -102,8 +107,8 @@ certificatesCtrl.certificateInscriptionId = async (req, res) => {
 };
 certificatesCtrl.consultarId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await certificatesModel.findOne({ where: { id: id } });
+        const {id} = req.params;
+        const result = await certificatesModel.findOne({where: {id: id}});
         res.json({
             mensaje: 'ok',
             result
@@ -114,47 +119,49 @@ certificatesCtrl.consultarId = async (req, res) => {
     }
 };
 
-certificatesCtrl.crearCertificate = async(req,res)=>{
+certificatesCtrl.crearCertificate = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()})
     }
 
-    const {concept,time,channel,applicant,price}= req.body 
+    const {concept, time, channel, applicant, price} = req.body
 
-    try{
-        await certificatesModel.create({concept,time,channel,applicant,price})
+    try {
+        await certificatesModel.create({concept, time, channel, applicant, price})
         res.json({
             mensaje: 'Certificado creado',
         })
-    }catch (error){
+    } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 }
 
 certificatesCtrl.actualizarCertificate = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
-        const { id } = req.params;
-        let {concept,time,channel,applicant,price} = req.body;
-        if (id === undefined || concept === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        await certificatesModel.update({concept,time,channel,applicant,price},{
+        const {id} = req.params;
+        let {concept, time, channel, applicant, price} = req.body;
+
+        await certificatesModel.update({concept, time, channel, applicant, price}, {
             where: {
                 id: id
             }
         })
-        const user = await certificatesModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await certificatesModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'certificado no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -165,17 +172,20 @@ certificatesCtrl.actualizarCertificate = async (req, res) => {
 };
 
 certificatesCtrl.actualizarCertificateInscription = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
-        const { id } = req.params;
-        let {documentUrl,status,paid} = req.body;
-        if (id === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        await certificateInscription.update({documentUrl,status,paid},{
+        const {id} = req.params;
+        let {documentUrl, status, paid} = req.body;
+
+        await certificateInscription.update({documentUrl, status, paid}, {
             where: {
                 id: id
             }
         })
+
         res.json({
             mensaje: 'ok'
         })
@@ -187,13 +197,17 @@ certificatesCtrl.actualizarCertificateInscription = async (req, res) => {
 };
 
 certificatesCtrl.actualizarCertificateInscriptionPaid = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         const {paid} = req.body;
         if (id === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await certificateInscription.update({paid: paid},{
+        await certificateInscription.update({paid: paid}, {
             where: {
                 id: id
             }
@@ -208,27 +222,30 @@ certificatesCtrl.actualizarCertificateInscriptionPaid = async (req, res) => {
     }
 };
 certificatesCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
-        const { id } = req.params;
-        const { isActive } = req.body;
+        const {id} = req.params;
+        const {isActive} = req.body;
         if (isActive === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await certificatesModel.update({isActive},{
+        await certificatesModel.update({isActive}, {
             where: {
                 id: id
             }
         })
-        const user = await certificatesModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await certificatesModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'usuario no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -238,76 +255,96 @@ certificatesCtrl.deshabilitar = async (req, res) => {
     }
 };
 
-certificatesCtrl.pago = async(req,res)=>{
-    const {monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid}= req.body 
-
-     if(idCertificate==null){
-        res.json({
-            mensaje: 'No tienes certificado asignado',
-            status:false
-        })
+certificatesCtrl.pago = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
-        const certificado = await certificateInscription.findOne({ where: { idCertificate: idCertificate, idGrade: idGrade }})
 
-        if(certificado === null){
-            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid})
-            if (datos) {
-                res.json({
-                    mensaje: 'Certificado registrado',
-                    status:true
-                })
-            }else{
-                res.json({
-                    mensaje: 'No se pudo registrar el certificado',
-                    status:false
-                })
-            }
-        }else{
-            const datos = await certificateInscription.create({monto,canalEntrega,detalle,idCertificate,idGrade,metodoPago,idEstudiante,paymentCode,paid})
-            if(datos){
-                res.json({
-                    mensaje: 'Certificado registrado',
-                    status:true
-                })
-            }else{
-                res.json({
-                    mensaje: 'No se pudo registrar el certificado',
-                    status:false
-                })
-            }
+    const {monto, canalEntrega, detalle, idCertificate, idGrade, metodoPago, idEstudiante, paymentCode, paid} = req.body
+
+    const certificado = await certificateInscription.findOne({where: {idCertificate: idCertificate, idGrade: idGrade}})
+
+    if (certificado === null) {
+        const datos = await certificateInscription.create({
+            monto,
+            canalEntrega,
+            detalle,
+            idCertificate,
+            idGrade,
+            metodoPago,
+            idEstudiante,
+            paymentCode,
+            paid
+        })
+        if (datos) {
+            res.json({
+                mensaje: 'Certificado registrado',
+                status: true
+            })
+        } else {
+            res.json({
+                mensaje: 'No se pudo registrar el certificado',
+                status: false
+            })
+        }
+    } else {
+        const datos = await certificateInscription.create({
+            monto,
+            canalEntrega,
+            detalle,
+            idCertificate,
+            idGrade,
+            metodoPago,
+            idEstudiante,
+            paymentCode,
+            paid
+        })
+        if (datos) {
+            res.json({
+                mensaje: 'Certificado registrado',
+                status: true
+            })
+        } else {
+            res.json({
+                mensaje: 'No se pudo registrar el certificado',
+                status: false
+            })
         }
     }
 
-   
+
 }
 
 certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
     try {
-        let { dato,id } = req.params;
-        dato=decodeURIComponent(dato)
+        let {dato, id} = req.params;
+        dato = decodeURIComponent(dato)
         let results = [];
-        let tabla=[]
-        result = await certificateInscription.findAll({ where:{ idEstudiante:id}, include:{association: 'certificateInscriptionAsCertificate'}});
+        let tabla = []
+        let result = await certificateInscription.findAll({
+            where: {idEstudiante: id},
+            include: {association: 'certificateInscriptionAsCertificate'}
+        });
         result.forEach(element => {
             tabla.push(element)
         });
-        for(var i=0; i<tabla.length; i++) {
-            for(key in tabla[i]['certificateInscriptionAsCertificate'].dataValues) {
+        for (var i = 0; i < tabla.length; i++) {
+            for (key in tabla[i]['certificateInscriptionAsCertificate'].dataValues) {
                 if (key !== 'createdAt' && key !== 'updatedAt') {
-                    if(String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato) !== -1) {
+                    if (String(tabla[i]['certificateInscriptionAsCertificate'][key]).indexOf(dato) !== -1) {
                         results.push(tabla[i]);
                         break;
                     }
                 }
             }
         }
-        
-       
+
+
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:results
+            result: results
         })
     } catch (error) {
         res.status(500);
@@ -315,15 +352,15 @@ certificatesCtrl.listarInscriptionAllSearch = async (req, res) => {
     }
 };
 certificatesCtrl.statusChange = async (req, res) => {
-    const { status} = req.body;
-    const { id } = req.params;
+    const {status} = req.body;
+    const {id} = req.params;
     try {
-        const certificate = await certificateInscription.findOne({ where: { id: id } });
+        const certificate = await certificateInscription.findOne({where: {id: id}});
         if (certificate) {
             if (status !== undefined) {
                 certificate.status = status;
                 await certificate.save();
-                res.json({ mensaje: 'ok', result: certificate });
+                res.json({mensaje: 'ok', result: certificate});
             }
         }
     } catch (error) {
@@ -331,8 +368,8 @@ certificatesCtrl.statusChange = async (req, res) => {
     }
 };
 
-const formatUrl = (certificateInscriptionId) =>{
+const formatUrl = (certificateInscriptionId) => {
     return `${process.env.HOST}/certificate/${certificateInscriptionId}/download`
 }
 
-module.exports= certificatesCtrl
+module.exports = certificatesCtrl

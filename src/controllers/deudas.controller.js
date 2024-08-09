@@ -4,18 +4,22 @@ const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const deudasModel = require('../models/deudas.model')
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 const deudasCtrl = {};
 
 
 
 
 deudasCtrl.crearDeuda = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {deudaCode,concepto,fechaInicio,fechaFinal,monto,cobro,estado,cobroValue} = req.body;
+
     try {
-        if (deudaCode === null || concepto === null || fechaInicio === null || fechaFinal === null || monto === null || cobro === null || cobroValue === null || estado === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        data = deudasModel.create({deudaCode,concepto,fechaInicio,fechaFinal,monto,estado,cobro,cobroValue})
+        let data = deudasModel.create({deudaCode,concepto,fechaInicio,fechaFinal,monto,estado,cobro,cobroValue})
         if(data){
             res.json({
                 status: 200,
@@ -58,13 +62,17 @@ deudasCtrl.consultarDeudas = async(req,res)=>{
 }
 
 deudasCtrl.editarDeuda = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const { id } = req.params;
     const {deudaCode,concepto,fechaInicio,fechaFinal,monto,cobro,estado,cobroValue} = req.body;
+
     try {
-        if (deudaCode === null || concepto === null || fechaInicio === null || fechaFinal === null || monto === null || cobro === null || cobroValue === null || estado === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        data = deudasModel.update({
+
+        let data = deudasModel.update({
             deudaCode: deudaCode,
             concepto: concepto,
             fechaInicio: fechaInicio,

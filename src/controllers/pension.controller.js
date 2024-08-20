@@ -1,7 +1,3 @@
-const config = require('../../config')
-const {sequelize, Op} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const pensionModel = require('../models/pension.model')
 const pensionCtrl = {};
 

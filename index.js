@@ -9,8 +9,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const bdSq = require('./src/db/databaseSq')
-const Sequelize = require('sequelize');
+
 
 require('./src/models/asociations');
 
@@ -110,22 +109,23 @@ const extracurricularInscription = require('./src/models/extracurricularInscript
 const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
 const documentos = require('./src/models/documentos.model');
 const PagosPresenciales = require('./src/models/pagosPresenciales.model');
+const {after} = require("node:test");
 
 async function syncDatabase() {
     try {
-        await recoverPasswordModel.sync({ alter: true })
-        await periodModel.sync({ alter: true })
-        await documentos.sync({ alter: true })
-        await gradesModel.sync({ alter: true })
-        await teacherModel.sync({ alter: true })
-        await studentDatabaseModel.sync({ alter: true })
-        await inscriptionModel.sync({ alter: true })
         await extracurricularModel.sync({ alter: true })
         await tuitionModel.sync({ alter: true })
         await tuitionTypeModel.sync({ alter: true })
         await roleModel.sync({ alter: true })
         await acudienteModel.sync({ alter: true })
         await userModel.sync({ alter: true })
+        await periodModel.sync({ alter: true })
+        await documentos.sync({ alter: true })
+        await gradesModel.sync({ alter: true })
+        await teacherModel.sync({ alter: true })
+        await studentDatabaseModel.sync({ alter: true })
+        await inscriptionModel.sync({ alter: true })
+        await recoverPasswordModel.sync({ alter: true })
         await discountModel.sync({ alter: true })
         await deudasModel.sync({ alter: true })
         await pensionModel.sync({ alter: true })

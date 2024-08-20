@@ -1,8 +1,8 @@
 const {Sequelize ,Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/databaseSq')
-const bcrypt = require('bcrypt')
 
 class Inscription extends Model {}
+
 Inscription.init({
     price:DataTypes.BIGINT,
     description:DataTypes.STRING,

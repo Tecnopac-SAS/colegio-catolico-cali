@@ -1,4 +1,5 @@
 const pensionModel = require('../models/pension.model')
+const {validationResult} = require("express-validator");
 const pensionCtrl = {};
 
 pensionCtrl.consultarPensiones = async(req,res)=>{
@@ -46,25 +47,25 @@ pensionCtrl.consultarId = async (req, res) => {
     }
 };
 pensionCtrl.crearPension = async(req,res)=>{
-    const {price,discount,use,idGrade,interes}= req.body 
-
-     if(price==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
-       
-        const data = await pensionModel.create({price,discount,use,idGrade,interes})
+
+    const {price, discount,use,idGrade,interes}= req.body
+
+    await pensionModel.create({price,discount,use,idGrade,interes})
         res.json({
             mensaje: 'Pensión creada',
         })
-    }
-
-   
 }
 
 pensionCtrl.actualizarPension = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const { id } = req.params;
         let {price,discount,idGrade} = req.body;
@@ -96,6 +97,10 @@ pensionCtrl.actualizarPension = async (req, res) => {
 };
 
 pensionCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const { id } = req.params;
         const { isActive } = req.body;

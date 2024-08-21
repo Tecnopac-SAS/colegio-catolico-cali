@@ -1,13 +1,14 @@
 const {sequelize, Op, where} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-
-const config = require('../../config')
 const pensionPagoModel = require('../models/pensionMeses.model')
-const acudiente = require('../models/acudiente.model')
 const pensionPagoCtrl = {};
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 
 pensionPagoCtrl.consultarPensiones = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     const {idAcudiente} = req.body
     try {
         const result = await pensionPagoModel.findAll({
@@ -41,21 +42,25 @@ pensionPagoCtrl.consultarPensiones = async(req,res)=>{
     }
 }
 pensionPagoCtrl.pagarPensiones = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {pensiones} = req.body
     const { tipo } = req.params;
     var result
-    var nuevoBolsillo
+
     try {
-       
-        /* await Promise.all(Object.keys(pensiones).map (async(key) => { */
 
         const pensionesArray = Object.keys(pensiones);
 
         for (let key = 0; key < pensionesArray.length; key++) {
-            var monto = 0
+            var monto = 0;
+
             const pension = await pensionPagoModel.findOne({where:{id: pensiones[key].id}});
-            console.log('pension.valor!=pensiones[key].valor', pension.valor!=pensiones[key].valor)
-            if (pension.valor!=pensiones[key].valor) {
+
+            if (pension.valor !== pensiones[key].valor) {
                 monto = Number(pensiones[key].valor)
                 result = await pensionPagoModel.update({estatus:'Pagado',valorConDescuento:pensiones[key].valor,metodoPago:tipo,mora:pensiones[key].mora},{
                     where: {

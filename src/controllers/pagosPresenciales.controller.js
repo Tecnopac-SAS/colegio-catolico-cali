@@ -1,12 +1,9 @@
-const {sequelize, Op, where} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-
-const config = require('../../config')
 const pagosPresencialesModel = require('../models/pagosPresenciales.model')
 const pagosPresencialesCtrl = {};
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 
-pagosPresencialesCtrl.consultarPagosPresenciales = async(req,res)=>{
+pagosPresencialesCtrl.consultarPagosPresenciales = async (req, res) => {
     try {
         const result = await pagosPresencialesModel.findAll();
         res.json({
@@ -23,63 +20,61 @@ pagosPresencialesCtrl.consultarPagosPresenciales = async(req,res)=>{
     }
 }
 
-pagosPresencialesCtrl.crearPagoPresencial = async(req,res)=>{
-    const {paymentCode,servicio,observacion,estado,monto}= req.body 
+pagosPresencialesCtrl.crearPagoPresencial = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    const {paymentCode, servicio, observacion, estado, monto} = req.body;
     const fecha = new Date(moment());
-     if(paymentCode == null || servicio == null || fecha == null ){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-        const data = await pagosPresencialesModel.create({paymentCode,servicio,fecha,observacion,estado,monto})
-        res.json({
-            mensaje: 'Pago creado',
-        })
-    }
+
+    await pagosPresencialesModel.create({paymentCode, servicio, fecha, observacion, estado, monto})
+    res.json({
+        mensaje: 'Pago creado',
+    })
+
 
 }
 
-pagosPresencialesCtrl.updatePagoPresencial = async(req,res)=>{
-    const { id } = req.params
-    const {paymentCode,servicio,observacion,estado}= req.body 
+pagosPresencialesCtrl.updatePagoPresencial = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+    const {id} = req.params
+    const {paymentCode, servicio, observacion, estado} = req.body
     const fecha = new Date(moment());
-     if(paymentCode == null || servicio == null || fecha == null || estado == null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-        const data = await pagosPresencialesModel.update({paymentCode,servicio,fecha,observacion,estado},{
-            where: {
-                id: id
-            }
-        })
-        res.json({
-            mensaje: 'Pago actualizado',
-        })
-    }
+
+    await pagosPresencialesModel.update({paymentCode, servicio, fecha, observacion, estado}, {
+        where: {
+            id: id
+        }
+    })
+    res.json({
+        mensaje: 'Pago actualizado',
+    })
+
 
 }
-pagosPresencialesCtrl.updateStatusPagoPresencial = async(req,res)=>{
-    const { id } = req.params
-    const { estado }= req.body 
-     if( estado == null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
+pagosPresencialesCtrl.updateStatusPagoPresencial = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
-        const data = await pagosPresencialesModel.update({estado: estado},{
-            where: {
-                id: id
-            }
-        })
-        res.json({
-            mensaje: 'Pago actualizado',
-        })
-    }
+    const {id} = req.params
+    const {estado} = req.body
+
+     await pagosPresencialesModel.update({estado: estado}, {
+        where: {
+            id: id
+        }
+    })
+    res.json({
+        mensaje: 'Pago actualizado',
+    })
+
 
 }
 
-module.exports= pagosPresencialesCtrl
+module.exports = pagosPresencialesCtrl

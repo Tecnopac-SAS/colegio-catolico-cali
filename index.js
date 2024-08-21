@@ -1,5 +1,6 @@
 //requerir las dependencias necesarias
 require('dotenv').config()
+const swaggerDocs = require('./swagger');
 const config = require('./config')
 const express = require('express');
 const app = express();
@@ -109,7 +110,6 @@ const extracurricularInscription = require('./src/models/extracurricularInscript
 const cafeteriaPagosModel = require('./src/models/cafeteriaPagos.model')
 const documentos = require('./src/models/documentos.model');
 const PagosPresenciales = require('./src/models/pagosPresenciales.model');
-const {after} = require("node:test");
 
 async function syncDatabase() {
     try {
@@ -174,7 +174,7 @@ if (!fs.existsSync(markerFilePath)) {
     console.log("Database already synchronized. Skipping sync.");
 }
 
-
+swaggerDocs(app, config.app.port || 3000);
 app.listen(config.app.port || 3000, () => console.log(`listen on server: ${config.app.port}`));
 
 

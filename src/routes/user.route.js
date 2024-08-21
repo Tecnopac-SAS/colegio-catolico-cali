@@ -3,6 +3,28 @@ const router = Router();
 const userCtrl = require('../controllers/user.controller');
 const {check} = require("express-validator");
 
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Obtiene todos los usuarios
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: John Doe
+ */
 router.get('/listarUsuarios',userCtrl.consultarUsuarios);
 router.get('/listarUsuario/:id',userCtrl.getUserId);
 router.get('/listarUsuarioEmail/:email',userCtrl.getUser);

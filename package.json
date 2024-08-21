@@ -29,7 +29,9 @@
     "nodemon": "^2.0.19",
     "promise-mysql": "^5.2.0",
     "puppeteer": "^21.0.2",
-    "sequelize": "^6.21.5"
+    "sequelize": "^6.21.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^8.23.1",

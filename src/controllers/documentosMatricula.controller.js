@@ -1,14 +1,11 @@
-const path = require('path');
 const documentosMatriculaCtrl = {};
 const { Op } = require('sequelize');
 
 
 const documentosMatriculaModel = require('../models/documentosMatricula.model');
 const EstudianteModel = require('../models/studentDatabase.model');
+const {validationResult} = require("express-validator");
 
-const formatUrl = (documentoMatriculaId) =>{
-    return `${process.env.HOST}/documentosMatricula/${documentoMatriculaId}/download`
-}
 
 documentosMatriculaCtrl.create = async (req, res) => {
     const {
@@ -17,6 +14,12 @@ documentosMatriculaCtrl.create = async (req, res) => {
         canViewValue,
         documentoid,
     } = req.body
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
 
     if (title && canViewType) {
         if (canViewType != 'all' && !canViewValue) {
@@ -123,6 +126,10 @@ documentosMatriculaCtrl.getDocumentsByStudent = async (req, res) => {
 }
 
 documentosMatriculaCtrl.update = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     const { isActive, title, canViewType, canViewValue, documentoid, canViewTuitionType } = req.body;
     const { id } = req.params;
     try {

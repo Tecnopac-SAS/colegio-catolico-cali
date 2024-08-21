@@ -3,9 +3,9 @@ const router = Router();
 const CanalReferenciaCtrl = require('../controllers/canalReferencia.controller');
 const {check} = require("express-validator");
 
-router.get('/listarCanalReferencias',CanalReferenciaCtrl.consultarCanalReferencias);
-router.get('/listarCanalReferencia/:routeName',CanalReferenciaCtrl.consultarCanalReferencia);
-router.get('/listarCanalReferenciaId/:id',CanalReferenciaCtrl.consultarId);
+router.get('/listarCanalReferencias', CanalReferenciaCtrl.consultarCanalReferencias);
+router.get('/listarCanalReferencia/:routeName', CanalReferenciaCtrl.consultarCanalReferencia);
+router.get('/listarCanalReferenciaId/:id', CanalReferenciaCtrl.consultarId);
 router.post('/crearCanalReferencia',
     [
         check('comoSeEntero').notEmpty().withMessage("Ingresa el campo comoSeEntero"),
@@ -16,7 +16,7 @@ router.post('/crearCanalReferencia',
         check("estadoPago").notEmpty().withMessage("Ingresa el campo estadoPago"),
         check("idEstudiante").notEmpty().withMessage("Ingresa el campo idEstudiante")
     ]
-    ,CanalReferenciaCtrl.crearCanalReferencia);
+    , CanalReferenciaCtrl.crearCanalReferencia);
 router.put('/actualizarCanalReferencia/:id',
     check('comoSeEntero').notEmpty().withMessage("Ingresa el campo comoSeEntero"),
     check('comoSabe').notEmpty().withMessage("Ingresa el campo comoSabe"),
@@ -25,13 +25,10 @@ router.put('/actualizarCanalReferencia/:id',
     check('aceptaCompromisos').notEmpty().withMessage("Ingresa el campo aceptaCompromisos"),
     check('estadoPago').notEmpty().withMessage("Ingresa el campo estadoPago"),
     check('idEstudiante').notEmpty().withMessage("Ingresa el campo idEstudiante")
-    ,CanalReferenciaCtrl.actualizarCanalReferencia)
-router.put('/deshabilitar/:id' ,[
+    , CanalReferenciaCtrl.actualizarCanalReferencia)
+router.put('/deshabilitar/:id', [
     check('isActive').notEmpty().withMessage("Ingresa el campo isActive")
-],CanalReferenciaCtrl.deshabilitar)
+], CanalReferenciaCtrl.deshabilitar)
 
 
-
-
-
-module.exports= router
+module.exports = router

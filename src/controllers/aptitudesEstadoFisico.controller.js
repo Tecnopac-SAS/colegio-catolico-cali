@@ -1,18 +1,19 @@
 const config = require('../../config')
 const sequelize = require('sequelize');
-const { QueryTypes } = require('sequelize');
+const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const aptitudesModel = require('../models/aptitudesEstadoFisico.model')
+const {validationResult} = require("express-validator");
 const aptitudesCtrl = {};
 
-aptitudesCtrl.consultarAptitudes = async(req,res)=>{
+aptitudesCtrl.consultarAptitudes = async (req, res) => {
     try {
         //const result = await aptitudesModel.findAll();
-        const result = await aptitudesModel.findAll({ include: { association: 'aptitudesAsEstudiante' }});
+        const result = await aptitudesModel.findAll({include: {association: 'aptitudesAsEstudiante'}});
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -25,8 +26,11 @@ aptitudesCtrl.consultarAptitudes = async(req,res)=>{
 
 aptitudesCtrl.consultarAptitudesCriterio = async (req, res) => {
     try {
-        const { description } = req.params;
-        const result = await aptitudesModel.findAll({ where: { description:{[Op.like]:`${description}%`}},include: { association: 'aptitudesAsEstudiante' }});
+        const {description} = req.params;
+        const result = await aptitudesModel.findAll({
+            where: {description: {[Op.like]: `${description}%`}},
+            include: {association: 'aptitudesAsEstudiante'}
+        });
         res.json({
             mensaje: 'ok',
             result
@@ -39,8 +43,8 @@ aptitudesCtrl.consultarAptitudesCriterio = async (req, res) => {
 
 aptitudesCtrl.consultarId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await aptitudesModel.findOne({ where: { id: id },include: { association: 'aptitudesAsEstudiante' }});
+        const {id} = req.params;
+        const result = await aptitudesModel.findOne({where: {id: id}, include: {association: 'aptitudesAsEstudiante'}});
         res.json({
             mensaje: 'ok',
             result
@@ -52,47 +56,98 @@ aptitudesCtrl.consultarId = async (req, res) => {
 };
 
 
-aptitudesCtrl.crearAptitudes = async(req,res)=>{
-    const {deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre,idEstudiante}= req.body 
-    if(deporteGusto==""){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
+aptitudesCtrl.crearAptitudes = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
     }
-    else {
-        await aptitudesModel.create({deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre,idEstudiante})
+    const {
+        deporteGusto,
+        arteGusto,
+        distincionDeporte,
+        distincionArtistica,
+        pasatiempos,
+        coleccion,
+        estadoSalud,
+        enfermedades,
+        medicamentos,
+        limitacionEducacionFisica,
+        tipoSangre,
+        idEstudiante
+    } = req.body
+
+        await aptitudesModel.create({
+            deporteGusto,
+            arteGusto,
+            distincionDeporte,
+            distincionArtistica,
+            pasatiempos,
+            coleccion,
+            estadoSalud,
+            enfermedades,
+            medicamentos,
+            limitacionEducacionFisica,
+            tipoSangre,
+            idEstudiante
+        })
         res.json({
             mensaje: 'Aptitud creada',
         })
-    }
+
 
 }
 
 
-
 aptitudesCtrl.actualizarAptitudes = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
-        const { id } = req.params;
-        const {deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre} = req.body;
+        const {id} = req.params;
+        const {
+            deporteGusto,
+            arteGusto,
+            distincionDeporte,
+            distincionArtistica,
+            pasatiempos,
+            coleccion,
+            estadoSalud,
+            enfermedades,
+            medicamentos,
+            limitacionEducacionFisica,
+            tipoSangre
+        } = req.body;
         if (id === undefined || deporteGusto === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-  
-        await aptitudesModel.update({deporteGusto,arteGusto,distincionDeporte,distincionArtistica,pasatiempos,coleccion,estadoSalud,enfermedades,medicamentos,limitacionEducacionFisica,tipoSangre},{
+
+        await aptitudesModel.update({
+            deporteGusto,
+            arteGusto,
+            distincionDeporte,
+            distincionArtistica,
+            pasatiempos,
+            coleccion,
+            estadoSalud,
+            enfermedades,
+            medicamentos,
+            limitacionEducacionFisica,
+            tipoSangre
+        }, {
             where: {
                 id: id
             }
         })
-        const user = await aptitudesModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await aptitudesModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'historial Academico no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -104,26 +159,25 @@ aptitudesCtrl.actualizarAptitudes = async (req, res) => {
 
 aptitudesCtrl.deshabilitar = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { isActive } = req.body;
+        const {id} = req.params;
+        const {isActive} = req.body;
         if (isActive === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await aptitudesModel.update({isActive},{
+        await aptitudesModel.update({isActive}, {
             where: {
                 id: id
             }
         })
-        const user = await aptitudesModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await aptitudesModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'usuario no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -134,4 +188,4 @@ aptitudesCtrl.deshabilitar = async (req, res) => {
 };
 
 
-module.exports= aptitudesCtrl
+module.exports = aptitudesCtrl

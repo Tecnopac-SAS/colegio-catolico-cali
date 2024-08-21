@@ -1,7 +1,12 @@
 const { makeRequest, makeRequestPay, makePaymentStatus } = require('../services/avalpay.service');
+const {validationResult} = require("express-validator");
 const avalpay = {};
 
 avalpay.payment = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const { amount,invoiceType,portalURL,desc} = req.body;
         let token = await makeRequest();

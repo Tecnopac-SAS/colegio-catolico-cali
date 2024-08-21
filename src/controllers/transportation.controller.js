@@ -3,6 +3,7 @@ const {sequelize, Op} = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const transportationModel = require('../models/transportation.model')
+const {validationResult} = require("express-validator");
 const transportationCtrl = {};
 
 transportationCtrl.consultarTransportations = async(req,res)=>{
@@ -68,27 +69,33 @@ transportationCtrl.consultarId = async (req, res) => {
 };
 
 transportationCtrl.crearTransportation = async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible}= req.body 
 
-     if(routeName==null){
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    }
-    else {
-       
-        const data = await transportationModel.create({routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible})
+    await transportationModel.create({routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price, cupo, cupo_disponible})
         res.json({
             mensaje: 'Ruta creada!',
         })
-    }
 
 }
 
 transportationCtrl.actualizarTransportation = async (req, res) => {
     try {
         const { id } = req.params;
-        let {routeName,routeNumber,responsible,direccion_entrega, direccion_recogida, jornada, descripcion,routeType,price} = req.body;
+        let {
+            routeName,
+            routeNumber,
+            responsible,
+            direccion_entrega,
+            direccion_recogida,
+            jornada,
+            descripcion,
+            routeType,
+            price} = req.body;
         if (id === undefined || routeName === undefined) {
             res.status(400).json({ message: "Bad Request. Please fill all field." });
         }
@@ -117,6 +124,10 @@ transportationCtrl.actualizarTransportation = async (req, res) => {
 };
 
 transportationCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const { id } = req.params;
         const { isActive } = req.body;

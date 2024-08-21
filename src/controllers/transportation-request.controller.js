@@ -4,6 +4,7 @@ const { QueryTypes } = require('sequelize');
 const bdSq = require('../db/databaseSq');
 const transportationRequestModel = require('../models/transportation-request.model');
 const transportationModel = require('../models/transportation.model');
+const {validationResult} = require("express-validator");
 const transportationRequestCtrl = {};
 
 transportationRequestCtrl.consultarTransportationsRequests = async(req,res)=>{
@@ -66,12 +67,13 @@ transportationRequestCtrl.consultarId = async (req, res) => {
 };
 
 transportationRequestCtrl.aprobarSolicitud = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const { id } = req.params;
         const { estado, routeid} = req.body;
-        if (estado === null || routeid === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
         await transportationRequestModel.update({estado: estado, routeid: routeid},{
             where: {
                 id: id
@@ -93,7 +95,11 @@ transportationRequestCtrl.aprobarSolicitud = async (req, res) => {
 
 
 transportationRequestCtrl.crearTransportationRequest = async(req,res)=>{
-    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {routeid,acudienteid,estudianteid,estado,routeType,datosResponsable,direccion_recogida,direccion_entrega}= req.body 
 
      if(routeType==null || acudienteid==null || estudianteid==null || estado==null || datosResponsable==null){

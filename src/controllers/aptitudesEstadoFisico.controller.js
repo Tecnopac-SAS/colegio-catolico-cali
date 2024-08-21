@@ -1,7 +1,3 @@
-const config = require('../../config')
-const sequelize = require('sequelize');
-const {QueryTypes} = require('sequelize');
-const bdSq = require('../db/databaseSq')
 const aptitudesModel = require('../models/aptitudesEstadoFisico.model')
 const {validationResult} = require("express-validator");
 const aptitudesCtrl = {};
@@ -118,9 +114,6 @@ aptitudesCtrl.actualizarAptitudes = async (req, res) => {
             limitacionEducacionFisica,
             tipoSangre
         } = req.body;
-        if (id === undefined || deporteGusto === undefined) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
 
         await aptitudesModel.update({
             deporteGusto,
@@ -158,12 +151,15 @@ aptitudesCtrl.actualizarAptitudes = async (req, res) => {
 };
 
 aptitudesCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const {id} = req.params;
         const {isActive} = req.body;
-        if (isActive === null) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
+
         await aptitudesModel.update({isActive}, {
             where: {
                 id: id

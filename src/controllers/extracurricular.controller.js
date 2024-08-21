@@ -82,6 +82,11 @@ extracurricularCtrl.crearExtracurricular = async (req, res) => {
 }
 
 extracurricularCtrl.actualizarExtracurricular = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const {id} = req.params;
         const {activity, startDate, finalDate, idTeacher, information, schedule, imagen, price} = req.body;
@@ -121,12 +126,13 @@ extracurricularCtrl.actualizarExtracurricular = async (req, res) => {
 };
 
 extracurricularCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const {id} = req.params;
         const {isActive} = req.body;
-        if (isActive === null) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
         await extracurricularModel.update({isActive}, {
             where: {
                 id: id
@@ -150,6 +156,10 @@ extracurricularCtrl.deshabilitar = async (req, res) => {
     }
 };
 extracurricularCtrl.desvincularse = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
     try {
         const {id} = req.params;
         const {idEstudiante, idExtracurricular} = req.body;

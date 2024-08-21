@@ -14,7 +14,6 @@ documentosCtrl.crearDocumento = async (req, res) => {
         return res.status(400).json({errors: errors.array()})
     }
 
-
     try {
         let {titulo,template} = req.body;
         await documentosModel.create({titulo: titulo, template: template});
@@ -55,14 +54,16 @@ documentosCtrl.listarDocumento = async (req, res) => {
     }
 };
 documentosCtrl.actualizarDocumento = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
         const { titulo, template} = req.body;
         const { id } = req.params;
 
-        if (id === undefined || template === undefined || titulo === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        acudiente = await documentosModel.update({titulo: titulo, template: template},{
+        await documentosModel.update({titulo: titulo, template: template},{
             where: {
                 id: id
             }

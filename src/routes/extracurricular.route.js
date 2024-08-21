@@ -28,9 +28,23 @@ router.post('/misExtracurriculares',
     ,
     extracurricularCtrl.misExtracurriculares);
 router.get('/listarExtracurricularId/:id',extracurricularCtrl.consultarId);
-router.put('/actualizarExtracurricular/:id',extracurricularCtrl.actualizarExtracurricular)
-router.put('/deshabilitar/:id' ,extracurricularCtrl.deshabilitar)
-router.put('/desvincularse/:id' ,extracurricularCtrl.desvincularse)
+router.put('/actualizarExtracurricular/:id',[
+    check("activity").notEmpty().withMessage("Ingresa el campo activity"),
+    check("startDate").notEmpty().withMessage("Ingresa el campo startDate"),
+    check("finalDate").notEmpty().withMessage("Ingresa el campo finalDate"),
+    check("idTeacher").notEmpty().withMessage("Ingresa el campo idTeacher"),
+    check("information").notEmpty().withMessage("Ingresa el campo information"),
+    check("schedule").notEmpty().withMessage("Ingresa el campo schedule"),
+    check("imagen").optional(),
+    check("price").notEmpty().withMessage("Ingresa el campo price")
+],extracurricularCtrl.actualizarExtracurricular)
+router.put('/deshabilitar/:id' ,[
+    check("isActive").notEmpty().withMessage("Ingresa el campo isActive")
+],extracurricularCtrl.deshabilitar)
+router.put('/desvincularse/:id' ,[
+    check("idEstudiante").notEmpty().withMessage("Ingresa el campo idEstudiante"),
+    check("idExtracurricular").notEmpty().withMessage("Ingresa el campo idExtracurricular")
+],extracurricularCtrl.desvincularse)
 
 
 

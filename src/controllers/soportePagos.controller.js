@@ -9,13 +9,18 @@ const soportesPagosModel = require('../models/soportesPago.model')
 const pensionMesesModel = require('../models/pensionMeses.model')
 const acudiente = require('../models/acudiente.model')
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 const soportePagosCtrl = {};
 
 
 
 
 soportePagosCtrl.crearSoportePago = async(req,res)=>{
-    const { paymentCode,idAcudiente,monto,viaPago,tipoPago } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+    const {paymentCode, idAcudiente, monto, viaPago, tipoPago } = req.body;
     try {
         const fecha = new Date(moment());
         const data = soportesPagosModel.create({paymentCode,monto,idAcudiente,viaPago,tipoPago,fecha});
@@ -66,6 +71,7 @@ soportePagosCtrl.listarMisSoportesPagos = async(req,res)=>{
     }
 }
 soportePagosCtrl.listarSoportesPagos = async(req,res)=>{
+
     try {
         const result = await soportesPagosModel.findAll({ include: [{ association: 'soportesPagosAsEstudiante' }],order: [
             ['fecha', 'DESC'],

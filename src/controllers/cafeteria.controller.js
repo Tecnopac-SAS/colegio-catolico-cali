@@ -1,17 +1,18 @@
 const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
-const { QueryTypes } = require('sequelize');
+const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const cafeteriaModel = require('../models/cafeteria.model')
+const {validationResult} = require("express-validator");
 const cafeteriaCtrl = {};
 
-cafeteriaCtrl.consultarCafeterias = async(req,res)=>{
+cafeteriaCtrl.consultarCafeterias = async (req, res) => {
     try {
         const result = await cafeteriaModel.findAll();
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:result
+            result: result
         })
     } catch (error) {
         res.status(500);
@@ -24,8 +25,8 @@ cafeteriaCtrl.consultarCafeterias = async(req,res)=>{
 
 cafeteriaCtrl.consultarCafeteria = async (req, res) => {
     try {
-        const { description } = req.params;
-        const result = await cafeteriaModel.findAll({ where: { description:{[Op.like]:`${description}%`}}});
+        const {description} = req.params;
+        const result = await cafeteriaModel.findAll({where: {description: {[Op.like]: `${description}%`}}});
         res.json({
             mensaje: 'ok',
             result
@@ -38,8 +39,8 @@ cafeteriaCtrl.consultarCafeteria = async (req, res) => {
 
 cafeteriaCtrl.consultarId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await cafeteriaModel.findOne({ where: { id: id } });
+        const {id} = req.params;
+        const result = await cafeteriaModel.findOne({where: {id: id}});
         res.json({
             mensaje: 'ok',
             result
@@ -50,17 +51,21 @@ cafeteriaCtrl.consultarId = async (req, res) => {
     }
 };
 
-cafeteriaCtrl.crearCafeteria = async(req,res)=>{
-    const {description,pay}= req.body 
+cafeteriaCtrl.crearCafeteria = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
 
-     if(description==null){
+    const {description, pay} = req.body
+
+    if (description == null) {
         res.json({
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
-    }
-    else {
-       
-        const data = await cafeteriaModel.create({description,pay})
+    } else {
+
+        const data = await cafeteriaModel.create({description, pay})
         res.json({
             mensaje: 'Curso creado',
         })
@@ -69,27 +74,28 @@ cafeteriaCtrl.crearCafeteria = async(req,res)=>{
 }
 
 cafeteriaCtrl.actualizarCafeteria = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     try {
-        const { id } = req.params;
-        let {description,pay} = req.body;
-        if (id === undefined || description === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        await cafeteriaModel.update({description,pay},{
+        const {id} = req.params;
+        let {description, pay} = req.body;
+        await cafeteriaModel.update({description, pay}, {
             where: {
                 id: id
             }
         })
-        const user = await cafeteriaModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await cafeteriaModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'curso no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -101,26 +107,25 @@ cafeteriaCtrl.actualizarCafeteria = async (req, res) => {
 
 cafeteriaCtrl.deshabilitar = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { isActive } = req.body;
+        const {id} = req.params;
+        const {isActive} = req.body;
         if (isActive === null) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
+            res.status(400).json({message: "Bad Request. Please fill all field."});
         }
-        await cafeteriaModel.update({isActive},{
+        await cafeteriaModel.update({isActive}, {
             where: {
                 id: id
             }
         })
-        const user = await cafeteriaModel.findOne({ where: { id: id } });
-         if(user === null){
+        const user = await cafeteriaModel.findOne({where: {id: id}});
+        if (user === null) {
             return res.json({
                 mensaje: 'usuario no encontrado',
             })
-        }
-        else {
+        } else {
             res.json({
                 mensaje: 'ok',
-                result:user
+                result: user
             })
         }
 
@@ -130,4 +135,4 @@ cafeteriaCtrl.deshabilitar = async (req, res) => {
     }
 };
 
-module.exports= cafeteriaCtrl
+module.exports = cafeteriaCtrl

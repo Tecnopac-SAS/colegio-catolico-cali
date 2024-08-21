@@ -1,11 +1,17 @@
 const {sequelize,Op} = require('sequelize');
 const cafeteriaPagos = require('../models/cafeteriaPagos.model')
-const acudiente = require('../models/acudiente.model')
 const moment = require('moment');
+const {validationResult} = require("express-validator");
 const cafeteriaPagosCtrl = {};
 
 cafeteriaPagosCtrl.crearPago = async(req,res)=>{
-    const {data, idAcudiente, idEstudiante}= req.body 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    const {data,  idEstudiante}= req.body
+
     let crearPago = await cafeteriaPagos.create({
         price:data.cant,
         cantMenu:data.cantMenu,

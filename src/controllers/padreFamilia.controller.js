@@ -141,6 +141,11 @@ padreFamiliaCtrl.actualizarAcudiente = async (req, res) => {
 };
 
 padreFamiliaCtrl.crearPadreFamilia = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {
         estado,
         vive,
@@ -158,11 +163,7 @@ padreFamiliaCtrl.crearPadreFamilia = async (req, res) => {
         celular,
         idEstudiante
     } = req.body
-    if (estado == "") {
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    } else {
+
         await padreFamiliaModel.create({
             estado,
             vive,
@@ -184,11 +185,17 @@ padreFamiliaCtrl.crearPadreFamilia = async (req, res) => {
         res.json({
             mensaje: 'Padre de familia creado',
         })
-    }
+
 
 }
 
 padreFamiliaCtrl.crearMadreFamilia = async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const {
         estado,
         vive,
@@ -206,11 +213,7 @@ padreFamiliaCtrl.crearMadreFamilia = async (req, res) => {
         celular,
         idEstudiante
     } = req.body
-    if (estado == "") {
-        res.json({
-            mensaje: 'Los campos deben estar diligenciados en su totalidad'
-        })
-    } else {
+
         await padreFamiliaModel.create({
             estado,
             vive,
@@ -232,7 +235,7 @@ padreFamiliaCtrl.crearMadreFamilia = async (req, res) => {
         res.json({
             mensaje: 'Madre de familia creado',
         })
-    }
+
 
 }
 

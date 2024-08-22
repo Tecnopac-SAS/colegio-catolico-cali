@@ -13,16 +13,109 @@ const {check} = require("express-validator");
  *     responses:
  *       200:
  *         description: Lista de padres de familia.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/PadreFamilia'
  */
 router.get('/listarPadreFamilia',PadreFamiliaCtrl.consultarPadreFamilia);
-router.post('/crearPadreFamilia',PadreFamiliaCtrl.crearPadreFamilia);
-router.post('/crearMadreFamilia',PadreFamiliaCtrl.crearMadreFamilia);
+/**
+ * @swagger
+ * /crearPadreFamilia:
+ *   post:
+ *     summary: Crear un nuevo padre de familia
+ *     tags: [Padre de Familia]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               estado:
+ *                 type: string
+ *                 description: Estado del padre de familia
+ *               vive:
+ *                 type: string
+ *                 description: Indica si vive con el estudiante o no
+ *               tipoDocumento:
+ *                 type: string
+ *                 description: Tipo de documento de identificación
+ *               identificacion:
+ *                 type: string
+ *                 description: Número de identificación
+ *               nombres:
+ *                 type: string
+ *                 description: Nombres del padre de familia
+ *               apellidos:
+ *                 type: string
+ *                 description: Apellidos del padre de familia
+ *               profesion:
+ *                 type: string
+ *                 description: Profesión del padre de familia
+ *               dondeTrabaja:
+ *                 type: string
+ *                 description: Lugar donde trabaja
+ *               cargo:
+ *                 type: string
+ *                 description: Cargo que ocupa en el trabajo
+ *               ingresoMensual:
+ *                 type: number
+ *                 description: Ingreso mensual
+ *               correoElectronico:
+ *                 type: string
+ *                 description: Correo electrónico
+ *               direccion:
+ *                 type: string
+ *                 description: Dirección de residencia
+ *               telefono:
+ *                 type: string
+ *                 description: Número de teléfono
+ *               celular:
+ *                 type: string
+ *                 description: Número de celular
+ *               idEstudiante:
+ *                 type: string
+ *                 description: ID del estudiante al que pertenece el padre de familia
+ *     responses:
+ *       200:
+ *         description: Padre de familia creado con éxito
+ *       400:
+ *         description: Error en los datos enviados
+ */
+router.post('/crearPadreFamilia',[
+    check("estado").notEmpty().withMessage("Ingrese el campo estado"),
+    check("vive").notEmpty().withMessage("Ingrese el campo vive"),
+    check("tipoDocumento").notEmpty().withMessage("Ingrese el campo tipoDocumento"),
+    check("identificacion").notEmpty().withMessage("Ingrese el campo identificacion"),
+    check("nombres").notEmpty().withMessage("Ingrese el campo nombres"),
+    check("apellidos").notEmpty().withMessage("Ingrese el campo apellidos"),
+    check("profesion").notEmpty().withMessage("Ingrese el campo profesion"),
+    check("dondeTrabaja").notEmpty().withMessage("Ingrese el campo dondeTrabaja"),
+    check("cargo").notEmpty().withMessage("Ingrese el campo cargo"),
+    check("ingresoMensual").notEmpty().withMessage("Ingrese el campo ingresoMensual"),
+    check("correoElectronico").notEmpty().withMessage("Ingrese el campo ingresoMensual"),
+    check("direccion").notEmpty().withMessage("Ingrese el campo direccion"),
+    check("telefono").notEmpty().withMessage("Ingrese el campo telefono"),
+    check("celular").notEmpty().withMessage("Ingrese el campo celular"),
+    check("idEstudiante").notEmpty().withMessage("Ingrese el campo idEstudiante")
+],PadreFamiliaCtrl.crearPadreFamilia);
+
+
+router.post('/crearMadreFamilia',
+    [
+        check("estado").notEmpty().withMessage("Ingrese el campo estado"),
+        check("vive").notEmpty().withMessage("Ingrese el campo vive"),
+        check("tipoDocumento").notEmpty().withMessage("Ingrese el campo tipoDocumento"),
+        check("identificacion").notEmpty().withMessage("Ingrese el campo identificacion"),
+        check("nombres").notEmpty().withMessage("Ingrese el campo nombres"),
+        check("apellidos").notEmpty().withMessage("Ingrese el campo apellidos"),
+        check("profesion").notEmpty().withMessage("Ingrese el campo profesion"),
+        check("dondeTrabaja").notEmpty().withMessage("Ingrese el campo dondeTrabaja"),
+        check("cargo").notEmpty().withMessage("Ingrese el campo cargo"),
+        check("ingresoMensual").notEmpty().withMessage("Ingrese el campo ingresoMensual"),
+        check("correoElectronico").notEmpty().withMessage("Ingrese el campo ingresoMensual"),
+        check("direccion").notEmpty().withMessage("Ingrese el campo direccion"),
+        check("telefono").notEmpty().withMessage("Ingrese el campo telefono"),
+        check("celular").notEmpty().withMessage("Ingrese el campo celular"),
+        check("idEstudiante").notEmpty().withMessage("Ingrese el campo idEstudiante")
+    ],PadreFamiliaCtrl.crearMadreFamilia);
 
 /**
  * @swagger

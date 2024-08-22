@@ -12,12 +12,6 @@ const {check} = require("express-validator");
  *     responses:
  *       200:
  *         description: Lista de cursos de nivelación.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Leveling'
  */
 router.get('/listarLevelings', LevelingCtrl.consultarLevelings);
 
@@ -37,10 +31,6 @@ router.get('/listarLevelings', LevelingCtrl.consultarLevelings);
  *     responses:
  *       200:
  *         description: Datos del curso de nivelación.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Leveling'
  *       404:
  *         description: Curso de nivelación no encontrado.
  */
@@ -85,10 +75,6 @@ router.get('/listarEstudiante/:codigo', LevelingCtrl.consultarStudentDatabases);
  *     responses:
  *       200:
  *         description: Datos del curso de nivelación.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Leveling'
  *       404:
  *         description: Curso de nivelación no encontrado.
  */
@@ -98,19 +84,38 @@ router.get('/listarLevelingId/:id', LevelingCtrl.consultarId);
  * @swagger
  * /leveling/crearLeveling:
  *   post:
- *     summary: Crea un nuevo curso de nivelación.
+ *     summary: Crear un nuevo proceso de nivelación
  *     tags: [Leveling]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Leveling'
+ *             type: object
+ *             properties:
+ *               modalidadCurso:
+ *                 type: string
+ *                 description: Modalidad del curso de nivelación
+ *               asignatura:
+ *                 type: string
+ *                 description: Asignatura en la que se realizará la nivelación
+ *               isActive:
+ *                 type: boolean
+ *                 description: Estado activo del proceso de nivelación (true o false)
+ *               estadoAprobado:
+ *                 type: string
+ *                 description: Estado de aprobación del proceso
+ *               grado:
+ *                 type: string
+ *                 description: Grado del estudiante
+ *               idEstudiante:
+ *                 type: string
+ *                 description: ID del estudiante que realiza la nivelación
  *     responses:
  *       201:
- *         description: Curso de nivelación creado exitosamente.
+ *         description: Nivelación creada con éxito
  *       400:
- *         description: Error en los datos enviados.
+ *         description: Error en los datos enviados
  */
 router.post('/crearLeveling', [
     check("modalidadCurso").notEmpty().withMessage("Ingresa el campo modalidadCurso"),
@@ -125,26 +130,42 @@ router.post('/crearLeveling', [
  * @swagger
  * /leveling/actualizarLeveling/{id}:
  *   put:
- *     summary: Actualiza un curso de nivelación por ID.
+ *     summary: Actualizar un proceso de nivelación existente
  *     tags: [Leveling]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
- *         description: ID del curso de nivelación.
  *         schema:
  *           type: string
+ *         required: true
+ *         description: ID del proceso de nivelación a actualizar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Leveling'
+ *             type: object
+ *             properties:
+ *               modalidadCurso:
+ *                 type: string
+ *                 description: Modalidad del curso de nivelación
+ *               asignaturaisActive:
+ *                 type: boolean
+ *                 description: Estado activo de la asignatura en el proceso de nivelación
+ *               estadoAprobado:
+ *                 type: string
+ *                 description: Estado de aprobación del proceso
+ *               grado:
+ *                 type: string
+ *                 description: Grado del estudiante
+ *               idEstudiante:
+ *                 type: string
+ *                 description: ID del estudiante que realiza la nivelación
  *     responses:
  *       200:
- *         description: Curso de nivelación actualizado.
+ *         description: Nivelación actualizada con éxito
  *       400:
- *         description: Error en los datos enviados.
+ *         description: Error en los datos enviados
  */
 router.put('/actualizarLeveling/:id', [
     check("modalidadCurso").notEmpty().withMessage("Ingresa el campo modalidadCurso"),

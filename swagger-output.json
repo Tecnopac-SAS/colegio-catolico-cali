@@ -3893,7 +3893,7 @@
     },
     "/historialAcademico/crearhistorialAcademico": {
       "post": {
-        "summary": "Crea un nuevo historial académico.",
+        "summary": "Crear un nuevo historial académico",
         "tags": [
           "Historial Académico"
         ],
@@ -3902,17 +3902,60 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HistorialAcademico"
+                "type": "object",
+                "properties": {
+                  "presscolar": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Datos del nivel preescolar"
+                  },
+                  "primaria": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Datos del nivel primaria"
+                  },
+                  "bachillerato": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Datos del nivel bachillerato"
+                  },
+                  "anioAnterior": {
+                    "type": "string",
+                    "description": "Año anterior cursado"
+                  },
+                  "motivoRetiro": {
+                    "type": "string",
+                    "description": "Motivo de retiro en caso de haberlo"
+                  },
+                  "repeticionAnio": {
+                    "type": "string",
+                    "description": "Información sobre la repetición de un año académico"
+                  },
+                  "distincionAcademica": {
+                    "type": "string",
+                    "description": "Información sobre distinciones académicas obtenidas"
+                  },
+                  "idEstudiante": {
+                    "type": "string",
+                    "description": "ID del estudiante al que pertenece el historial"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Historial académico creado exitosamente."
+          "200": {
+            "description": "Historial académico creado con éxito"
           },
           "400": {
-            "description": "Error en los datos enviados."
+            "description": "Error en los datos enviados"
           }
         }
       }
@@ -3951,39 +3994,106 @@
         }
       }
     },
-    "/historialAcademico/actualizarhistorialAcademico/{id}": {
-      "put": {
-        "summary": "Actualiza un historial académico por ID.",
+    "/crearhistorialAcademico": {
+      "post": {
+        "summary": "Crear un nuevo historial académico",
         "tags": [
           "Historial Académico"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "ID del historial académico.",
-            "schema": {
-              "type": "string"
-            }
-          }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HistorialAcademico"
+                "type": "object",
+                "properties": {
+                  "preescolar": {
+                    "type": "string",
+                    "description": "Información del nivel preescolar"
+                  },
+                  "gradoCursadoPreescolar": {
+                    "type": "string",
+                    "description": "Grado cursado en el nivel preescolar"
+                  },
+                  "gradoCursadoJardin": {
+                    "type": "string",
+                    "description": "Grado cursado en el jardín"
+                  },
+                  "gradoCursadoTransicion": {
+                    "type": "string",
+                    "description": "Grado cursado en la transición"
+                  },
+                  "primaria": {
+                    "type": "string",
+                    "description": "Información del nivel primaria"
+                  },
+                  "gradoCursadoPrimaria1": {
+                    "type": "string",
+                    "description": "Grado cursado en primaria 1"
+                  },
+                  "gradoCursadoPrimaria2": {
+                    "type": "string",
+                    "description": "Grado cursado en primaria 2"
+                  },
+                  "gradoCursadoPrimaria3": {
+                    "type": "string",
+                    "description": "Grado cursado en primaria 3"
+                  },
+                  "gradoCursadoPrimaria4": {
+                    "type": "string",
+                    "description": "Grado cursado en primaria 4"
+                  },
+                  "gradoCursadoPrimaria5": {
+                    "type": "string",
+                    "description": "Grado cursado en primaria 5"
+                  },
+                  "bachillerato": {
+                    "type": "string",
+                    "description": "Información del nivel bachillerato"
+                  },
+                  "gradoCursadoBachillerato6": {
+                    "type": "string",
+                    "description": "Grado cursado en bachillerato 6"
+                  },
+                  "gradoCursadoBachillerato7": {
+                    "type": "string",
+                    "description": "Grado cursado en bachillerato 7"
+                  },
+                  "gradoCursadoBachillerato8": {
+                    "type": "string",
+                    "description": "Grado cursado en bachillerato 8"
+                  },
+                  "anioAnterior": {
+                    "type": "string",
+                    "description": "Año anterior cursado"
+                  },
+                  "motivoRetiro": {
+                    "type": "string",
+                    "description": "Motivo de retiro en caso de haberlo"
+                  },
+                  "repeticionAnio": {
+                    "type": "string",
+                    "description": "Información sobre la repetición de un año académico"
+                  },
+                  "distincionAcademica": {
+                    "type": "string",
+                    "description": "Información sobre distinciones académicas obtenidas"
+                  },
+                  "idEstudiante": {
+                    "type": "string",
+                    "description": "ID del estudiante al que pertenece el historial"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Historial académico actualizado."
+            "description": "Historial académico creado con éxito"
           },
           "400": {
-            "description": "Error en los datos enviados."
+            "description": "Error en los datos enviados"
           }
         }
       }
@@ -4373,17 +4483,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de cursos de nivelación.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Leveling"
-                  }
-                }
-              }
-            }
+            "description": "Lista de cursos de nivelación."
           }
         }
       }
@@ -4407,14 +4507,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Datos del curso de nivelación.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Leveling"
-                }
-              }
-            }
+            "description": "Datos del curso de nivelación."
           },
           "404": {
             "description": "Curso de nivelación no encontrado."
@@ -4472,14 +4565,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Datos del curso de nivelación.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Leveling"
-                }
-              }
-            }
+            "description": "Datos del curso de nivelación."
           },
           "404": {
             "description": "Curso de nivelación no encontrado."
@@ -4489,7 +4575,7 @@
     },
     "/leveling/crearLeveling": {
       "post": {
-        "summary": "Crea un nuevo curso de nivelación.",
+        "summary": "Crear un nuevo proceso de nivelación",
         "tags": [
           "Leveling"
         ],
@@ -4498,24 +4584,50 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Leveling"
+                "type": "object",
+                "properties": {
+                  "modalidadCurso": {
+                    "type": "string",
+                    "description": "Modalidad del curso de nivelación"
+                  },
+                  "asignatura": {
+                    "type": "string",
+                    "description": "Asignatura en la que se realizará la nivelación"
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Estado activo del proceso de nivelación (true o false)"
+                  },
+                  "estadoAprobado": {
+                    "type": "string",
+                    "description": "Estado de aprobación del proceso"
+                  },
+                  "grado": {
+                    "type": "string",
+                    "description": "Grado del estudiante"
+                  },
+                  "idEstudiante": {
+                    "type": "string",
+                    "description": "ID del estudiante que realiza la nivelación"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Curso de nivelación creado exitosamente."
+            "description": "Nivelación creada con éxito"
           },
           "400": {
-            "description": "Error en los datos enviados."
+            "description": "Error en los datos enviados"
           }
         }
       }
     },
     "/leveling/actualizarLeveling/{id}": {
       "put": {
-        "summary": "Actualiza un curso de nivelación por ID.",
+        "summary": "Actualizar un proceso de nivelación existente",
         "tags": [
           "Leveling"
         ],
@@ -4523,11 +4635,11 @@
           {
             "in": "path",
             "name": "id",
-            "required": true,
-            "description": "ID del curso de nivelación.",
             "schema": {
               "type": "string"
-            }
+            },
+            "required": true,
+            "description": "ID del proceso de nivelación a actualizar"
           }
         ],
         "requestBody": {
@@ -4535,17 +4647,39 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Leveling"
+                "type": "object",
+                "properties": {
+                  "modalidadCurso": {
+                    "type": "string",
+                    "description": "Modalidad del curso de nivelación"
+                  },
+                  "asignaturaisActive": {
+                    "type": "boolean",
+                    "description": "Estado activo de la asignatura en el proceso de nivelación"
+                  },
+                  "estadoAprobado": {
+                    "type": "string",
+                    "description": "Estado de aprobación del proceso"
+                  },
+                  "grado": {
+                    "type": "string",
+                    "description": "Grado del estudiante"
+                  },
+                  "idEstudiante": {
+                    "type": "string",
+                    "description": "ID del estudiante que realiza la nivelación"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Curso de nivelación actualizado."
+            "description": "Nivelación actualizada con éxito"
           },
           "400": {
-            "description": "Error en los datos enviados."
+            "description": "Error en los datos enviados"
           }
         }
       }

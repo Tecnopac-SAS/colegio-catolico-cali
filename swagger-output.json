@@ -5,6 +5,12 @@
     "version": "1.0.0",
     "description": "Documentación de la API de gestor de pagos de Colegio Catolico"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local"
+    }
+  ],
   "paths": {
     "/acudiente/descBolsillo": {
       "post": {
@@ -103,33 +109,6 @@
         "responses": {
           "200": {
             "description": "Bolsillo obtenido con éxito"
-          },
-          "400": {
-            "description": "Error en los datos enviados"
-          }
-        }
-      }
-    },
-    "/acudiente/getAcudiente": {
-      "get": {
-        "summary": "Obtener información de un acudiente",
-        "tags": [
-          "Acudiente"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "idAcudiente",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "description": "ID del acudiente"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Información del acudiente obtenida con éxito"
           },
           "400": {
             "description": "Error en los datos enviados"

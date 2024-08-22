@@ -58,12 +58,13 @@ acudienteCtrl.actualizarBolsillo = async (req, res) => {
     try {
         let {idAcudiente, cant} = req.body;
 
-        acudiente1 = await acudienteModel.findOne({
+        let acudiente1 = await acudienteModel.findOne({
             where: {
                 id: idAcudiente
             }
-        })
-        acudiente = await acudienteModel.update({bolsillo: cant + acudiente1.bolsillo},{
+        });
+
+        await acudienteModel.update({bolsillo: cant + acudiente1.bolsillo},{
             where: {
                 id: idAcudiente
             }
@@ -118,7 +119,10 @@ acudienteCtrl.getBolsillo = async (req, res) => {
     }
     try {
         let {idAcudiente} = req.body;
-        acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
+        let acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
+        if(!acudiente){
+            return res.status(404).json({ message: "Acudiente not found." });
+        }
         res.status(200).json({
             resp: acudiente.bolsillo
         })
@@ -127,22 +131,22 @@ acudienteCtrl.getBolsillo = async (req, res) => {
         res.send(error.message);
     }
 };
+
 acudienteCtrl.actualizarLonchera = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()})
     }
     try {
-        let {idAcudiente,cant} = req.body;
-        if (idAcudiente === undefined || cant === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        acudiente1 = await acudienteModel.findOne({
+        let {idAcudiente, cant} = req.body;
+
+        let acudiente1 = await acudienteModel.findOne({
             where: {
                 id: idAcudiente
             }
         })
-        acudiente = await acudienteModel.update({lonchera:cant+acudiente1.lonchera},{
+
+        await acudienteModel.update({lonchera:cant+acudiente1.lonchera},{
             where: {
                 id: idAcudiente
             }
@@ -172,7 +176,7 @@ acudienteCtrl.getLonchera = async (req, res) => {
     }
     try {
         let {idAcudiente} = req.body;
-        acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
+        let acudiente = await acudienteModel.findOne({ where: { id: idAcudiente } })
         
         res.json({
             resp: acudiente.lonchera

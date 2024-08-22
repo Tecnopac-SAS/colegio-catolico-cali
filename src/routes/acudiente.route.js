@@ -96,13 +96,16 @@ router.post('/getBolsillo', [
  *   get:
  *     summary: Obtener información de un acudiente
  *     tags: [Acudiente]
- *     parameters:
- *       - in: query
- *         name: idAcudiente
- *         schema:
- *           type: string
- *         required: true
- *         description: ID del acudiente
+ *     responses:
+ *        200:
+ *          description: Información del acudiente obtenida con éxito
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  idAcudiente:
+ *                    type: string
  *     responses:
  *       200:
  *         description: Información del acudiente obtenida con éxito

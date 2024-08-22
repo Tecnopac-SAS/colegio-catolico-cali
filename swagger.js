@@ -7,9 +7,9 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Documentación de la API',
+            title: 'Documentación Colegio Catolico Api',
             version: '1.0.0',
-            description: 'Documentación de la API para tu proyecto',
+            description: 'Documentación de la API de gestor de pagos de Colegio Catolico',
         },
     },
     apis: ['./src/routes/*.js'], // Ruta a los archivos donde documentas tus rutas

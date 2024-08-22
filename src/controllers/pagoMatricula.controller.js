@@ -4,13 +4,19 @@ const acudiente = require('../models/acudiente.model')
 const {sequelize, Op} = require('sequelize');
 const moment = require('moment');
 const { json } = require('body-parser');
+const {validationResult} = require("express-validator");
 const matriculaCtrl = {};
 
 
 
 matriculaCtrl.crearPago = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+    let {monto, metodoPago, jornada, idAcudiente, valMes, meses, idPension} = req.body;
     try {
-        let {monto,metodoPago,jornada,idAcudiente,valMes,meses,idPension} = req.body;
+
         fechaPago = moment().format(`YYYY-MM-DD`)
         let year= moment().format(`YYYY`)    
         let matriculaCheck = await matricula.findOne({where:{idAcudiente,fechaPago:{[Op.between]:[moment().format(`YYYY-MM-01`),moment().format(`YYYY-MM-31`)],}}})
@@ -55,16 +61,12 @@ matriculaCtrl.crearPago = async (req, res) => {
 matriculaCtrl.getPago = async (req, res) => {
     try {
         let {idAcudiente} = req.body;
-        if (idAcudiente === undefined) {
-            res.status(400).json({ message: "Bad Request. Please fill all field." });
-        }
-        matriculaRes = await matricula.findOne({ 
+        let matriculaRes = await matricula.findOne({
             where: { 
                 idAcudiente,
                 fechaPago:{[Op.between]:[moment().format(`YYYY-01-01`),moment().format(`YYYY-12-31`)],}
             } 
         })
-        // return res.json({Op})
         if (matriculaRes) {
             res.json({
                 resp: true

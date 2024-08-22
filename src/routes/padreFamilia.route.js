@@ -56,8 +56,16 @@ router.put('/actualizarPadreFamilia/:id',[
     check('telefono').notEmpty().withMessage("Ingrese el campo telefono"),
     check('celular').notEmpty().withMessage("Ingrese el campo celular")
 ],PadreFamiliaCtrl.actualizarPadreFamilia)
-router.put('/actualizarAcudiente/:id',PadreFamiliaCtrl.actualizarAcudiente)
-router.put('/deshabilitar/:id' ,PadreFamiliaCtrl.deshabilitar)
+router.put('/actualizarAcudiente/:id',[
+    check('acudiente').notEmpty().withMessage("Ingresa el campo acudiente"),
+    check('estudiante').notEmpty().withMessage("Ingresa el campo estudiante"),
+    check('madre').notEmpty().withMessage("Ingresa el campo madre"),
+    check('padre').notEmpty().withMessage("Ingresa el campo padre"),
+    check('responsable').notEmpty().withMessage("Ingresa el campo responsable")
+],PadreFamiliaCtrl.actualizarAcudiente)
+router.put('/deshabilitar/:id' ,[
+    check('isActive').notEmpty().withMessage("Ingresa el campo isActive").bail().isBoolean().withMessage("Opciones True o False")
+],PadreFamiliaCtrl.deshabilitar)
 
 
 

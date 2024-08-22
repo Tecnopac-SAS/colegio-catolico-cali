@@ -1,12 +1,8 @@
-const config = require('../../config')
-const sequelize = require('sequelize');
-const {QueryTypes} = require('sequelize');
-const bdSq = require('../db/databaseSq')
+
 const padreFamiliaModel = require('../models/padreFamilia.model')
 const acudienteModel = require('../models/acudiente.model')
 const responsableModel = require('../models/responsableFacturacion.model');
 const studentDatabase = require('../models/studentDatabase.model');
-const {join} = require('path');
 const {validationResult} = require("express-validator");
 const padreFamiliaCtrl = {};
 
@@ -91,13 +87,14 @@ padreFamiliaCtrl.getAllAcudiente = async (req, res) => {
     }
 };
 padreFamiliaCtrl.actualizarAcudiente = async (req, res) => {
-    try {
-        const {id} = req.params;
-        const {acudiente, estudiante, madre, padre, responsable} = req.body;
-        if (id === undefined) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
 
+    const {acudiente, estudiante, madre, padre, responsable} = req.body;
+
+    try {
         let acudienteRes = await acudienteModel.update({...acudiente}, {
             where: {
                 id: acudiente.id
@@ -402,12 +399,16 @@ padreFamiliaCtrl.actualizarPadreFamilia = async (req, res) => {
 
 
 padreFamiliaCtrl.deshabilitar = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    const {id} = req.params;
+    const {isActive} = req.body;
+
     try {
-        const {id} = req.params;
-        const {isActive} = req.body;
-        if (isActive === null) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
+
         await padreFamiliaModel.update({isActive}, {
             where: {
                 id: id

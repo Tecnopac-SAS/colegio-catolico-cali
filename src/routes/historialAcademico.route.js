@@ -11,12 +11,6 @@ const {check} = require("express-validator");
  *     responses:
  *       200:
  *         description: Lista de historial académico.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/HistorialAcademico'
  */
 router.get('/listarhistorialAcademico',historialAcademicoCtrl.consultarhistorialAcademicoes);
 
@@ -96,10 +90,6 @@ router.post('/crearhistorialAcademico',[
  *     responses:
  *       200:
  *         description: Datos del historial académico.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/HistorialAcademico'
  *       404:
  *         description: Historial académico no encontrado.
  */

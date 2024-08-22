@@ -86,7 +86,7 @@
     },
     "/acudiente/getBolsillo": {
       "post": {
-        "summary": "Obtener el bolsillo de un acudiente",
+        "summary": "Obtener la información del bolsillo del acudiente",
         "tags": [
           "Acudiente"
         ],
@@ -99,19 +99,63 @@
                 "properties": {
                   "idAcudiente": {
                     "type": "string",
-                    "description": "ID del acudiente"
+                    "description": "ID del acudiente para obtener la información del bolsillo"
                   }
-                }
+                },
+                "required": [
+                  "idAcudiente"
+                ]
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Bolsillo obtenido con éxito"
+            "description": "Información del bolsillo obtenida con éxito"
           },
           "400": {
-            "description": "Error en los datos enviados"
+            "description": "Error en los datos enviados, como campo `idAcudiente` vacío o inválido"
+          },
+          "404": {
+            "description": "Acudiente no encontrado con el ID proporcionado"
+          }
+        }
+      }
+    },
+    "/acudiente/getAcudiente": {
+      "get": {
+        "summary": "Obtener información de un acudiente",
+        "tags": [
+          "Acudiente"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idAcudiente": {
+                    "type": "string",
+                    "description": "ID del acudiente para obtener su información"
+                  }
+                },
+                "required": [
+                  "idAcudiente"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Información del acudiente obtenida con éxito"
+          },
+          "400": {
+            "description": "Error en los datos enviados, como campo `idAcudiente` vacío o inválido"
+          },
+          "404": {
+            "description": "Acudiente no encontrado con el ID proporcionado"
           }
         }
       }
@@ -3201,6 +3245,51 @@
         }
       }
     },
+    "/tuition/{idtuition}/{filetype}": {
+      "get": {
+        "summary": "Descargar archivos de matrícula",
+        "tags": [
+          "Download"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idtuition",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID de la matrícula para la cual se solicita el archivo"
+          },
+          {
+            "in": "path",
+            "name": "filetype",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "docx",
+                "xlsx"
+              ],
+              "description": "Tipo de archivo que se desea descargar"
+            },
+            "required": true,
+            "description": "Tipo de archivo a descargar (ej., pdf, docx, xlsx)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo descargado con éxito"
+          },
+          "400": {
+            "description": "Error en los parámetros proporcionados (ID de matrícula o tipo de archivo inválidos)"
+          },
+          "404": {
+            "description": "Archivo no encontrado para el ID de matrícula proporcionado y tipo de archivo"
+          }
+        }
+      }
+    },
     "/extracurricular/listarExtracurricular": {
       "get": {
         "summary": "Listar todas las actividades extracurriculares",
@@ -3876,17 +3965,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de historial académico.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HistorialAcademico"
-                  }
-                }
-              }
-            }
+            "description": "Lista de historial académico."
           }
         }
       }
@@ -3979,14 +4058,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Datos del historial académico.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HistorialAcademico"
-                }
-              }
-            }
+            "description": "Datos del historial académico."
           },
           "404": {
             "description": "Historial académico no encontrado."
@@ -4778,17 +4850,95 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de padres de familia.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PadreFamilia"
+            "description": "Lista de padres de familia."
+          }
+        }
+      }
+    },
+    "/crearPadreFamilia": {
+      "post": {
+        "summary": "Crear un nuevo padre de familia",
+        "tags": [
+          "Padre de Familia"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "estado": {
+                    "type": "string",
+                    "description": "Estado del padre de familia"
+                  },
+                  "vive": {
+                    "type": "string",
+                    "description": "Indica si vive con el estudiante o no"
+                  },
+                  "tipoDocumento": {
+                    "type": "string",
+                    "description": "Tipo de documento de identificación"
+                  },
+                  "identificacion": {
+                    "type": "string",
+                    "description": "Número de identificación"
+                  },
+                  "nombres": {
+                    "type": "string",
+                    "description": "Nombres del padre de familia"
+                  },
+                  "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del padre de familia"
+                  },
+                  "profesion": {
+                    "type": "string",
+                    "description": "Profesión del padre de familia"
+                  },
+                  "dondeTrabaja": {
+                    "type": "string",
+                    "description": "Lugar donde trabaja"
+                  },
+                  "cargo": {
+                    "type": "string",
+                    "description": "Cargo que ocupa en el trabajo"
+                  },
+                  "ingresoMensual": {
+                    "type": "number",
+                    "description": "Ingreso mensual"
+                  },
+                  "correoElectronico": {
+                    "type": "string",
+                    "description": "Correo electrónico"
+                  },
+                  "direccion": {
+                    "type": "string",
+                    "description": "Dirección de residencia"
+                  },
+                  "telefono": {
+                    "type": "string",
+                    "description": "Número de teléfono"
+                  },
+                  "celular": {
+                    "type": "string",
+                    "description": "Número de celular"
+                  },
+                  "idEstudiante": {
+                    "type": "string",
+                    "description": "ID del estudiante al que pertenece el padre de familia"
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Padre de familia creado con éxito"
+          },
+          "400": {
+            "description": "Error en los datos enviados"
           }
         }
       }

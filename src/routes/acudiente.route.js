@@ -68,7 +68,7 @@ router.put('/addBolsillo',
  * @swagger
  * /acudiente/getBolsillo:
  *   post:
- *     summary: Obtener el bolsillo de un acudiente
+ *     summary: Obtener la información del bolsillo del acudiente
  *     tags: [Acudiente]
  *     requestBody:
  *       required: true
@@ -79,16 +79,22 @@ router.put('/addBolsillo',
  *             properties:
  *               idAcudiente:
  *                 type: string
- *                 description: ID del acudiente
+ *                 description: ID del acudiente para obtener la información del bolsillo
+ *             required:
+ *               - idAcudiente
  *     responses:
  *       200:
- *         description: Bolsillo obtenido con éxito
+ *         description: Información del bolsillo obtenida con éxito
  *       400:
- *         description: Error en los datos enviados
+ *         description: Error en los datos enviados, como campo `idAcudiente` vacío o inválido
+ *       404:
+ *         description: Acudiente no encontrado con el ID proporcionado
  */
+
 router.post('/getBolsillo', [
     check('idAcudiente').notEmpty().withMessage("Ingrese el campo de idAcudiente"),
 ], acudienteCtrl.getBolsillo);
+
 
 /**
  * @swagger
@@ -96,21 +102,25 @@ router.post('/getBolsillo', [
  *   get:
  *     summary: Obtener información de un acudiente
  *     tags: [Acudiente]
- *     responses:
- *        200:
- *          description: Información del acudiente obtenida con éxito
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  idAcudiente:
- *                    type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idAcudiente:
+ *                 type: string
+ *                 description: ID del acudiente para obtener su información
+ *             required:
+ *               - idAcudiente
  *     responses:
  *       200:
  *         description: Información del acudiente obtenida con éxito
  *       400:
- *         description: Error en los datos enviados
+ *         description: Error en los datos enviados, como campo `idAcudiente` vacío o inválido
+ *       404:
+ *         description: Acudiente no encontrado con el ID proporcionado
  */
 router.get('/getAcudiente',
     [

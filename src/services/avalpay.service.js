@@ -1,6 +1,5 @@
 const https = require('https');
-var querystring = require('querystring');
-
+const querystring = require('querystring');
 
 function httpRequest(options) {
   var postData = querystring.stringify({

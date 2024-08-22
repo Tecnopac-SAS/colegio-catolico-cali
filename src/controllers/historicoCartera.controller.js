@@ -1,7 +1,4 @@
-const config = require('../../config')
-const {sequelize, Sequelize , Op, fn, col} = require('sequelize');
-const { QueryTypes } = require('sequelize');
-const bdSq = require('../db/databaseSq')
+const {sequelize, Sequelize, Op, fn, col} = require('sequelize');
 const coursesInscriptionModel = require('../models/coursesInscription.model')
 const extracurricularInscriptionModel = require('../models/extracurricularInscription.model')
 const matriculasPagosModel = require('../models/matriculasPagos.model')
@@ -11,19 +8,20 @@ const moment = require('moment');
 const historicoCarteraCtrl = {};
 
 
-historicoCarteraCtrl.totalDeuda = async(req,res)=>{
-    const { id } = req.params;
+historicoCarteraCtrl.totalDeuda = async (req, res) => {
+    const {id} = req.params;
     try {
-        result = await pensionMesesModel.findAll({ where:{ idAcudiente:id,estatus:'Pendiente'}});
+        let result = await pensionMesesModel.findAll({where: {idAcudiente: id, estatus: 'Pendiente'}});
 
         let total = 0;
+
         result.forEach(element => {
-            total = total + ((element.valorConDescuento)?element.valorConDescuento:element.valor)
+            total = total + ((element.valorConDescuento) ? element.valorConDescuento : element.valor)
         });
 
         res.json({
             status: 200,
-            result:total
+            result: total
         })
     } catch (error) {
         res.status(500);
@@ -46,13 +44,13 @@ historicoCarteraCtrl.totalDeudas = async (req, res) => {
                 'mora',
                 [Sequelize.fn('SUM', Sequelize.col('valor')), 'valorTotal']
             ],
-            where: { estatus: 'Pendiente' },
+            where: {estatus: 'Pendiente'},
             group: ['idAcudiente', 'idPension'],
             order: [
                 ['idAcudiente', 'ASC'],
                 ['idPension', 'ASC']
             ],
-            include: { association: 'pensionesMesesAsAcudiente' }
+            include: {association: 'pensionesMesesAsAcudiente'}
         });
 
         res.json({
@@ -68,11 +66,10 @@ historicoCarteraCtrl.totalDeudas = async (req, res) => {
 };
 historicoCarteraCtrl.totalDeudasAcudiente = async (req, res) => {
     try {
-        const { id } = req.params;
-        console.log(req.params);
+        const {id} = req.params;
         const result = await pensionMesesModel.findAll({
-            where: { idAcudiente: id, estatus: 'Pendiente' },
-            include: { association: 'pensionesMesesAsAcudiente' }
+            where: {idAcudiente: id, estatus: 'Pendiente'},
+            include: {association: 'pensionesMesesAsAcudiente'}
         });
         res.json({
             status: 200,
@@ -85,24 +82,24 @@ historicoCarteraCtrl.totalDeudasAcudiente = async (req, res) => {
         });
     }
 };
-historicoCarteraCtrl.listarHistoricoCartera = async(req,res)=>{
-    const { id } = req.params;
+historicoCarteraCtrl.listarHistoricoCartera = async (req, res) => {
+    const {id} = req.params;
     try {
-        acudient = await acudiente.findOne({ where:{ id:id}, include: { association: 'acudienteAsEstudiante' }});
+        acudient = await acudiente.findOne({where: {id: id}, include: {association: 'acudienteAsEstudiante'}});
 
-        result = await pensionMesesModel.findAll({ where:{ idAcudiente:acudient.id,estatus:'Pendiente'}});
+        let result = await pensionMesesModel.findAll({where: {idAcudiente: acudient.id, estatus: 'Pendiente'}});
 
-        let tabla=[]
+        let tabla = []
         let total = 0;
         result.forEach(element => {
-            total = total + ((element.valorConDescuento)?element.valorConDescuento:element.valor)
+            total = total + ((element.valorConDescuento) ? element.valorConDescuento : element.valor)
         });
-        tabla.push({servicio:'Pension',tipo:'Tipo',fecha: new Date(),total:total,link:'pago-pension'})
+        tabla.push({servicio: 'Pension', tipo: 'Tipo', fecha: new Date(), total: total, link: 'pago-pension'})
 
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:tabla
+            result: tabla
         })
     } catch (error) {
         res.status(500);
@@ -115,42 +112,65 @@ historicoCarteraCtrl.listarHistoricoCartera = async(req,res)=>{
 
 historicoCarteraCtrl.listarHistoricoCarteraSearch = async (req, res) => {
     try {
-        let { dato,id } = req.params;
-        dato=decodeURIComponent(dato)
-        acudient = await acudiente.findOne({ where:{ idEstudiante:id}, include: { association: 'acudienteAsEstudiante' }});
-        
-        let tabla=[]
+        let {dato, id} = req.params;
+        dato = decodeURIComponent(dato)
+        acudient = await acudiente.findOne({
+            where: {idEstudiante: id},
+            include: {association: 'acudienteAsEstudiante'}
+        });
+
+        let tabla = []
         let results = [];
-        result = await coursesInscriptionModel.findAll({ where:{ idEstudiante:id}});
+        let result = await coursesInscriptionModel.findAll({where: {idEstudiante: id}});
         result.forEach(element => {
-            tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'curso',fecha:moment(element.createdAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})
+            tabla.push({
+                codigo: acudient.acudienteAsEstudiante.codigo,
+                tipo: 'curso',
+                fecha: moment(element.createdAt).format('DD/MM/YYYY'),
+                viaPago: element.metodoPago
+            })
         });
-        result = await extracurricularInscriptionModel.findAll({ where:{ idEstudiante:id}});
+        result = await extracurricularInscriptionModel.findAll({where: {idEstudiante: id}});
         result.forEach(element => {
-            tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'extracurricular',fecha:moment(element.createdAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})
+            tabla.push({
+                codigo: acudient.acudienteAsEstudiante.codigo,
+                tipo: 'extracurricular',
+                fecha: moment(element.createdAt).format('DD/MM/YYYY'),
+                viaPago: element.metodoPago
+            })
         });
 
-        result = await matriculasPagosModel.findAll({ where:{ idAcudiente:acudient.id}});
+        result = await matriculasPagosModel.findAll({where: {idAcudiente: acudient.id}});
         result.forEach(element => {
-            tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'pago matricula',fecha:moment(element.createdAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})
+            tabla.push({
+                codigo: acudient.acudienteAsEstudiante.codigo,
+                tipo: 'pago matricula',
+                fecha: moment(element.createdAt).format('DD/MM/YYYY'),
+                viaPago: element.metodoPago
+            })
         });
 
-        result = await pensionMesesModel.findAll({ where:{ idAcudiente:acudient.id,estatus:'Pagado'}});
+        result = await pensionMesesModel.findAll({where: {idAcudiente: acudient.id, estatus: 'Pagado'}});
         result.forEach(element => {
-            tabla.push({codigo:acudient.acudienteAsEstudiante.codigo,tipo:'pago pension',fecha:moment(element.updatedAt).format('DD/MM/YYYY'),viaPago:element.metodoPago})
+            tabla.push({
+                codigo: acudient.acudienteAsEstudiante.codigo,
+                tipo: 'pago pension',
+                fecha: moment(element.updatedAt).format('DD/MM/YYYY'),
+                viaPago: element.metodoPago
+            })
         });
 
-        for(var i=0; i<tabla.length; i++) {
-            for(key in tabla[i]) {
-                if(tabla[i][key].indexOf(dato)!=-1) {
-                results.push(tabla[i]);
+        for (var i = 0; i < tabla.length; i++) {
+            for (key in tabla[i]) {
+                if (tabla[i][key].indexOf(dato) !== -1) {
+                    results.push(tabla[i]);
                 }
             }
         }
         res.json({
             status: 200,
             mensaje: 'ok',
-            result:results
+            result: results
         })
     } catch (error) {
         res.status(500);
@@ -158,4 +178,4 @@ historicoCarteraCtrl.listarHistoricoCarteraSearch = async (req, res) => {
     }
 };
 
-module.exports= historicoCarteraCtrl
+module.exports = historicoCarteraCtrl

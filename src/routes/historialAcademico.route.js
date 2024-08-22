@@ -16,6 +16,9 @@ router.post('/crearhistorialAcademico',[
 ],historialAcademicoCtrl.crearhistorialAcademico);
 router.get('/listarhistorialAcademicoId/:id',historialAcademicoCtrl.consultarId);
 router.put('/actualizarhistorialAcademico/:id',historialAcademicoCtrl.actualizarhistorialAcademico)
-router.put('/deshabilitar/:id' ,historialAcademicoCtrl.deshabilitar)
+router.put('/deshabilitar/:id' ,
+    [
+        check("isActive").notEmpty().withMessage("Ingresa el campo isActive").bail().isBoolean().withMessage("Ingresa True o False")
+    ],historialAcademicoCtrl.deshabilitar)
 
 module.exports= router

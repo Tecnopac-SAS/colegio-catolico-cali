@@ -146,7 +146,7 @@ historialAcademicoCtrl.actualizarhistorialAcademico = async (req, res) => {
             anioAnterior,
             motivoRetiro,
             repeticionAnio,
-            distincionAcademica,
+            distincionAcademica
         } = req.body;
 
         await historialAcademicoModel.update({
@@ -199,9 +199,7 @@ historialAcademicoCtrl.deshabilitar = async (req, res) => {
     try {
         const {id} = req.params;
         const {isActive} = req.body;
-        if (isActive === null) {
-            res.status(400).json({message: "Bad Request. Please fill all field."});
-        }
+
         await historialAcademicoModel.update({isActive}, {
             where: {
                 id: id

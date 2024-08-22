@@ -5,9 +5,10 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /api/tuition/listarTuitionTypes:
+ * /tuition/listarTuitionTypes:
  *   get:
  *     summary: Lista todos los tipos de matrícula
+ *     tags: [Tuition Type]
  *     responses:
  *       200:
  *         description: Lista de tipos de matrícula
@@ -16,9 +17,10 @@ router.get('/listarTuitionTypes',tuitionTypeCtrl.consultarTuitionType);
 
 /**
  * @swagger
- * /api/tuition/CrearTuitionType:
+ * /tuition/CrearTuitionType:
  *   post:
  *     summary: Crea un nuevo tipo de matrícula
+ *     tags: [Tuition Type]
  *     requestBody:
  *       required: true
  *       content:
@@ -57,9 +59,10 @@ router.get('/listarTuition/:description',tuitionTypeCtrl.consultarTuition);
 
 /**
  * @swagger
- * /api/tuition/listarTuitionId/{id}:
+ * /tuition/listarTuitionId/{id}:
  *   get:
  *     summary: Obtiene un tipo de matrícula por ID
+ *     tags: [Tuition Type]
  *     parameters:
  *       - in: path
  *         name: id
@@ -77,9 +80,10 @@ router.get('/listarTuitionId/:id',tuitionTypeCtrl.consultarId);
 
 /**
  * @swagger
- * /api/tuition/CrearTuitionType:
+ * /tuition/CrearTuitionType:
  *   post:
  *     summary: Crea un nuevo tipo de matrícula
+ *     tags: [Tuition Type]
  *     requestBody:
  *       required: true
  *       content:
@@ -125,9 +129,10 @@ router.post('/CrearTuitionType',[
 
 /**
  * @swagger
- * /api/tuition/actualizarTuition/{id}:
+ * /tuition/actualizarTuition/{id}:
  *   put:
  *     summary: Actualiza un tipo de matrícula por ID
+ *     tags: [Tuition Type]
  *     parameters:
  *       - in: path
  *         name: id
@@ -181,9 +186,10 @@ router.put('/actualizarTuition/:id',[
 
 /**
  * @swagger
- * /api/tuition/deshabilitar/{id}:
+ * /tuition/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un tipo de matrícula por ID
+ *     tags: [Tuition Type]
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,8 +217,6 @@ router.put('/actualizarTuition/:id',[
 router.put('/deshabilitar/:id' ,[
     check('isActive').notEmpty().withMessage('Ingresa el campo isActive')
 ],tuitionTypeCtrl.deshabilitar)
-
-
 
 
 module.exports= router

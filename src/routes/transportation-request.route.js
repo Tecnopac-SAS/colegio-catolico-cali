@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /api/listarTransportationsRequests:
+ * /listarTransportationsRequests:
  *   get:
  *     summary: Lista todas las solicitudes de transporte
  *     tags: [TransportationRequest]
@@ -38,7 +38,7 @@ router.get('/listarTransportationsRequests',TransportationRequestCtrl.consultarT
 
 /**
  * @swagger
- * /api/listarTransportationsRequest/{id}:
+ * /listarTransportationsRequest/{id}:
  *   get:
  *     summary: Obtiene una solicitud de transporte por su ID
  *     tags: [TransportationRequest]
@@ -78,7 +78,7 @@ router.get('/listarTransportationsRequest/:id',TransportationRequestCtrl.consult
 
 /**
  * @swagger
- * /api/listarTransportationsRequests/{estudianteid}/{acudienteid}:
+ * /listarTransportationsRequests/{estudianteid}/{acudienteid}:
  *   get:
  *     summary: Obtiene solicitudes de transporte por estudiante y acudiente
  *     tags: [TransportationRequest]
@@ -120,7 +120,7 @@ router.get('/listarTransportationsRequests/:estudianteid/:acudienteid' ,Transpor
 
 /**
  * @swagger
- * /api/aprobarSolicitud/{id}:
+ * /aprobarSolicitud/{id}:
  *   put:
  *     summary: Aprueba una solicitud de transporte
  *     tags: [TransportationRequest]
@@ -157,7 +157,7 @@ router.put('/aprobarSolicitud/:id',[
 
 /**
  * @swagger
- * /api/crearTransportationRequest:
+ * /crearTransportationRequest:
  *   post:
  *     summary: Crea una nueva solicitud de transporte
  *     tags: [TransportationRequest]

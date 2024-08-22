@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarCanalReferencias:
+ * /canalReferencia/listarCanalReferencias:
  *   get:
  *     summary: Listar todos los canales de referencia
  *     tags: [Canal Referencia]
@@ -19,7 +19,7 @@ router.get('/listarCanalReferencias', CanalReferenciaCtrl.consultarCanalReferenc
 
 /**
  * @swagger
- * /listarCanalReferencia/{routeName}:
+ * /canalReferencia/listarCanalReferencia/{routeName}:
  *   get:
  *     summary: Consultar un canal de referencia por nombre de ruta
  *     tags: [Canal Referencia]
@@ -39,7 +39,7 @@ router.get('/listarCanalReferencias', CanalReferenciaCtrl.consultarCanalReferenc
 router.get('/listarCanalReferencia/:routeName', CanalReferenciaCtrl.consultarCanalReferencia);
 /**
  * @swagger
- * /listarCanalReferenciaId/{id}:
+ * /canalReferencia/listarCanalReferenciaId/{id}:
  *   get:
  *     summary: Consultar un canal de referencia por ID
  *     tags: [Canal Referencia]
@@ -60,7 +60,7 @@ router.get('/listarCanalReferenciaId/:id', CanalReferenciaCtrl.consultarId);
 
 /**
  * @swagger
- * /crearCanalReferencia:
+ * /canalReferencia/crearCanalReferencia:
  *   post:
  *     summary: Crear un nuevo canal de referencia
  *     tags: [Canal Referencia]
@@ -119,7 +119,7 @@ router.post('/crearCanalReferencia',
 
 /**
  * @swagger
- * /actualizarCanalReferencia/{id}:
+ * /canalReferencia/actualizarCanalReferencia/{id}:
  *   put:
  *     summary: Actualizar un canal de referencia por ID
  *     tags: [Canal Referencia]
@@ -183,7 +183,7 @@ router.put('/actualizarCanalReferencia/:id',
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /canalReferencia/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar un canal de referencia
  *     tags: [Canal Referencia]

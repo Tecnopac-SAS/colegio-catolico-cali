@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarHermano:
+ * /hermanos/listarHermano:
  *   get:
  *     summary: Listar todos los hermanos
  *     tags: [Hermanos]
@@ -19,7 +19,7 @@ router.get('/listarHermano',HermanoCtrl.consultarHermano);
 
 /**
  * @swagger
- * /crearHermano:
+ * /hermanos/crearHermano:
  *   post:
  *     summary: Crear un nuevo hermano
  *     tags: [Hermanos]
@@ -69,7 +69,7 @@ router.post('/crearHermano',[
 
 /**
  * @swagger
- * /listarHermanoId/{id}:
+ * /hermanos/listarHermanoId/{id}:
  *   get:
  *     summary: Obtener un hermano por ID
  *     tags: [Hermanos]
@@ -92,7 +92,7 @@ router.get('/listarHermanoId/:id',HermanoCtrl.consultarId);
 
 /**
  * @swagger
- * /actualizarHermano/{id}:
+ * /hermanos/actualizarHermano/{id}:
  *   put:
  *     summary: Actualizar información de un hermano
  *     tags: [Hermanos]
@@ -146,7 +146,7 @@ router.put('/actualizarHermano/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /hermanos/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar un hermano
  *     tags: [Hermanos]

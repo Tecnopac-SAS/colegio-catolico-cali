@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /descBolsillo:
+ * /acudiente/descBolsillo:
  *   post:
  *     summary: Descuento del bolsillo de un acudiente
  *     tags: [Acudiente]
@@ -35,7 +35,7 @@ router.post('/descBolsillo', [
 
 /**
  * @swagger
- * /addBolsillo:
+ * /acudiente/addBolsillo:
  *   put:
  *     summary: Añadir dinero al bolsillo de un acudiente
  *     tags: [Acudiente]
@@ -66,7 +66,7 @@ router.put('/addBolsillo',
 
 /**
  * @swagger
- * /getBolsillo:
+ * /acudiente/getBolsillo:
  *   post:
  *     summary: Obtener el bolsillo de un acudiente
  *     tags: [Acudiente]
@@ -92,7 +92,7 @@ router.post('/getBolsillo', [
 
 /**
  * @swagger
- * /getAcudiente:
+ * /acudiente/getAcudiente:
  *   get:
  *     summary: Obtener información de un acudiente
  *     tags: [Acudiente]
@@ -116,7 +116,7 @@ router.get('/getAcudiente',
 
 /**
  * @swagger
- * /getAcudientebyEstudiante:
+ * /acudiente/getAcudientebyEstudiante:
  *   post:
  *     summary: Obtener acudiente por ID de estudiante
  *     tags: [Acudiente]
@@ -143,7 +143,7 @@ router.post('/getAcudientebyEstudiante',
 
 /**
  * @swagger
- * /actualizarAcudiente:
+ * /acudiente/actualizarAcudiente:
  *   put:
  *     summary: Actualizar la información de un acudiente
  *     tags: [Acudiente]

@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /list:
+ * /pago-pension/list:
  *   post:
  *     summary: Consulta las pensiones asociadas a un acudiente
  *     tags: [Pension Pago]
@@ -33,7 +33,7 @@ router.post('/list', [
 
 /**
  * @swagger
- * /pagar/{tipo}:
+ * /pago-pension/pagar/{tipo}:
  *   post:
  *     summary: Realiza el pago de pensiones
  *     tags: [Pension Pago]

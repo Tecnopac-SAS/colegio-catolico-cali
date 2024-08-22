@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /list:
+ * /pagosPresenciales/list:
  *   get:
  *     summary: Obtiene la lista de pagos presenciales.
  *     tags: [Pension]
@@ -20,7 +20,7 @@ router.get('/list',PensionCtrl.consultarPagosPresenciales);
 
 /**
  * @swagger
- * /pagar:
+ * /pagosPresenciales/pagar:
  *   post:
  *     summary: Crea un nuevo pago presencial.
  *     tags: [Pension]
@@ -71,7 +71,7 @@ router.post('/pagar',[
 
 /**
  * @swagger
- * /{id}:
+ * /pagosPresenciales/{id}:
  *   put:
  *     summary: Actualiza un pago presencial existente.
  *     tags: [Pension]
@@ -126,7 +126,7 @@ router.put('/:id',[
 
 /**
  * @swagger
- * /status/{id}:
+ * /pagosPresenciales/status/{id}:
  *   put:
  *     summary: Actualiza el estado de un pago presencial.
  *     tags: [Pension]

@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /CrearPago:
+ * /pagoMatricula/CrearPago:
  *   post:
  *     summary: Crea un nuevo pago.
  *     tags: [PagoMatricula]
@@ -64,7 +64,7 @@ router.post('/CrearPago',[
 
 /**
  * @swagger
- * /GetPago:
+ * /pagoMatricula/GetPago:
  *   post:
  *     summary: Obtiene el pago de un acudiente.
  *     tags: [PagoMatricula]

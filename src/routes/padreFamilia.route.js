@@ -6,7 +6,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarPadreFamilia:
+ * /padres-familia/listarPadreFamilia:
  *   get:
  *     summary: Lista todos los padres de familia.
  *     tags: [PadreFamilia]
@@ -26,7 +26,7 @@ router.post('/crearMadreFamilia',PadreFamiliaCtrl.crearMadreFamilia);
 
 /**
  * @swagger
- * /crearAcudiente:
+ * /padres-familia/crearAcudiente:
  *   post:
  *     summary: Crea un nuevo acudiente.
  *     tags: [PadreFamilia]
@@ -124,7 +124,7 @@ router.post('/crearAcudiente',[
 
 /**
  * @swagger
- * /crearResponsable:
+ * /padres-familia/crearResponsable:
  *   post:
  *     summary: Crea un nuevo responsable para un estudiante.
  *     tags: [PadreFamilia]
@@ -208,7 +208,7 @@ router.post('/crearResponsable',[
 
 /**
  * @swagger
- * /listarPadreFamiliaId/{id}:
+ * /padres-familia/listarPadreFamiliaId/{id}:
  *   get:
  *     summary: Obtiene información de un padre de familia por ID.
  *     tags: [PadreFamilia]
@@ -230,7 +230,7 @@ router.get('/listarPadreFamiliaId/:id',PadreFamiliaCtrl.consultarId);
 
 /**
  * @swagger
- * /getAllAcudiente/{id}:
+ * /padres-familia/getAllAcudiente/{id}:
  *   get:
  *     summary: Obtiene todos los acudientes asociados a un estudiante por ID.
  *     tags: [PadreFamilia]
@@ -252,7 +252,7 @@ router.get('/getAllAcudiente/:id',PadreFamiliaCtrl.getAllAcudiente);
 
 /**
  * @swagger
- * /actualizarPadreFamilia/{id}:
+ * /padres-familia/actualizarPadreFamilia/{id}:
  *   put:
  *     summary: Actualiza la información de un padre de familia por ID.
  *     tags: [PadreFamilia]
@@ -355,7 +355,7 @@ router.put('/actualizarPadreFamilia/:id',[
 
 /**
  * @swagger
- * /actualizarAcudiente/{id}:
+ * /padres-familia/actualizarAcudiente/{id}:
  *   put:
  *     summary: Actualiza la información de un acudiente por ID.
  *     tags: [PadreFamilia]
@@ -413,7 +413,7 @@ router.put('/actualizarAcudiente/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /padres-familia/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un registro por ID.
  *     tags: [PadreFamilia]

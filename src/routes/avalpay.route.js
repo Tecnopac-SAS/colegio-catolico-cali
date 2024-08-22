@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /payment:
+ * /avalpay/payment:
  *   post:
  *     summary: Realizar un pago
  *     tags: [Payments]
@@ -47,7 +47,7 @@ router.post('/payment', [
 
 /**
  * @swagger
- * /paymentStatus/{pmtId}:
+ * /avalpay/paymentStatus/{pmtId}:
  *   get:
  *     summary: Consultar el estado de un pago
  *     tags: [Payments]

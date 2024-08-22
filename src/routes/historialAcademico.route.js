@@ -4,7 +4,7 @@ const historialAcademicoCtrl = require('../controllers/historialAcademico.contro
 const {check} = require("express-validator");
 /**
  * @swagger
- * /listarhistorialAcademico:
+ * /historialAcademico/listarhistorialAcademico:
  *   get:
  *     summary: Lista todo el historial académico.
  *     tags: [Historial Académico]
@@ -22,7 +22,7 @@ router.get('/listarhistorialAcademico',historialAcademicoCtrl.consultarhistorial
 
 /**
  * @swagger
- * /crearhistorialAcademico:
+ * /historialAcademico/crearhistorialAcademico:
  *   post:
  *     summary: Crea un nuevo historial académico.
  *     tags: [Historial Académico]
@@ -51,7 +51,7 @@ router.post('/crearhistorialAcademico',[
 
 /**
  * @swagger
- * /listarhistorialAcademicoId/{id}:
+ * /historialAcademico/listarhistorialAcademicoId/{id}:
  *   get:
  *     summary: Obtiene un historial académico por ID.
  *     tags: [Historial Académico]
@@ -76,7 +76,7 @@ router.get('/listarhistorialAcademicoId/:id',historialAcademicoCtrl.consultarId)
 
 /**
  * @swagger
- * /actualizarhistorialAcademico/{id}:
+ * /historialAcademico/actualizarhistorialAcademico/{id}:
  *   put:
  *     summary: Actualiza un historial académico por ID.
  *     tags: [Historial Académico]
@@ -103,7 +103,7 @@ router.put('/actualizarhistorialAcademico/:id',historialAcademicoCtrl.actualizar
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /historialAcademico/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un historial académico por ID.
  *     tags: [Historial Académico]

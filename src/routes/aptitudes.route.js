@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarAptitudes:
+ * /aptitudes/listarAptitudes:
  *   get:
  *     summary: Listar todas las aptitudes
  *     tags: [Aptitudes]
@@ -20,7 +20,7 @@ router.get('/listarAptitudes', aptitudesCtrl.consultarAptitudes);
 
 /**
  * @swagger
- * /crearAptitudes:
+ * /aptitudes/crearAptitudes:
  *   post:
  *     summary: Crear nuevas aptitudes
  *     tags: [Aptitudes]
@@ -90,7 +90,7 @@ router.post('/crearAptitudes', [
 
 /**
  * @swagger
- * /listarAptitudesId/{id}:
+ * /aptitudes/listarAptitudesId/{id}:
  *   get:
  *     summary: Listar aptitudes por ID
  *     tags: [Aptitudes]
@@ -111,7 +111,7 @@ router.get('/listarAptitudesId/:id', aptitudesCtrl.consultarId);
 
 /**
  * @swagger
- * /actualizarAptitudes/{id}:
+ * /aptitudes/actualizarAptitudes/{id}:
  *   put:
  *     summary: Actualizar aptitudes por ID
  *     tags: [Aptitudes]
@@ -175,7 +175,7 @@ router.put('/actualizarAptitudes/:id', aptitudesCtrl.actualizarAptitudes)
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /aptitudes/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar aptitudes por ID
  *     tags: [Aptitudes]

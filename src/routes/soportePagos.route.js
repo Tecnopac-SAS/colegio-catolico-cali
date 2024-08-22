@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /crearSoportePago:
+ * /soportePagos/crearSoportePago:
  *   post:
  *     summary: Crea un nuevo soporte de pago
  *     tags: [SoportePagos]
@@ -55,7 +55,7 @@ router.post('/crearSoportePago',[
 
 /**
  * @swagger
- * /listarMisSoportesPagos/{idAcudiente}:
+ * /soportePagos/listarMisSoportesPagos/{idAcudiente}:
  *   get:
  *     summary: Lista los soportes de pagos de un acudiente específico
  *     tags: [SoportePagos]
@@ -78,7 +78,7 @@ router.get('/listarMisSoportesPagos/:idAcudiente',SoportePagosCtrl.listarMisSopo
 
 /**
  * @swagger
- * /listarSoportesPagos:
+ * /soportePagos/listarSoportesPagos:
  *   get:
  *     summary: Lista todos los soportes de pagos
  *     tags: [SoportePagos]

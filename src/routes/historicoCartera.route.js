@@ -4,7 +4,7 @@ const HistoricoCarteraCtrl = require('../controllers/historicoCartera.controller
 
 /**
  * @swagger
- * /listarHistoricoCartera/{id}:
+ * /historicoCartera/listarHistoricoCartera/{id}:
  *   get:
  *     summary: Listar el histórico de cartera por ID
  *     tags: [HistoricoCartera]
@@ -27,7 +27,7 @@ router.get('/listarHistoricoCartera/:id',HistoricoCarteraCtrl.listarHistoricoCar
 
 /**
  * @swagger
- * /totalDeuda/{id}:
+ * /historicoCartera/totalDeuda/{id}:
  *   get:
  *     summary: Obtener el total de la deuda de un estudiante por ID
  *     tags: [HistoricoCartera]
@@ -50,7 +50,7 @@ router.get('/totalDeuda/:id',HistoricoCarteraCtrl.totalDeuda);
 
 /**
  * @swagger
- * /totalDeudas:
+ * /historicoCartera/totalDeudas:
  *   get:
  *     summary: Obtener el total de todas las deudas
  *     tags: [HistoricoCartera]
@@ -64,7 +64,7 @@ router.get('/totalDeudas',HistoricoCarteraCtrl.totalDeudas);
 
 /**
  * @swagger
- * /totalDeudasAcudiente/{id}:
+ * /historicoCartera/totalDeudasAcudiente/{id}:
  *   get:
  *     summary: Obtener el total de las deudas de un acudiente por ID
  *     tags: [HistoricoCartera]
@@ -87,7 +87,7 @@ router.get('/totalDeudasAcudiente/:id',HistoricoCarteraCtrl.totalDeudasAcudiente
 
 /**
  * @swagger
- * /listarHistoricoCarteraSearch/{dato}/{id}:
+ * /historicoCartera/listarHistoricoCarteraSearch/{dato}/{id}:
  *   get:
  *     summary: Buscar en el histórico de cartera por un dato específico
  *     tags: [HistoricoCartera]

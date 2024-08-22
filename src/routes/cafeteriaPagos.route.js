@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /crearPago:
+ * /cafeteriaPagos/crearPago:
  *   post:
  *     summary: Crear un nuevo pago
  *     tags: [Cafeteria Payments]
@@ -37,7 +37,7 @@ router.post('/crearPago', [
 
 /**
  * @swagger
- * /getPagos:
+ * /cafeteriaPagos/getPagos:
  *   get:
  *     summary: Obtener todos los pagos
  *     tags: [Cafeteria Payments]
@@ -51,7 +51,7 @@ router.get('/getPagos', cafeteriaPagosCtrl.getPagos);
 
 /**
  * @swagger
- * /listPagoSearch/{dato}:
+ * /cafeteriaPagos/listPagoSearch/{dato}:
  *   get:
  *     summary: Buscar pagos por un dato específico
  *     tags: [Cafeteria Payments]
@@ -72,7 +72,7 @@ router.get('/listPagoSearch/:dato', cafeteriaPagosCtrl.listPagoSearch);
 
 /**
  * @swagger
- * /entregarTarjeta/{id}:
+ * /cafeteriaPagos/entregarTarjeta/{id}:
  *   get:
  *     summary: Entregar tarjeta a un estudiante
  *     tags: [Cafeteria Payments]

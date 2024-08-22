@@ -288,7 +288,7 @@ router.put('/deshabilitar/:id' ,[
 
 /**
  * @swagger
- * /desvincularse/{id}:
+ * /extracurricular/desvincularse/{id}:
  *   put:
  *     summary: Desvincular a un estudiante de una actividad extracurricular
  *     tags: [Extracurriculares]

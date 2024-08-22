@@ -1,4 +1,3 @@
-//requerir las dependencias necesarias
 require('dotenv').config()
 const swaggerDocs = require('./swagger');
 const config = require('./config')

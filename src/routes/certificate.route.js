@@ -444,7 +444,7 @@ router.post('/pago',[
 
 /**
  * @swagger
- * /{id}:
+ * /certificate/{id}:
  *   put:
  *     summary: Cambiar el estado de un certificado por ID
  *     tags: [Certificates]

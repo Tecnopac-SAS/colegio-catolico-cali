@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarAttendingManagements:
+ * /attendingManagements/listarAttendingManagements:
  *   get:
  *     summary: Listar todas las gestiones de asistencia
  *     tags: [Attending Management]
@@ -18,7 +18,7 @@ const {check} = require("express-validator");
 router.get('/listarAttendingManagements',AttendingManagementCtrl.consultarAttendingManagements);
 /**
  * @swagger
- * /listarAttendingManagement/{nombres}:
+ * /attendingManagements/listarAttendingManagement/{nombres}:
  *   get:
  *     summary: Listar gestiones de asistencia por nombres
  *     tags: [Attending Management]
@@ -38,7 +38,7 @@ router.get('/listarAttendingManagements',AttendingManagementCtrl.consultarAttend
 router.get('/listarAttendingManagement/:nombres',AttendingManagementCtrl.consultarAttendingManagement);
 /**
  * @swagger
- * /listarAttendingManagementId/{id}:
+ * /attendingManagements/listarAttendingManagementId/{id}:
  *   get:
  *     summary: Listar gestión de asistencia por ID
  *     tags: [Attending Management]
@@ -59,7 +59,7 @@ router.get('/listarAttendingManagementId/:id',AttendingManagementCtrl.consultarI
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /attendingManagements/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar gestión de asistencia por ID
  *     tags: [Attending Management]

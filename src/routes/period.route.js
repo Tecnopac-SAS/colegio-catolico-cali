@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarPeriodos:
+ * /period/listarPeriodos:
  *   get:
  *     summary: Obtiene la lista de todos los períodos
  *     tags: [Period]
@@ -19,7 +19,7 @@ router.get('/listarPeriodos',periodCtrl.consultarPeriodos);
 
 /**
  * @swagger
- * /listarPeriodo/{id}:
+ * /period/listarPeriodo/{id}:
  *   get:
  *     summary: Obtiene un período por ID
  *     tags: [Period]
@@ -42,7 +42,7 @@ router.get('/listarPeriodo/:id',periodCtrl.consultarPeriodo);
 
 /**
  * @swagger
- * /CrearPeriodo:
+ * /period/CrearPeriodo:
  *   post:
  *     summary: Crea un nuevo período
  *     tags: [Period]
@@ -82,7 +82,7 @@ router.post('/CrearPeriodo',[
 
 /**
  * @swagger
- * /actualizarPeriodo/{id}:
+ * /period/actualizarPeriodo/{id}:
  *   put:
  *     summary: Actualiza un período existente
  *     tags: [Period]

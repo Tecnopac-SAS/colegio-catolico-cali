@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarStudentDatabases:
+ * /studentDatabase/listarStudentDatabases:
  *   get:
  *     summary: Lista todas las bases de datos de estudiantes
  *     tags: [StudentDatabase]
@@ -19,7 +19,7 @@ router.get('/listarStudentDatabases',StudentDatabaseCtrl.consultarStudentDatabas
 
 /**
  * @swagger
- * /get-pension:
+ * /studentDatabase/get-pension:
  *   post:
  *     summary: Obtiene información sobre la pensión para un estudiante
  *     tags: [StudentDatabase]
@@ -45,7 +45,7 @@ router.post('/get-pension',StudentDatabaseCtrl.getPension);
 
 /**
  * @swagger
- * /get-matricula:
+ * /studentDatabase/get-matricula:
  *   post:
  *     summary: Obtiene información sobre la matrícula para un estudiante
  *     tags: [StudentDatabase]
@@ -71,7 +71,7 @@ router.post('/get-matricula',StudentDatabaseCtrl.getMatricula);
 
 /**
  * @swagger
- * /listarStudentDatabase/{nombres}/{estadoEstudiante}:
+ * /studentDatabase/listarStudentDatabase/{nombres}/{estadoEstudiante}:
  *   get:
  *     summary: Obtiene la base de datos de un estudiante por nombre y estado
  *     tags: [StudentDatabase]
@@ -100,7 +100,7 @@ router.get('/listarStudentDatabase/:nombres/:estadoEstudiante',StudentDatabaseCt
 
 /**
  * @swagger
- * /listarStudentDatabaseEstado/{estadoEstudiante}:
+ * /studentDatabase/listarStudentDatabaseEstado/{estadoEstudiante}:
  *   get:
  *     summary: Obtiene la base de datos de estudiantes por estado
  *     tags: [StudentDatabase]
@@ -123,7 +123,7 @@ router.get('/listarStudentDatabaseEstado/:estadoEstudiante',StudentDatabaseCtrl.
 
 /**
  * @swagger
- * /listarStudentDatabaseId/{id}:
+ * /studentDatabase/listarStudentDatabaseId/{id}:
  *   get:
  *     summary: Obtiene la base de datos de un estudiante por ID
  *     tags: [StudentDatabase]
@@ -146,7 +146,7 @@ router.get('/listarStudentDatabaseId/:id',StudentDatabaseCtrl.consultarId);
 
 /**
  * @swagger
- * /crearStudentDatabase:
+ * /studentDatabase/crearStudentDatabase:
  *   post:
  *     summary: Crea una nueva base de datos de estudiante
  *     tags: [StudentDatabase]
@@ -234,7 +234,7 @@ router.post('/crearStudentDatabase',
 
 /**
  * @swagger
- * /actualizarStudentDatabase/{id}:
+ * /studentDatabase/actualizarStudentDatabase/{id}:
  *   put:
  *     summary: Actualiza los datos de un estudiante
  *     tags: [StudentDatabase]
@@ -346,7 +346,7 @@ router.put('/actualizarStudentDatabase/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /studentDatabase/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un estudiante
  *     tags: [StudentDatabase]
@@ -369,7 +369,7 @@ router.put('/deshabilitar/:id' ,StudentDatabaseCtrl.deshabilitar);
 
 /**
  * @swagger
- * /cambiarEstado/{id}:
+ * /studentDatabase/cambiarEstado/{id}:
  *   put:
  *     summary: Cambia el estado de un estudiante
  *     tags: [StudentDatabase]
@@ -401,7 +401,7 @@ router.put('/cambiarEstado/:id' ,StudentDatabaseCtrl.cambiarEstado);
 
 /**
  * @swagger
- * /contarEstado/{estadoEstudiante}:
+ * /studentDatabase/contarEstado/{estadoEstudiante}:
  *   get:
  *     summary: Cuenta el número de estudiantes por estado
  *     tags: [StudentDatabase]

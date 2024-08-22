@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarGrades:
+ * /grades/listarGrades:
  *   get:
  *     summary: Listar todas las calificaciones
  *     tags: [Grades]
@@ -19,7 +19,7 @@ router.get('/listarGrades',gradesCtrl.consultarGrades);
 
 /**
  * @swagger
- * /CrearGrades:
+ * /grades/CrearGrades:
  *   post:
  *     summary: Crear una nueva calificación
  *     tags: [Grades]

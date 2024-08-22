@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @openapi
- * /courses/listarCourses:
+ * /course/listarCourses:
  *   get:
  *     tags:
  *       - Cursos
@@ -21,7 +21,7 @@ router.get('/listarCourses', CourseCtrl.consultarCourses);
 
 /**
  * @openapi
- * /courses/listarCourse/{typeCourse}:
+ * /course/listarCourse/{typeCourse}:
  *   get:
  *     tags:
  *       - Cursos
@@ -44,7 +44,7 @@ router.get('/listarCourse/:typeCourse',CourseCtrl.consultarCourse);
 
 /**
  * @openapi
- * /courses/listarAsignature/{asignature}:
+ * /course/listarAsignature/{asignature}:
  *   get:
  *     tags:
  *       - Cursos
@@ -67,7 +67,7 @@ router.get('/listarAsignature/:asignature',CourseCtrl.consultarAsignature);
 
 /**
  * @openapi
- * /courses/listarAsignatureId/{id}:
+ * /course/listarAsignatureId/{id}:
  *   get:
  *     tags:
  *       - Cursos
@@ -145,7 +145,7 @@ router.post('/crearCourse',[
 
 /**
  * @openapi
- * /courses/actualizarCourse/{id}:
+ * /course/actualizarCourse/{id}:
  *   put:
  *     tags:
  *       - Cursos
@@ -209,7 +209,7 @@ router.put('/actualizarCourse/:id',[
 
 /**
  * @openapi
- * /courses/deshabilitar/{id}:
+ * /course/deshabilitar/{id}:
  *   put:
  *     tags:
  *       - Cursos
@@ -245,7 +245,7 @@ router.put('/deshabilitar/:id' ,[
 
 /**
  * @openapi
- * /courses/pago:
+ * /course/pago:
  *   post:
  *     tags:
  *       - Cursos

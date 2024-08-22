@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarTransportations:
+ * /transportation/listarTransportations:
  *   get:
  *     summary: Lista todas las rutas de transporte
  *     tags: [Transportation]
@@ -62,7 +62,7 @@ router.get('/listarTransportations',TransportationCtrl.consultarTransportationsA
 
 /**
  * @swagger
- * /listarTransportations/{jornada}:
+ * /transportation/listarTransportations/{jornada}:
  *   get:
  *     summary: Lista las rutas de transporte por jornada
  *     tags: [Transportation]
@@ -85,7 +85,7 @@ router.get('/listarTransportations/:jornada',TransportationCtrl.consultarTranspo
 
 /**
  * @swagger
- * /listarTransportation/{routeName}:
+ * /transportation/listarTransportation/{routeName}:
  *   get:
  *     summary: Obtiene una ruta de transporte por su nombre
  *     tags: [Transportation]
@@ -108,7 +108,7 @@ router.get('/listarTransportation/:routeName',TransportationCtrl.consultarTransp
 
 /**
  * @swagger
- * /listarTransportationId/{id}:
+ * /transportation/listarTransportationId/{id}:
  *   get:
  *     summary: Obtiene una ruta de transporte por su ID
  *     tags: [Transportation]
@@ -131,7 +131,7 @@ router.get('/listarTransportationId/:id',TransportationCtrl.consultarId);
 
 /**
  * @swagger
- * /crearTransportation:
+ * /transportation/crearTransportation:
  *   post:
  *     summary: Crea una nueva ruta de transporte
  *     tags: [Transportation]
@@ -197,7 +197,7 @@ router.post('/crearTransportation',
 
 /**
  * @swagger
- * /actualizarTransportation/{id}:
+ * /transportation/actualizarTransportation/{id}:
  *   put:
  *     summary: Actualiza una ruta de transporte existente
  *     tags: [Transportation]
@@ -260,7 +260,7 @@ router.put('/actualizarTransportation/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /transportation/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita una ruta de transporte
  *     tags: [Transportation]

@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarLevelings:
+ * /leveling/listarLevelings:
  *   get:
  *     summary: Lista todos los cursos de nivelación.
  *     tags: [Leveling]
@@ -23,7 +23,7 @@ router.get('/listarLevelings', LevelingCtrl.consultarLevelings);
 
 /**
  * @swagger
- * /listarLeveling/{codigo}:
+ * /leveling/listarLeveling/{codigo}:
  *   get:
  *     summary: Obtiene un curso de nivelación por código.
  *     tags: [Leveling]
@@ -48,7 +48,7 @@ router.get('/listarLeveling/:codigo', LevelingCtrl.consultarLeveling);
 
 /**
  * @swagger
- * /listarEstudiante/{codigo}:
+ * /leveling/listarEstudiante/{codigo}:
  *   get:
  *     summary: Lista datos del estudiante por código.
  *     tags: [Leveling]
@@ -71,7 +71,7 @@ router.get('/listarEstudiante/:codigo', LevelingCtrl.consultarStudentDatabases);
 
 /**
  * @swagger
- * /listarLevelingId/{id}:
+ * /leveling/listarLevelingId/{id}:
  *   get:
  *     summary: Obtiene un curso de nivelación por ID.
  *     tags: [Leveling]
@@ -96,7 +96,7 @@ router.get('/listarLevelingId/:id', LevelingCtrl.consultarId);
 
 /**
  * @swagger
- * /crearLeveling:
+ * /leveling/crearLeveling:
  *   post:
  *     summary: Crea un nuevo curso de nivelación.
  *     tags: [Leveling]
@@ -123,7 +123,7 @@ router.post('/crearLeveling', [
 
 /**
  * @swagger
- * /actualizarLeveling/{id}:
+ * /leveling/actualizarLeveling/{id}:
  *   put:
  *     summary: Actualiza un curso de nivelación por ID.
  *     tags: [Leveling]
@@ -156,7 +156,7 @@ router.put('/actualizarLeveling/:id', [
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /leveling/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un curso de nivelación por ID.
  *     tags: [Leveling]
@@ -189,7 +189,7 @@ router.put('/deshabilitar/:id', [
 
 /**
  * @swagger
- * /cambiarEstado/{id}:
+ * /leveling/cambiarEstado/{id}:
  *   put:
  *     summary: Cambia el estado de aprobación de un curso de nivelación por ID.
  *     tags: [Leveling]

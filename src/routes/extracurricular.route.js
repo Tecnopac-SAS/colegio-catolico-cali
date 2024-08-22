@@ -4,16 +4,10 @@ const extracurricularCtrl = require('../controllers/extracurricular.controller')
 const uploadCtrl = require('../controllers/upload.controller');
 const {check} = require("express-validator");
 
-/**
- * @swagger
- * tags:
- *   name: Extracurriculares
- *   description: Gestión de actividades extracurriculares
- */
 
 /**
  * @swagger
- * /listarExtracurricular:
+ * /extracurricular/listarExtracurricular:
  *   get:
  *     summary: Listar todas las actividades extracurriculares
  *     tags: [Extracurriculares]
@@ -27,7 +21,7 @@ router.get('/listarExtracurricular',extracurricularCtrl.consultarExtracurricular
 
 /**
  * @swagger
- * /crearExtracurricular:
+ * /extracurricular/crearExtracurricular:
  *   post:
  *     summary: Crear una nueva actividad extracurricular
  *     tags: [Extracurriculares]
@@ -90,7 +84,7 @@ router.post('/crearExtracurricular',[
 
 /**
  * @swagger
- * /pago:
+ * /extracurricular/pago:
  *   post:
  *     summary: Realizar el pago de una actividad extracurricular
  *     tags: [Extracurriculares]
@@ -138,7 +132,7 @@ router.post('/pago',
 
 /**
  * @swagger
- * /misExtracurriculares:
+ * /extracurricular/misExtracurriculares:
  *   post:
  *     summary: Obtener actividades extracurriculares inscritas por un estudiante
  *     tags: [Extracurriculares]
@@ -167,7 +161,7 @@ router.post('/misExtracurriculares',
 
 /**
  * @swagger
- * /listarExtracurricularId/{id}:
+ * /extracurricular/listarExtracurricularId/{id}:
  *   get:
  *     summary: Consultar una actividad extracurricular por ID
  *     tags: [Extracurriculares]
@@ -188,7 +182,7 @@ router.get('/listarExtracurricularId/:id',extracurricularCtrl.consultarId);
 
 /**
  * @swagger
- * /actualizarExtracurricular/{id}:
+ * /extracurricular/actualizarExtracurricular/{id}:
  *   put:
  *     summary: Actualizar una actividad extracurricular
  *     tags: [Extracurriculares]
@@ -259,7 +253,7 @@ router.put('/actualizarExtracurricular/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /extracurricular/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar una actividad extracurricular
  *     tags: [Extracurriculares]

@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarTeachers:
+ * /teacher/listarTeachers:
  *   get:
  *     summary: Lista todos los profesores
  *     tags: [Teacher]
@@ -19,7 +19,7 @@ router.get('/listarTeachers',TeacherCtrl.consultarTeachers);
 
 /**
  * @swagger
- * /listarTeacher/{name}:
+ * /teacher/listarTeacher/{name}:
  *   get:
  *     summary: Obtiene un profesor por nombre
  *     tags: [Teacher]
@@ -42,7 +42,7 @@ router.get('/listarTeacher/:name',TeacherCtrl.consultarTeacher);
 
 /**
  * @swagger
- * /listarTeacherId/{id}:
+ * /teacher/listarTeacherId/{id}:
  *   get:
  *     summary: Obtiene un profesor por ID
  *     tags: [Teacher]
@@ -65,7 +65,7 @@ router.get('/listarTeacherId/:id',TeacherCtrl.consultarId);
 
 /**
  * @swagger
- * /crearTeacher:
+ * /teacher/crearTeacher:
  *   post:
  *     summary: Crea un nuevo profesor
  *     tags: [Teacher]
@@ -107,7 +107,7 @@ router.post('/crearTeacher',
 
 /**
  * @swagger
- * /actualizarTeacher/{id}:
+ * /teacher/actualizarTeacher/{id}:
  *   put:
  *     summary: Actualiza un profesor existente
  *     tags: [Teacher]
@@ -156,7 +156,7 @@ router.put('/actualizarTeacher/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /teacher/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un profesor
  *     tags: [Teacher]

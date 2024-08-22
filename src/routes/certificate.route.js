@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarCertificates:
+ * /certificate/listarCertificates:
  *   get:
  *     summary: Listar todos los certificados
  *     tags: [Certificates]
@@ -20,7 +20,7 @@ router.get('/listarCertificates',CertificateCtrl.consultarCertificates);
 
 /**
  * @swagger
- * /listCertificatesInscription:
+ * /certificate/listCertificatesInscription:
  *   get:
  *     summary: Listar todas las inscripciones de certificados
  *     tags: [Certificates]
@@ -34,7 +34,7 @@ router.get('/listCertificatesInscription',CertificateCtrl.listCertificatesInscri
 
 /**
  * @swagger
- * /listarCertificatesAcu:
+ * /certificate/listarCertificatesAcu:
  *   get:
  *     summary: Listar certificados para acudientes
  *     tags: [Certificates]
@@ -48,7 +48,7 @@ router.get('/listarCertificatesAcu',CertificateCtrl.listarCertificatesAcu);
 
 /**
  * @swagger
- * /listCertificatesInscription/{id}:
+ * /certificate/listCertificatesInscription/{id}:
  *   get:
  *     summary: Consultar una inscripción de certificado por ID
  *     tags: [Certificates]
@@ -69,7 +69,7 @@ router.get('/listCertificatesInscription/:id',CertificateCtrl.listCertificatesIn
 
 /**
  * @swagger
- * /listarCertificate/{concept}:
+ * /certificate/listarCertificate/{concept}:
  *   get:
  *     summary: Consultar un certificado por concepto
  *     tags: [Certificates]
@@ -90,7 +90,7 @@ router.get('/listarCertificate/:concept',CertificateCtrl.consultarCertificate);
 
 /**
  * @swagger
- * /listarCertificateId/{id}:
+ * /certificate/listarCertificateId/{id}:
  *   get:
  *     summary: Consultar un certificado por ID
  *     tags: [Certificates]
@@ -111,7 +111,7 @@ router.get('/listarCertificateId/:id',CertificateCtrl.consultarId);
 
 /**
  * @swagger
- * /certificateInscriptionId/{id}:
+ * /certificate/certificateInscriptionId/{id}:
  *   get:
  *     summary: Consultar una inscripción de certificado por ID
  *     tags: [Certificates]
@@ -132,7 +132,7 @@ router.get('/certificateInscriptionId/:id',CertificateCtrl.certificateInscriptio
 
 /**
  * @swagger
- * /crearCertificate:
+ * /certificate/crearCertificate:
  *   post:
  *     summary: Crear un nuevo certificado
  *     tags: [Certificates]
@@ -179,7 +179,7 @@ router.post('/crearCertificate',[
 
 /**
  * @swagger
- * /actualizarCertificate/{id}:
+ * /certificate/actualizarCertificate/{id}:
  *   put:
  *     summary: Actualizar un certificado por ID
  *     tags: [Certificates]
@@ -235,7 +235,7 @@ router.put('/actualizarCertificate/:id',
 
 /**
  * @swagger
- * /actualizarCertificateInscription/{id}:
+ * /certificate/actualizarCertificateInscription/{id}:
  *   put:
  *     summary: Actualizar la inscripción de un certificado por ID
  *     tags: [Certificates]
@@ -281,7 +281,7 @@ router.put('/actualizarCertificateInscription/:id',
 
 /**
  * @swagger
- * /actualizarCertificateInscriptionPaid/{id}:
+ * /certificate/actualizarCertificateInscriptionPaid/{id}:
  *   put:
  *     summary: Actualizar el estado de pago de una inscripción de certificado por ID
  *     tags: [Certificates]
@@ -316,7 +316,7 @@ router.put('/actualizarCertificateInscriptionPaid/:id',
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /certificate/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar un certificado por ID
  *     tags: [Certificates]
@@ -350,7 +350,7 @@ router.put('/deshabilitar/:id',[
 
 /**
  * @swagger
- * /inscriptionAllSearch/{dato}/{id}:
+ * /certificate/inscriptionAllSearch/{dato}/{id}:
  *   get:
  *     summary: Buscar inscripciones de certificados por dato y ID
  *     tags: [Certificates]
@@ -377,7 +377,7 @@ router.get('/inscriptionAllSearch/:dato/:id', CertificateCtrl.listarInscriptionA
 
 /**
  * @swagger
- * /pago:
+ * /certificate/pago:
  *   post:
  *     summary: Crear un nuevo pago de certificado
  *     tags: [Certificates]

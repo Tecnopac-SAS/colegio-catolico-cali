@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarTechnicals:
+ * /technical/listarTechnicals:
  *   get:
  *     summary: Lista todos los técnicos
  *     tags: [Technical]
@@ -19,7 +19,7 @@ router.get('/listarTechnicals',TechnicalCtrl.consultarTechnicals);
 
 /**
  * @swagger
- * /listarTechnical/{course}:
+ * /technical/listarTechnical/{course}:
  *   get:
  *     summary: Obtiene los técnicos para un curso específico
  *     tags: [Technical]
@@ -42,7 +42,7 @@ router.get('/listarTechnical/:course',TechnicalCtrl.consultarTechnical);
 
 /**
  * @swagger
- * /listarTechnicalId/{id}:
+ * /technical/listarTechnicalId/{id}:
  *   get:
  *     summary: Obtiene un técnico específico por ID
  *     tags: [Technical]
@@ -65,7 +65,7 @@ router.get('/listarTechnicalId/:id',TechnicalCtrl.consultarId);
 
 /**
  * @swagger
- * /crearTechnical:
+ * /technical/crearTechnical:
  *   post:
  *     summary: Crea un nuevo técnico
  *     tags: [Technical]
@@ -126,7 +126,7 @@ router.post('/crearTechnical',
 
 /**
  * @swagger
- * /actualizarTechnical/{id}:
+ * /technical/actualizarTechnical/{id}:
  *   put:
  *     summary: Actualiza un técnico existente
  *     tags: [Technical]
@@ -195,7 +195,7 @@ router.put('/actualizarTechnical/:id',
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /technical/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un técnico
  *     tags: [Technical]
@@ -232,7 +232,7 @@ router.put('/deshabilitar/:id' ,
 
 /**
  * @swagger
- * /pago:
+ * /technical/pago:
  *   post:
  *     summary: Realiza un pago para un técnico
  *     tags: [Technical]

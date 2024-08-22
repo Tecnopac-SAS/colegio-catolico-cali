@@ -84,7 +84,7 @@ router.get('/:id', DocumentosMatriculaCtrl.getDocumentByID);
 
 /**
  * @openapi
- * /documentosmatricula/student/{studentId}:
+ * /documentosMatricula/student/{studentId}:
  *   get:
  *     tags:
  *       - DocumentosMatricula

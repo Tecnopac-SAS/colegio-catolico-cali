@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarSchoolYears:
+ * /schoolYear/listarSchoolYears:
  *   get:
  *     summary: Lista todos los años escolares
  *     tags: [SchoolYear]
@@ -19,7 +19,7 @@ router.get('/listarSchoolYears', SchoolYearCtrl.consultarSchoolYears);
 
 /**
  * @swagger
- * /listarSchoolYear/{code}:
+ * /schoolYear/listarSchoolYear/{code}:
  *   get:
  *     summary: Obtiene un año escolar específico por código
  *     tags: [SchoolYear]
@@ -42,7 +42,7 @@ router.get('/listarSchoolYear/:code', SchoolYearCtrl.consultarSchoolYear);
 
 /**
  * @swagger
- * /listarSchoolYearId/{id}:
+ * /schoolYear/listarSchoolYearId/{id}:
  *   get:
  *     summary: Obtiene un año escolar específico por ID
  *     tags: [SchoolYear]
@@ -65,7 +65,7 @@ router.get('/listarSchoolYearId/:id', SchoolYearCtrl.consultarId);
 
 /**
  * @swagger
- * /crearSchoolYear:
+ * /schoolYear/crearSchoolYear:
  *   post:
  *     summary: Crea un nuevo año escolar
  *     tags: [SchoolYear]
@@ -97,7 +97,7 @@ router.post('/crearSchoolYear', [
 
 /**
  * @swagger
- * /actualizarSchoolYear/{id}:
+ * /schoolYear/actualizarSchoolYear/{id}:
  *   put:
  *     summary: Actualiza un año escolar existente
  *     tags: [SchoolYear]
@@ -138,7 +138,7 @@ router.put('/actualizarSchoolYear/:id', [
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /schoolYear/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un año escolar
  *     tags: [SchoolYear]
@@ -175,7 +175,7 @@ router.put('/deshabilitar/:id', [
 
 /**
  * @swagger
- * /actualizarAnioLectivo:
+ * /schoolYear/actualizarAnioLectivo:
  *   post:
  *     summary: Actualiza el año lectivo
  *     tags: [SchoolYear]

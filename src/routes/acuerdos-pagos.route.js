@@ -4,7 +4,7 @@ const AcuerdosPagosCtrl = require('../controllers/acuerdos-pago.controller');
 const {check} = require("express-validator");
 /**
  * @swagger
- * /listarAcuerdosPagos:
+ * /acuerdos-pagos/listarAcuerdosPagos:
  *   get:
  *     summary: Listar todos los acuerdos de pagos
  *     tags: [Acuerdos de Pagos]
@@ -18,7 +18,7 @@ router.get('/listarAcuerdosPagos',AcuerdosPagosCtrl.consultarAcuerdosPagos);
 
 /**
  * @swagger
- * /listarAcuerdoPagoCuotas/{id}:
+ * /acuerdos-pagos/listarAcuerdoPagoCuotas/{id}:
  *   get:
  *     summary: Listar cuotas de un acuerdo de pago específico
  *     tags: [Acuerdos de Pagos]
@@ -39,7 +39,7 @@ router.get('/listarAcuerdoPagoCuotas/:id',AcuerdosPagosCtrl.consultarAcuerdosPag
 
 /**
  * @swagger
- * /listarAcuerdoPago/{id}:
+ * /acuerdos-pagos/listarAcuerdoPago/{id}:
  *   get:
  *     summary: Listar un acuerdo de pago específico
  *     tags: [Acuerdos de Pagos]
@@ -60,7 +60,7 @@ router.get('/listarAcuerdoPago/:id',AcuerdosPagosCtrl.consultarAcuerdoPago);
 
 /**
  * @swagger
- * /listarAcuerdoPagoByAcudiente/{id}:
+ * /acuerdos-pagos/listarAcuerdoPagoByAcudiente/{id}:
  *   get:
  *     summary: Listar acuerdos de pago por acudiente
  *     tags: [Acuerdos de Pagos]
@@ -81,7 +81,7 @@ router.get('/listarAcuerdoPagoByAcudiente/:id',AcuerdosPagosCtrl.consultarAcuerd
 
 /**
  * @swagger
- * /listarMatriculaAndPensionValue/{id}:
+ * /acuerdos-pagos/listarMatriculaAndPensionValue/{id}:
  *   get:
  *     summary: Consultar valores de matrícula y pensión
  *     tags: [Acuerdos de Pagos]
@@ -102,7 +102,7 @@ router.get('/listarMatriculaAndPensionValue/:id',AcuerdosPagosCtrl.consultarMatr
 
 /**
  * @swagger
- * /AcuerdoPago/{id}:
+ * /acuerdos-pagos/AcuerdoPago/{id}:
  *   put:
  *     summary: Editar un acuerdo de pago
  *     tags: [Acuerdos de Pagos]
@@ -148,7 +148,7 @@ router.put('/AcuerdoPago/:id',AcuerdosPagosCtrl.editarAcuerdoPago);
 
 /**
  * @swagger
- * /AcuerdoPago:
+ * /acuerdos-pagos/AcuerdoPago:
  *   post:
  *     summary: Crear un nuevo acuerdo de pago
  *     tags: [Acuerdos de Pagos]
@@ -196,7 +196,7 @@ router.post('/AcuerdoPago',
 
 /**
  * @swagger
- * /AcuerdoPagoSearch/{dato}/{id}:
+ * /acuerdos-pagos/AcuerdoPagoSearch/{dato}/{id}:
  *   get:
  *     summary: Buscar un acuerdo de pago por dato e ID
  *     tags: [Acuerdos de Pagos]

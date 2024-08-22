@@ -5,7 +5,7 @@ const inscriptionCtrl = require('../controllers/inscription.controller');
 
 /**
  * @swagger
- * /listarInscription:
+ * /inscription/listarInscription:
  *   get:
  *     summary: Listar todas las inscripciones
  *     tags: [Inscription]
@@ -19,7 +19,7 @@ router.get('/listarInscription',inscriptionCtrl.consultarInscriptions);
 
 /**
  * @swagger
- * /listarInscription/{id}:
+ * /inscription/listarInscription/{id}:
  *   get:
  *     summary: Obtener una inscripción por ID
  *     tags: [Inscription]
@@ -42,7 +42,7 @@ router.get('/listarInscription/:id',inscriptionCtrl.consultarInscription);
 
 /**
  * @swagger
- * /crearInscription:
+ * /inscription/crearInscription:
  *   post:
  *     summary: Crear una nueva inscripción
  *     tags: [Inscription]
@@ -82,7 +82,7 @@ router.post('/crearInscription',[
 
 /**
  * @swagger
- * /actualizarInscription/{id}:
+ * /inscription/actualizarInscription/{id}:
  *   put:
  *     summary: Actualizar una inscripción por ID
  *     tags: [Inscription]

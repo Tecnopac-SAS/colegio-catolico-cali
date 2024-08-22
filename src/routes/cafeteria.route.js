@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarCafeterias:
+ * /cafeteria/listarCafeterias:
  *   get:
  *     summary: Listar todas las cafeterías
  *     tags: [Cafeteria]
@@ -19,7 +19,7 @@ router.get('/listarCafeterias',CafeteriaCtrl.consultarCafeterias);
 
 /**
  * @swagger
- * /listarCafeteria/{routeName}:
+ * /cafeteria/listarCafeteria/{routeName}:
  *   get:
  *     summary: Consultar una cafetería por nombre de ruta
  *     tags: [Cafeteria]
@@ -40,7 +40,7 @@ router.get('/listarCafeteria/:routeName',CafeteriaCtrl.consultarCafeteria);
 
 /**
  * @swagger
- * /listarCafeteriaId/{id}:
+ * /cafeteria/listarCafeteriaId/{id}:
  *   get:
  *     summary: Consultar una cafetería por ID
  *     tags: [Cafeteria]
@@ -61,7 +61,7 @@ router.get('/listarCafeteriaId/:id',CafeteriaCtrl.consultarId);
 
 /**
  * @swagger
- * /crearCafeteria:
+ * /cafeteria/crearCafeteria:
  *   post:
  *     summary: Crear una nueva cafetería
  *     tags: [Cafeteria]
@@ -93,7 +93,7 @@ router.post('/crearCafeteria',[
 
 /**
  * @swagger
- * /actualizarCafeteria/{id}:
+ * /cafeteria/actualizarCafeteria/{id}:
  *   put:
  *     summary: Actualizar una cafetería existente
  *     tags: [Cafeteria]
@@ -133,7 +133,7 @@ router.put('/actualizarCafeteria/:id',[
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /cafeteria/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar una cafetería por ID
  *     tags: [Cafeteria]

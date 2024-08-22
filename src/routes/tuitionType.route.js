@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /tuition/listarTuitionTypes:
+ * /tuitionType/listarTuitionTypes:
  *   get:
  *     summary: Lista todos los tipos de matrícula
  *     tags: [Tuition Type]
@@ -17,7 +17,7 @@ router.get('/listarTuitionTypes',tuitionTypeCtrl.consultarTuitionType);
 
 /**
  * @swagger
- * /tuition/CrearTuitionType:
+ * /tuitionType/CrearTuitionType:
  *   post:
  *     summary: Crea un nuevo tipo de matrícula
  *     tags: [Tuition Type]
@@ -59,7 +59,7 @@ router.get('/listarTuition/:description',tuitionTypeCtrl.consultarTuition);
 
 /**
  * @swagger
- * /tuition/listarTuitionId/{id}:
+ * /tuitionType/listarTuitionId/{id}:
  *   get:
  *     summary: Obtiene un tipo de matrícula por ID
  *     tags: [Tuition Type]
@@ -80,7 +80,7 @@ router.get('/listarTuitionId/:id',tuitionTypeCtrl.consultarId);
 
 /**
  * @swagger
- * /tuition/CrearTuitionType:
+ * /tuitionType/CrearTuitionType:
  *   post:
  *     summary: Crea un nuevo tipo de matrícula
  *     tags: [Tuition Type]
@@ -129,7 +129,7 @@ router.post('/CrearTuitionType',[
 
 /**
  * @swagger
- * /tuition/actualizarTuition/{id}:
+ * /tuitionType/actualizarTuition/{id}:
  *   put:
  *     summary: Actualiza un tipo de matrícula por ID
  *     tags: [Tuition Type]
@@ -186,7 +186,7 @@ router.put('/actualizarTuition/:id',[
 
 /**
  * @swagger
- * /tuition/deshabilitar/{id}:
+ * /tuitionType/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilita un tipo de matrícula por ID
  *     tags: [Tuition Type]

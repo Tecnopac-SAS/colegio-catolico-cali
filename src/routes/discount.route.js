@@ -8,7 +8,7 @@ const serviceType = ['Pension', 'Matricula']
 
 /**
  * @openapi
- * /discounts/listarDiscounts:
+ * /discount/listarDiscounts:
  *   get:
  *     tags:
  *       - Descuentos
@@ -24,7 +24,7 @@ router.get('/listarDiscounts',DiscountCtrl.consultarDiscounts);
 
 /**
  * @openapi
- * /discounts/listarDiscount/{name}:
+ * /discount/listarDiscount/{name}:
  *   get:
  *     tags:
  *       - Descuentos
@@ -47,7 +47,7 @@ router.get('/listarDiscount/:name',DiscountCtrl.consultarDiscount);
 
 /**
  * @openapi
- * /discounts/listarDiscountId/{id}:
+ * /discount/listarDiscountId/{id}:
  *   get:
  *     tags:
  *       - Descuentos
@@ -70,7 +70,7 @@ router.get('/listarDiscountId/:id',DiscountCtrl.consultarId);
 
 /**
  * @openapi
- * /discounts/crearDiscount:
+ * /discount/crearDiscount:
  *   post:
  *     tags:
  *       - Descuentos
@@ -121,7 +121,7 @@ router.post('/crearDiscount',[
 
 /**
  * @openapi
- * /discounts/actualizarDiscount/{id}:
+ * /discount/actualizarDiscount/{id}:
  *   put:
  *     tags:
  *       - Descuentos
@@ -180,7 +180,7 @@ router.put('/actualizarDiscount/:id',
 
 /**
  * @openapi
- * /discounts/deshabilitar/{id}:
+ * /discount/deshabilitar/{id}:
  *   put:
  *     tags:
  *       - Descuentos
@@ -216,7 +216,7 @@ router.put('/deshabilitar/:id' ,[
 
 /**
  * @openapi
- * /discounts/eliminar/{id}:
+ * /discount/eliminar/{id}:
  *   delete:
  *     tags:
  *       - Descuentos

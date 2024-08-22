@@ -4,7 +4,7 @@ const tuitionCtrl = require('../controllers/tuition.controller');
 const {check} = require("express-validator");
 /**
  * @swagger
- * /listarTuitions:
+ * /tuition/listarTuitions:
  *   get:
  *     summary: Lista todos los tipos de matrículas
  *     tags: [Tuition]
@@ -31,7 +31,7 @@ router.get('/listarTuitions',tuitionCtrl.consultarTuitions);
 
 /**
  * @swagger
- * /listarTuition/{description}:
+ * /tuition/listarTuition/{description}:
  *   get:
  *     summary: Obtiene un tipo de matrícula por su descripción
  *     tags: [Tuition]
@@ -65,7 +65,7 @@ router.get('/listarTuition/:description',tuitionCtrl.consultarTuition);
 
 /**
  * @swagger
- * /CrearTuition:
+ * /tuition/CrearTuition:
  *   get:
  *     summary: Crea un nuevo tipo de matrícula
  *     tags: [Tuition]

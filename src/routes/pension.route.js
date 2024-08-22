@@ -5,7 +5,7 @@ const {check} = require("express-validator");
 
 /**
  * @swagger
- * /listarPensiones:
+ * /pension/listarPensiones:
  *   get:
  *     summary: Listar todas las pensiones
  *     tags:
@@ -20,7 +20,7 @@ router.get('/listarPensiones', PensionCtrl.consultarPensiones);
 
 /**
  * @swagger
- * /listarPension/{idGrade}:
+ * /pension/listarPension/{idGrade}:
  *   get:
  *     summary: Obtener pensión por ID de grado
  *     tags:
@@ -44,7 +44,7 @@ router.get('/listarPension/:idGrade', PensionCtrl.consultarPension);
 
 /**
  * @swagger
- * /listarPensionId/{id}:
+ * /pension/listarPensionId/{id}:
  *   get:
  *     summary: Obtener pensión por ID
  *     tags:
@@ -68,7 +68,7 @@ router.get('/listarPensionId/:id', PensionCtrl.consultarId);
 
 /**
  * @swagger
- * /crearPension:
+ * /pension/crearPension:
  *   post:
  *     summary: Crear una nueva pensión
  *     tags:
@@ -113,7 +113,7 @@ router.post('/crearPension', [
 
 /**
  * @swagger
- * /actualizarPension/{id}:
+ * /pension/actualizarPension/{id}:
  *   put:
  *     summary: Actualizar una pensión existente
  *     tags:
@@ -160,7 +160,7 @@ router.put('/actualizarPension/:id',
 
 /**
  * @swagger
- * /deshabilitar/{id}:
+ * /pension/deshabilitar/{id}:
  *   put:
  *     summary: Deshabilitar una pensión
  *     tags:

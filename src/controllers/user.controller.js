@@ -91,19 +91,23 @@ userCtrl.login = async (req, res) => {
         });
 
         if (!result) {
-            res.status(404).json({
+            return res.status(404).json({
                 mensaje: 'No hay email registrado.',
             })
         }
 
-        const resultStudent = await studentDatabaseModel.findOne({where: {id: result.userAsAcudiente.idEstudiante}});
+        let resultStudent = await studentDatabaseModel.findOne({where: {id: result.userAsAcudiente.idEstudiante}});
+
+        if (!resultStudent) {
+            return res.status(401).json({ mensaje: 'No hay estudiante' });
+        }
 
         const match = await bcrypt.compare(password, result.password)
 
         if (match) {
             const token = jwt.sign({id: result.id}, config.secret.word)
             if (result.idRole !== 1) {
-                res.json({
+                return res.json({
                     mensaje: 'Bienvenido Acudiente',
                     id: result.id,
                     nombres: result.name,
@@ -115,7 +119,7 @@ userCtrl.login = async (req, res) => {
                     token,
                 })
             } else {
-                res.json({
+                return res.json({
                     mensaje: 'Bienvenido',
                     id: result.id,
                     nombres: result.name,
@@ -125,14 +129,15 @@ userCtrl.login = async (req, res) => {
                 })
             }
         } else {
-            res.json({
+            return res.json({
                 mensaje: 'Contraseña incorrecta o Email incorrecto'
             })
         }
 
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        res.status(500).json({
+            mensaje: error.message
+        });
     }
 
 }

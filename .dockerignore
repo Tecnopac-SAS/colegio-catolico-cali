@@ -1,0 +1,33 @@
+# Ignorar la carpeta node_modules (a menos que los módulos sean necesarios para la construcción de la imagen)
+node_modules
+
+# Ignorar archivos de registro
+npm-debug.log
+yarn-error.log
+
+# Ignorar archivos de configuración específicos del entorno local
+.env
+.env.local
+.env.*.local
+
+# Ignorar archivos de prueba
+coverage
+*.test.js
+*.spec.js
+
+# Ignorar archivos y directorios de configuración del editor de código
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar otros archivos de configuración
+Dockerfile*
+docker-compose*
+.git
+.gitignore
+.dockerignore
+
+# Ignorar archivos de compilación
+dist/
+build/

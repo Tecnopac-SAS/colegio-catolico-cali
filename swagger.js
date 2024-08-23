@@ -11,7 +11,7 @@ const options = {
             version: '1.0.0',
             description: 'Documentación de la API de gestor de pagos de Colegio Catolico',
         },
-      
+
     },
     apis: ['./src/routes/*.js'],
 };

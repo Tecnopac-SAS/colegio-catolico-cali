@@ -30,7 +30,7 @@ roleCtrl.crearRole = async(req,res)=> {
         return res.status(400).json({errors: errors.array()})
     }
 
-    const {role}= req.body
+    const {role, isActive}= req.body
     const result = await roleModel.findOne({ where: { role: role} });
 
     if(result) {
@@ -39,7 +39,7 @@ roleCtrl.crearRole = async(req,res)=> {
         })
     } else {
         try{
-            await roleModel.create({role})
+            await roleModel.create({role, isActive})
             res.json({
                 mensaje: 'Rol ha sido creado',
             })

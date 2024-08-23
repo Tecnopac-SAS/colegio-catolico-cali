@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <title>Documentación Colegio Cátolico Api</title>
+
+  <!-- Styles -->
+  <link href="assets/css/page.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <link href="assets/css/theDocs.all.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="header text-white py-8" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+  <div class="container-xs text-center">
+    <h1 class="display-4 mb-4">Documentación</h1>
+    <hr class="hr-dash w-25 my-7">
+    <p class="lead">Esta es la documentación esencial de Colegio Cátolico</p>
+
+  </div>
+</header><!-- /.header -->
+
+
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container-xs">
+    <section class="section">
+      <p class="lead">
+        Antes que todo el proyecto esta realizado con Angular 14 y en la parte del backend con node js.
+      </p>
+
+      <br>
+
+      <h2>Instalar</h2>
+
+      <h6>Node 18v</h6>
+      <h6>PM2 (Si lo vas a instalar con Docker no es necesario) - Opcional</h6>
+      <h6>Descarga los archivos de github como del Front y el Backend </h6>
+
+
+      <h2>Proceso</h2>
+
+      <p>Ya descargado los archivos hay que tener encuenta las variables de entorno.</p>
+      <h3>.env</h3>
+      <p>Variable de entorno para el backend</p>
+      <pre class="line-numbers"><code>DB_HOST= Localhost del servidor
+DB_NAME= Nombre de la base de datos
+DB_USER= Nombre del usuario
+DB_PASSWORD= Contraseña de la base de datos
+SECRET_KEY=ADHQWUWQUQWEHDASUDHQIUWIQDUW
+PORT=3000
+          </code>
+      </pre>
+
+      <h3>Enviroment</h3>
+      <p>Variable de entorno para el frontend</p>
+      <pre class="line-numbers"><code class="language-javascript">
+export const environment = {
+  production: true,
+  url:'http://colegio-load-balancer-1772959804.us-east-1.elb.amazonaws.com:3000/' // La url del backend
+};
+
+</code></pre>
+      <p>Ya terminado todo el proceso del backend como en el frontend instalado en tu servidor en la lojica de negocio hay que tener los siguientes.</p>
+      <p>Descarga el archivo Postman <a href="assets/doc/Colegio%20Catolico.postman_collection.json">aqui</a></p>
+      <p>Hay otra alternativa que con Open Api: <a target="_blank" href="http://colegio-load-balancer-1772959804.us-east-1.elb.amazonaws.com:3000/api-docs/">aqui</a></p>
+    </section>
+    <section class="d-block">
+      <p>Por comenzar ingresa manten abierta las siguientes carpetas son idealea para comenzar almenos un <strong>Acudiente</strong> y <strong>Estudiante</strong> </p>
+      <p>Imagen 1.0</p>
+      <img src="assets/doc/file_importants.png" width="330">
+    </section>
+    <section class="d-block">
+      <h2>Crear Estudiante</h2>
+      <p>Crear primero el estudiante.</p>
+      <p>
+        <a class="btn btn-default" href="assets/doc/create_estudent.png" data-lity>Ejemplo</a>
+      </p>
+      <h2>Crear Acudiente</h2>
+      <p>Crear segundo acudiente.</p>
+      <p>
+        <a class="btn btn-default" href="assets/doc/create_acudiente.png" data-lity>Ejemplo</a>
+      </p>
+      <h2>Crear Usuario</h2>
+      <p>Crear por ultimo el usuario</p>
+      <p><b>Nota:</b> Ten encuenta también de crear el Role</p>
+      <p>
+        <a class="btn btn-default" href="assets/doc/create_user.png" data-lity>Ejemplo</a>
+      </p>
+      <h2>Crear Role</h2>
+      <p>Ya por último crear Role que es necesario para crear un usuario</p>
+      <p>
+        <a class="btn btn-default" href="assets/doc/create_role.png" data-lity>Ejemplo</a>
+      </p>
+    </section>
+  </div>
+</main><!-- /.main-content -->
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container-xs">
+    <div class="row align-items-center">
+      <div class="col-auto mr-auto">
+        © 2024 <a href="http://thetheme.io">Desarrollador por tecnopac</a>.
+      </div>
+
+      <div class="col-auto">
+      </div>
+    </div>
+  </div>
+</footer><!-- /.footer -->
+
+
+<!-- Scripts -->
+<script src="assets/js/page.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/theDocs.all.js"></script>
+<script src="assets/js/custom.js"></script>
+
+</body>
+</html>

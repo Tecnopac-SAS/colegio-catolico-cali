@@ -42,7 +42,8 @@ router.get('/listarRoles', roleCtrl.consultarRoles);
  *         description: Error interno del servidor
  */
 router.post('/CrearRole', [
-    check('role').notEmpty().withMessage("Ingresa el campo role.")
+    check('role').notEmpty().withMessage("Ingresa el campo role."),
+    check('isActive').notEmpty().withMessage("Ingresa el campo isActive.").bail().isBoolean().withMessage("Ingresa True o false")
 ], roleCtrl.crearRole);
 
 /**

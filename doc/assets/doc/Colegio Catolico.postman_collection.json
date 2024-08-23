@@ -1,0 +1,1580 @@
+{
+	"info": {
+		"_postman_id": "09fc84b1-d736-4807-b050-fce8a4a6fb35",
+		"name": "Colegio Catolico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"David Fernando Valenzuela Pardo\",\r\n    \"email\": \"vlzdavid12@outlook.com\",\r\n    \"password\": \"123456\",\r\n    \"idRole\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/agregarUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"agregarUsuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"David Valenzuela Pardo\",\r\n    \"email\": \"vlzdavid12@outlook.com\",\r\n    \"password\": \"123456\",\r\n    \"isActive\": 1,\r\n    \"idRole\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/actualizarUsuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"actualizarUsuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estado Cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/deshabilitarUsuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"deshabilitarUsuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/listarUsuarios/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"listarUsuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuario Por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/listarUsuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"listarUsuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuario Por Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/listarUsuarioEmail/vlzdavid12@outlook.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"listarUsuarioEmail",
+								"vlzdavid12@outlook.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recuperar Contraseña",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/recuperarPass/vlzdavid12@outlook.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"recuperarPass",
+								"vlzdavid12@outlook.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@demo.com\",\r\n    \"password\": \"123456\",\r\n    \"tipo\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role",
+			"item": [
+				{
+					"name": "Crear Lista Roles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/role/CrearRole/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"role",
+								"CrearRole",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Role",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": 1,\r\n    \"isActive\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/role/actualizarRole/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"role",
+								"actualizarRole",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/role/listarRoles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"role",
+								"listarRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/role/eliminarRole/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"role",
+								"eliminarRole",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "description",
+			"item": [
+				{
+					"name": "Listar Inscripcion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/inscription/listarInscription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"inscription",
+								"listarInscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Inscripcion por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/inscription/listarInscription/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"inscription",
+								"listarInscription",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Inscripcion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": \"200\",\r\n    \"description\": \"Nueva Descripcion\",\r\n    \"isActive\": 1,\r\n    \"idUser\": 1,\r\n    \"idPeriod\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/inscription/crearInscription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"inscription",
+								"crearInscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Inscripcion",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": \"200\",\r\n    \"description\": \"Nueva Descripcion\",\r\n    \"isActive\": 1,\r\n    \"idUser\": 1,\r\n    \"idPeriod\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/inscription/actualizarInscription/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"inscription",
+								"actualizarInscription",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Valor Inscripcion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 121\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/inscription/actualizarValorInscription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"inscription",
+								"actualizarValorInscription"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "periodo",
+			"item": [
+				{
+					"name": "Listar Periodo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/period/listarPeriodos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"period",
+								"listarPeriodos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Periodo por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/period/listarPeriodo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"period",
+								"listarPeriodo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Periodo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age\": 17,\r\n    \"password\": \"123456\",\r\n    \"identifier\": \"2132123422\",\r\n    \"consecutive\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/period/CrearPeriodo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"period",
+								"CrearPeriodo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Periodo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age\": 17,\r\n    \"password\": \"123456\",\r\n    \"identifier\": \"2132123422\",\r\n    \"consecutive\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/period/actualizarPeriodo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"period",
+								"actualizarPeriodo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "acudiente",
+			"item": [
+				{
+					"name": "Listar Acudiente Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAcudiente\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/acudiente/getAcudiente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acudiente",
+								"getAcudiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Acudiente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAcudiente\": 1,\r\n    \"parentesco\":\"Padre\",\r\n    \"estado\": 1,\r\n    \"tipoDocumento\": \"Cedula Ciudadania\",\r\n    \"identificacion\": \"213123123\",\r\n    \"nombres\": \"Eduardo\",\r\n    \"apellidos\": \"Sarmiento Casca\",\r\n    \"profesion\": \"Agronomo\",\r\n    \"dondeTrabaja\": \"Agro Expo\",\r\n    \"cargo\": \"Supervisor Zona\",\r\n    \"ingresoMensual\": \"1300.000\",\r\n    \"correoElectronico\": \"agroexp@gamil.com\",\r\n    \"direccion\": \"cra 57 #90 - 9\",\r\n    \"telefono\": \"213213212\",\r\n    \"celular\": \"302213212\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/acudiente/actualizarAcudiente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acudiente",
+								"actualizarAcudiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Acudiente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentesco\":\"Padre\",\r\n    \"estado\": 1,\r\n    \"tipoDocumento\": \"CC\",\r\n    \"identificacion\": \"213123123\",\r\n    \"nombres\": \"Eduardo\",\r\n    \"apellidos\": \"Sarmiento Casca\",\r\n    \"profesion\": \"Agronomo\",\r\n    \"dondeTrabaja\": \"Agro Expo\",\r\n    \"cargo\": \"Supervisor Zona\",\r\n    \"ingresoMensual\": \"1300.000\",\r\n    \"correoElectronico\": \"agroexp@gamil.com\",\r\n    \"direccion\": \"cra 57 #90 - 9\",\r\n    \"telefono\": \"213213212\",\r\n    \"celular\": \"302213212\",\r\n    \"idEstudiante\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/padres-familia/crearAcudiente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"padres-familia",
+								"crearAcudiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Descuento Bolsillo Acudiente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAcudiente\": 1,\r\n    \"cant\": 1200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/acudiente/descBolsillo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acudiente",
+								"descBolsillo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Descuento Bolsillo Acudiente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAcudiente\": 1,\r\n    \"cant\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/acudiente/addBolsillo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acudiente",
+								"addBolsillo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "estudiante",
+			"item": [
+				{
+					"name": "Crear Estudiante",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": 1,\r\n    \"nombres\": \"David Student\",\r\n    \"apellidos\": \"Valenzuela Student\",\r\n    \"tipoDocumento\": 1,\r\n    \"expedicion\": \"2021-09-15T01:41:09.000Z\",\r\n    \"lugarNacimiento\": \"Bogotá\",\r\n    \"fechaNacimiento\": \"1089-09-15T01:41:09.000Z\",\r\n    \"edad\": 22,\r\n    \"direccion\": \"Cra 56 no 90 - 80\",\r\n    \"tipoDireccion\": 1,\r\n    \"barrio\": \"Chapinero\",\r\n    \"estrato\": 3,\r\n    \"telefono\": 32456756,\r\n    \"correo\": \"vlzdavid12@outlook.com\",\r\n    \"tipoCupo\": 2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/crearStudentDatabase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"crearStudentDatabase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listado Estudiante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/listarStudentDatabases",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"listarStudentDatabases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Nombre y Estado Estudiante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/listarStudentDatabase/David Student/Aspirante",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"listarStudentDatabase",
+								"David Student",
+								"Aspirante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Estudiante por Estado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/listarStudentDatabaseEstado/Aspirante",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"listarStudentDatabaseEstado",
+								"Aspirante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Estudiante por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/listarStudentDatabaseId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"listarStudentDatabaseId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estudiante",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": 1,\r\n    \"grado\": \"Bachiller\",\r\n    \"nombres\": \"David Student\",\r\n    \"apellidos\": \"Valenzuela Student\",\r\n    \"identificacion\": \"1283894874\",\r\n    \"tipoDocumento\": 1,\r\n    \"expedicion\": \"18/02/2020\",\r\n    \"lugarNacimiento\": \"Bogotá\",\r\n    \"fechaNacimiento\": \"18/02/1999\",\r\n    \"edad\": 22,\r\n    \"direccion\": \"Cra 56 no 90 - 80\",\r\n    \"tipoDireccion\": 1,\r\n    \"barrio\": \"Chapinero\",\r\n    \"estrato\": 3,\r\n    \"telefono\": 32456756,\r\n    \"correo\": \"vlzdavid12@outlook.com\",\r\n    \"tipoCupo\": 2,\r\n    \"viveCon\": \"Solo\",\r\n    \"idGrade\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/studentDatabase/actualizarStudentDatabase/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"studentDatabase",
+								"actualizarStudentDatabase",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "grade",
+			"item": [
+				{
+					"name": "Crear Grade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n         \"description\": \"Nuevo Grade\",\r\n         \"isActive\": 1\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/grades/CrearGrades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"grades",
+								"CrearGrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Grade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/grades/listarGrades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"grades",
+								"listarGrades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "acuerdo-pagos",
+			"item": [
+				{
+					"name": "Listar Acuerdos Pago",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/acuerdos-pagos/listarAcuerdosPagos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acuerdos-pagos",
+								"listarAcuerdosPagos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Acuerdos Pago Por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/acuerdos-pagos/listarAcuerdoPagoCuotas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acuerdos-pagos",
+								"listarAcuerdoPagoCuotas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Acuerdos Pago Id Acudiente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/acuerdos-pagos/listarAcuerdoPagoByAcudiente/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acuerdos-pagos",
+								"listarAcuerdoPagoByAcudiente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Acuerdo Pago",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fecha\": \"2024-09-05T01:41:09.000Z\",\r\n    \"description\": \"Nueva descripcion de acuerdo de pago.\",\r\n    \"valor\": \"2200\",\r\n    \"estado\": \"pending\",\r\n    \"idAcudiente\": 1,\r\n    \"cuotas\": [{\r\n        \"cuota\": 6, \"fechaPago\": \"2024-10-15T01:41:09.000Z\", \"monto\": \"120.000\"\r\n    }]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/acuerdos-pagos/AcuerdoPago",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acuerdos-pagos",
+								"AcuerdoPago"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Acuerdo Pago",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/acuerdos-pagos/AcuerdoPagoSearch/monto/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"acuerdos-pagos",
+								"AcuerdoPagoSearch",
+								"monto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "certificados",
+			"item": [
+				{
+					"name": "Crear Certificados",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"concept\": \"Certicado nuevo pago\",\r\n    \"time\": \"2024-09-05T01:41:09.000Z\",\r\n    \"channel\": \"Sura\",\r\n    \"applicant\": \"1\",\r\n    \"price\": 120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/certificate/crearCertificate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"certificate",
+								"crearCertificate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Certificados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/certificate/listarCertificates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"certificate",
+								"listarCertificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Certificados Inscription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/certificate/listCertificatesInscription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"certificate",
+								"listCertificatesInscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Certificado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"concept\": \"Certicado nuevo pago\",\r\n    \"time\": \"2024-09-05T01:41:09.000Z\",\r\n    \"channel\": \"Sura\",\r\n    \"applicant\": \"1\",\r\n    \"price\": 120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/certificate//actualizarCertificate/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"certificate",
+								"",
+								"actualizarCertificate",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "course",
+			"item": [
+				{
+					"name": "Listar Course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/course/listarCourses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"course",
+								"listarCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"asignature\": \"Nuevo Asignature\",\r\n    \"starDate\": \"2018-09-15T01:41:09.000Z\",\r\n    \"finalDate\": \"2021-09-15T01:41:09.000Z\",\r\n    \"price\": \"130\",\r\n    \"idTeacher\": 1,\r\n    \"typeCourse\": \"verano\",\r\n    \"starHour\": \"10:00am\",\r\n    \"finalHour\": \"3:00pm\",\r\n    \"description\": \"Nueva description curso.\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/course/crearCourse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"course",
+								"crearCourse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Course",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"asignature\": \"Nuevo Asignature\",\r\n    \"starDate\": \"2018-09-15T01:41:09.000Z\",\r\n    \"finalDate\": \"2021-09-15T01:41:09.000Z\",\r\n    \"price\": \"130\",\r\n    \"idTeacher\": 1,\r\n    \"typeCourse\": \"verano\",\r\n    \"starHour\": \"10:00am\",\r\n    \"finalHour\": \"3:00pm\",\r\n    \"description\": \"Nueva description curso 21.\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/course/actualizarCourse/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"course",
+								"actualizarCourse",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desabilitar Course",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/course/deshabilitar/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"course",
+								"deshabilitar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pago Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monto\": 1200,\r\n    \"idCourse\": 2,\r\n    \"metodoPago\": \"bolsillo\",\r\n    \"idEstudiante\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/course/pago",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"course",
+								"pago"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "teacher",
+			"item": [
+				{
+					"name": "Crear Teacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Estedani Garcia Gutierres\",\r\n    \"course\": 1,\r\n    \"email\": \"estefani@gmail.com\",\r\n    \"number\": \"32134567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/teacher/crearTeacher",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teacher",
+								"crearTeacher"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Teacher",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/teacher/listarTeachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teacher",
+								"listarTeachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Teacher por nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/teacher/listarTeacher/Estedani Garcia Gutierres",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teacher",
+								"listarTeacher",
+								"Estedani Garcia Gutierres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Teacher por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/teacher/listarTeacherId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teacher",
+								"listarTeacherId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Teacher",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Estedani Garcia Gutierres\",\r\n    \"course\": 1,\r\n    \"email\": \"estefani@gmail.com\",\r\n    \"number\": \"32134567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/teacher/actualizarTeacher/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teacher",
+								"actualizarTeacher",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "discount",
+			"item": [
+				{
+					"name": "Listar Discount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/discount/listarDiscount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"discount",
+								"listarDiscount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Discount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Discount No.1\",\r\n    \"starDate\": \"2024-09-05T01:41:09.000Z\",\r\n    \"finalDate\": \"2024-12-05T01:41:09.000Z\",\r\n    \"percentage\": 10,\r\n    \"frequency\": \"Unico\",\r\n    \"service\": \"Pension\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/discount/crearDiscount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"discount",
+								"crearDiscount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Discount",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Discount No.1\",\r\n    \"starDate\": \"2024-10-05T01:41:09.000Z\",\r\n    \"finalDate\": \"2024-12-05T01:41:09.000Z\",\r\n    \"percentage\": 10,\r\n    \"frequency\": \"Unico\",\r\n    \"service\": \"Pension\",\r\n    \"useType\": 2,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/discount/actualizarDiscount/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"discount",
+								"actualizarDiscount",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desabilitar Discount",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/discount/deshabilitar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"discount",
+								"deshabilitar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Discount",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/discount/eliminar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"discount",
+								"eliminar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "documentos",
+			"item": [
+				{
+					"name": "Listar Documentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/documentos/listarDocumentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"documentos",
+								"listarDocumentos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

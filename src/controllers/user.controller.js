@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const config = require('../../config')
-const sequelize = require('sequelize');
 const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
 const userModel = require('../models/user.model')
 const studentDatabaseModel = require('../models/studentDatabase.model')
-const roleModel = require('../models/role.model');
 const recoverPasswordModel = require('../models/recoverPassword.model');
 const nodemailer = require("nodemailer");
 const console = require('console');
@@ -32,7 +30,6 @@ userCtrl.consultarUsuarios = async (req, res) => {
 
 userCtrl.consultarUsuario = async (req, res) => {
     try {
-        let fechaACtual = Date.now()
         const {id} = req.params;
         const result = await bdSq.query("SELECT users.name, users.email,recoverpasswords.isActive,recoverpasswords.dateRecovery,now() AS fechaActual,TIMESTAMPDIFF( MINUTE,recoverpasswords.dateRecovery, now() ) AS diferencia FROM users INNER JOIN recoverpasswords ON users.id = recoverpasswords.idUser  where users.id =:parametro  HAVING diferencia <=60", {
             replacements: {parametro: `${id}`},
@@ -159,14 +156,19 @@ userCtrl.crearUsuario = async (req, res) => {
             mensaje: 'Los campos deben estar diligenciados en su totalidad'
         })
     } else {
-        const token = jwt.sign({id: userModel.id}, config.secret.word)
-        await userModel.create({name, email, password, isActive, idRole})
-        res.json({
-            mensaje: 'Bienvenido',
-            id: email,
-            token,
-            password: password
-        })
+        try {
+            const token = jwt.sign({id: userModel.id}, config.secret.word)
+            await userModel.create({name, email, password, isActive, idRole})
+            res.json({
+                mensaje: 'Bienvenido',
+                id: email,
+                token,
+                password: password
+            })
+        }catch (error){
+            res.status(500);
+            res.send(error.message);
+        }
     }
 }
 

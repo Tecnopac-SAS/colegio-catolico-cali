@@ -105,6 +105,43 @@ router.post('/agregarUsuario',
     ],
     userCtrl.crearUsuario
 );
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     description: Permite a los usuarios iniciar sesión en la aplicación.
+ *     tags:
+ *      - Usuarios
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Correo electrónico del usuario.
+ *                 example: usuario@ejemplo.com
+ *               password:
+ *                 type: string
+ *                 description: Contraseña del usuario.
+ *                 example: 123456
+ *               tipo:
+ *                 type: string
+ *                 description: Tipo de usuario (opcional).
+ *                 example: admin
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso.
+ *       400:
+ *         description: Error en la solicitud.
+ */
 router.post('/login',[
     check("email").notEmpty().withMessage("Ingrese el campo email"),
     check("password").notEmpty().withMessage("Ingrese el campo contraseña"),

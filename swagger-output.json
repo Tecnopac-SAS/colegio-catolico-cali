@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://colegio-load-balancer-1772959804.us-east-1.elb.amazonaws.com:3000",
       "description": "Servidor local"
     }
   ],

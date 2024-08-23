@@ -11,7 +11,12 @@ const options = {
             version: '1.0.0',
             description: 'Documentación de la API de gestor de pagos de Colegio Catolico',
         },
-
+        servers: [
+            {
+                url: 'http://colegio-load-balancer-1772959804.us-east-1.elb.amazonaws.com:3000',
+                description: 'Servidor local'
+            },
+        ],
     },
     apis: ['./src/routes/*.js'],
 };

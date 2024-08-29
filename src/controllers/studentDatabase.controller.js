@@ -1,4 +1,3 @@
-const config = require('../../config')
 const {sequelize, Op} = require('sequelize');
 const {QueryTypes} = require('sequelize');
 const bdSq = require('../db/databaseSq')
@@ -6,7 +5,6 @@ const studentDatabaseModel = require('../models/studentDatabase.model')
 const pensionModel = require('../models/pension.model')
 const matriculaModel = require('../models/tuitionType.model')
 const userModel = require('../models/user.model')
-const historialAcademicoModel = require('../models/historialAcademico.model')
 const {validationResult} = require("express-validator");
 const studentDatabaseCtrl = {};
 
@@ -18,6 +16,14 @@ studentDatabaseCtrl.getPension = async (req, res) => {
         });
         let user = resultUser.userAsAcudiente
         const resultStudent = await studentDatabaseModel.findOne({where: {id: user.idEstudiante}});
+
+        if(resultStudent.idGrade){
+            return res.json({
+                status: 404,
+                mensaje: 'No hay resuldatos del estudiante'
+            })
+        }
+
         const resultPension = await pensionModel.findOne({where: {idGrade: resultStudent.idGrade}});
 
         res.json({
@@ -42,6 +48,14 @@ studentDatabaseCtrl.getMatricula = async (req, res) => {
         let user = resultUser.userAsAcudiente
         let type;
         const resultStudent = await studentDatabaseModel.findOne({where: {id: user.idEstudiante}});
+
+        if(resultStudent.idGrade){
+            return res.json({
+                status: 404,
+                mensaje: 'No hay resuldatos del estudiante'
+            })
+        }
+
         const resultMatricula = await matriculaModel.findOne({where: {idGrade: resultStudent.idGrade}});
 
         fechaActual = new Date()
